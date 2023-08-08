@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Navigate,
   useNavigate,
   Outlet,
   useLocation,
 } from "react-router-dom";
-import { AUTH_PREFIX_PATH } from "configs/AppConfig";
 import Loading from "components/Loading";
 import AuthService from "services/AuthService";
 import { connect } from "react-redux";

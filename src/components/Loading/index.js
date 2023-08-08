@@ -8,8 +8,8 @@ const Icon = <LoadingOutlined style={{ fontSize: 35 }} spin />
 const Loading = (props) => {
 	const { align, cover } = props
 	return (
-		<div className={`loading text-${align} cover-${cover}`}>
-			<Spin indicator={Icon} />
+		<div className={`loading mt-5 text-${align} cover-${cover}`}>
+			<Spin indicator={Icon} /> Loading Layout...
 		</div>
 	)
 }

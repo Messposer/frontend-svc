@@ -159,3 +159,6 @@ code {
   list-style: none;
 }
 
+.custom-input {
+  padding: 10px;
+};

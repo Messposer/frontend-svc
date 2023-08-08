@@ -20,9 +20,9 @@ const columns: ColumnsType<ChatType> = [
   Table.EXPAND_COLUMN,
   { 
 		title: 'Chat', 
-		dataIndex: 'chat_gpt_message', 
+		dataIndex: 'message', 
 		key: 'chat',
-		render: (text: string) => `${text.slice(0, 200)}...`, 
+		render: (message: MessageType) => `${message?.text.slice(0, 200)}...`, 
 	},
   {
     title: 'Contact',
@@ -71,7 +71,7 @@ const Chat = ({title, userChats, saveUserChats}: ChatProps) => {
 							<div className="col">
 								<div className="row">
 									<div className="col">
-										<p>{`${chat.message.text}`}</p>
+										<p dangerouslySetInnerHTML={{ __html: chat.message.text }} />
 									</div>
 								</div>
 

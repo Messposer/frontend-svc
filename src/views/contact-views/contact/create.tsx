@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { ContactType } from "redux/types";
 import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+
+import 'react-phone-number-input/style.css';
+import { useState } from "react";
+import AlertInfo from "components/Dashboard/AlertInfo";
+import AlertWarning from "components/Dashboard/AlertWarning";
 
 interface CreateContactProps {
   title: string
@@ -16,6 +22,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
 	const [loading, withLoading] = useLoading();
 	const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
 
   const onCreate = async (values: ContactType) => {
     try {
@@ -28,12 +35,22 @@ const CreateContact = ({ title }: CreateContactProps) => {
 		}
   }
 
+  const validatePhoneNumber = (_: any, value: string) => {
+    try {
+      if (!value || isValidPhoneNumber(value)) {
+        return Promise.resolve();
+      }
+    } catch (error) {}
+
+    return Promise.reject('Invalid phone number');
+  };
+
   return (
-    <div className='chat-body-container p-5'>
+    <div className='p-5 chat-body-container'>
       <h4>Create a new contact</h4>
       {contextHolder}
       <div className="row">
-        <div className="col-md-7 bg-white p-3">
+        <div className="p-3 bg-white col-md-7">
           <Form
             form={form}
             layout="vertical"
@@ -54,6 +71,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
                     autoComplete="off"
                     placeholder="Enter contact first name"
                     maxLength={50}
+                    className="custom-input"
                   />
                 </Form.Item>
               </div>
@@ -69,6 +87,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
                     autoComplete="off"
                     placeholder="Enter contact last name"
                     maxLength={50}
+                    className="custom-input"
                   />
                 </Form.Item>
               </div>
@@ -85,20 +104,20 @@ const CreateContact = ({ title }: CreateContactProps) => {
                 autoComplete="off"
                 placeholder="Enter your email address"
                 maxLength={50}
+                className="custom-input"
               />
             </Form.Item>
-
-            <Form.Item
-              name="number"
-              label="Number"
-              rules={rules.last_name}
-              hasFeedback
-              validateFirst={true}
+            
+            <Form.Item 
+              name="phoneNumber" 
+              label="Phone Number"
+              rules={[{ required: true, validator: validatePhoneNumber }]}
             >
-              <Input
-                autoComplete="off"
-                placeholder="Enter contact phone number"
-                maxLength={50}
+              <PhoneInput
+                countrySelectProps={{ style: { width: '35%' } }}
+                inputProps={{ style: { width: '65%' }, placeholder: 'Phone number', className: "custom-input" }}
+                value={phoneNumber}
+                onChange={setPhoneNumber}
               />
             </Form.Item>
 
@@ -138,24 +157,8 @@ const CreateContact = ({ title }: CreateContactProps) => {
           </Form>
         </div>
         <div className="col-md-5">
-          <div className="alert alert-info">
-            This is an effort which was created in order to bridge the existing 
-            gap between the theory taught in the classroom and practice science, 
-            Agriculture, Medicine, Engineering, Technology and other professional 
-            programs in the Nigerian tertiary institutions. This program is aimed at 
-            exposing the students to the use of various machines and equipment, 
-            professional work methods and ways of safe-guarding the work areas in 
-            industries as well as other organizations and parastatals. 
-          </div>
-          <div className="alert alert-warning">
-            This is an effort which was created in order to bridge the existing 
-            gap between the theory taught in the classroom and practice science, 
-            Agriculture, Medicine, Engineering, Technology and other professional 
-            programs in the Nigerian tertiary institutions. This program is aimed at 
-            exposing the students to the use of various machines and equipment, 
-            professional work methods and ways of safe-guarding the work areas in 
-            industries as well as other organizations and parastatals. 
-          </div>
+          <AlertInfo />
+          <AlertWarning />
         </div>
       </div>
     </div>

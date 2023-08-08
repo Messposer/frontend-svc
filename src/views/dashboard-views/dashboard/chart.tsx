@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line } from 'recharts';
 import UserService from 'services/UserService';
 import { useLoading } from 'hooks/useLoading';
+import AlertInfo from 'components/Dashboard/AlertInfo';
 
 interface ChatSummaryData {
   id: number;
@@ -16,22 +16,30 @@ interface ChatSummaryData {
 
 interface GroupedData {
   yearMonth: string;
-  date: number;
+  message: number;
 }
 
-const monthNames = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+const defaultChartData =[
+  {
+    "id": 6,
+    "text": "",
+    "status": 1,
+    "transporter": "SMS",
+    "created_at": "2023-12-29T12:42:34.000Z",
+    "updated_at": "2023-08-02T11:56:17.868Z",
+    "deleted_at": null
+  }
 ];
 
 const ChatSummaryChart: React.FC = () => {
-  const [chatSummary, setChatSummary] = useState<ChatSummaryData[]>([]);
+  const [chatSummary, setChatSummary] = useState<ChatSummaryData[]>(defaultChartData);
   const [loading, withLoading] = useLoading();
 
   const getChatSummary = async () => {
     try {
       const summary = await withLoading(UserService.getUserChatSummary());
-      setChatSummary(summary);
+      console.log(summary?.length)
+      setChatSummary(summary?.length > 0 ? summary : defaultChartData);
     } catch (error) {
       console.log(error);
     }
@@ -43,15 +51,15 @@ const ChatSummaryChart: React.FC = () => {
 
   const dataByYearMonth: Record<string, GroupedData> = chatSummary.reduce((acc, message) => {
     const createdAt = new Date(message.created_at);
-    const yearMonth = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
+    const yearMonth = `${createdAt.getFullYear()}-${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2023, createdAt.getMonth(), 1))}`;
     
     if (!acc[yearMonth]) {
       acc[yearMonth] = {
         yearMonth,
-        date: 1,
+        message: 1,
       };
     } else {
-      acc[yearMonth].date += 1;
+      acc[yearMonth].message += 1;
     }
     
     return acc;
@@ -60,33 +68,28 @@ const ChatSummaryChart: React.FC = () => {
   const chartData: GroupedData[] = Object.values(dataByYearMonth);
 
   return (
-    <div className="cart-container p-5">
+    <div className="p-5 cart-container">
       <div className="row">
         <div className="col-md-8">
           <div className="bg-white">
-            <LineChart width={700} height={500} data={chartData} margin={{ top: 40, right: 20, bottom: 20, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="yearMonth" tick={{ fontSize: 12 }} tickFormatter={(value) => {
-                const [year, month] = value.split('-');
-                return `${monthNames[parseInt(month) - 1]} ${year}`;
-              }} />              
-              <YAxis tick={{ fontSize: 12 }} />
-              <Tooltip contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', color: '#fff', fontSize: 12 }} />
-              <Legend />
-              <Line type="monotone" dataKey="date" stroke="#8884d8" strokeWidth={2} dot={{ fill: '#8884d8', r: 5 }} />
-            </LineChart>
+            {
+              loading && <h6 className="text-center p-5">Loading chart ...</h6>
+            }
+            {
+              !loading &&
+              <LineChart width={700} height={500} data={chartData} margin={{ top: 40, right: 20, bottom: 20, left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="yearMonth" tick={{ fontSize: 12 }} />              
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', color: '#fff', fontSize: 12 }} />
+                <Legend />
+                <Line type="monotone" dataKey="message" stroke="#8884d8" strokeWidth={2} dot={{ fill: '#8884d8', r: 5 }} />
+              </LineChart>
+            }
           </div>
         </div>
         <div className="col-md-4">
-          <div className="alert alert-info">
-            This is an effort which was created in order to bridge the existing 
-            gap between the theory taught in the classroom and practice science, 
-            Agriculture, Medicine, Engineering, Technology and other professional 
-            programs in the Nigerian tertiary institutions. This program is aimed at 
-            exposing the students to the use of various machines and equipment, 
-            professional work methods and ways of safe-guarding the work areas in 
-            industries as well as other organizations and parastatals. 
-          </div>
+          <AlertInfo />
         </div>
       </div>
     </div>

@@ -34,8 +34,8 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
         </div>
       </Menu.Item>
       <Menu.Item key="3">
-        <div className="mt-2">
-          <span className="ms-2" onClick={signOut}>Sign Out</span>
+        <div className="mt-2" onClick={signOut}>
+          <span className="ms-2">Sign Out</span>
         </div>
       </Menu.Item>
     </Menu>
