@@ -162,3 +162,13 @@ code {
 .custom-input {
   padding: 10px;
 };
+
+.error-display-parent {
+  list-style: none !important;
+}
+
+.ant-alert.ant-alert-error.ant-alert-no-icon.css-dev-only-do-not-override-1i536d8 {
+  background: #dc0202;
+  color: #fff;
+  font-size: 14px;
+}

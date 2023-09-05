@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Loading from 'components/Loading';
 
 const Contact = lazy(() => import(`./contact`));

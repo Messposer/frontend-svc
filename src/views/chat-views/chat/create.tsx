@@ -11,6 +11,8 @@ import UserService from "services/UserService";
 import { useEffect, useState } from "react";
 import { ContactType } from "redux/types";
 import AlertInfo from "components/Dashboard/AlertInfo";
+import { ERROR_MESSAGES } from "configs/AppConfig";
+import { HandleErrors } from "services/error/handleErrors";
 
 interface CreateChatProps {
   title: string,
@@ -24,14 +26,19 @@ const CreateChat = ({ title, saveFirstChat }: CreateChatProps) => {
 	const [contactLoading, withContactLoading] = useLoading();
 	const [contacts, setContacts] = useState<ContactType[]>([]);
   const navigate = useNavigate();
+  const [message, setMessage] = useState(null);
 
   const onCreate = async (values: CreateChatType) => {
     try {
 			const chat = await withLoading(ChatService.createChat(values));
       saveFirstChat({ ...chat, contact_id: values.contact_id });
       navigate("/chats/continue-chat");
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			setMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
 		}
   }
 
@@ -39,8 +46,12 @@ const CreateChat = ({ title, saveFirstChat }: CreateChatProps) => {
 		try {
 			const contacts = await withContactLoading(UserService.getUserContacts());
 			setContacts(contacts);
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			setMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
 		}
 	}
 
@@ -88,6 +99,7 @@ const CreateChat = ({ title, saveFirstChat }: CreateChatProps) => {
               name="message"
               label="Describe what you want to send"
               hasFeedback
+              rules={[{required: true, message: "Give a description of what you want to send"}]}
               validateFirst={true}
             >
               <TextArea 
@@ -96,10 +108,12 @@ const CreateChat = ({ title, saveFirstChat }: CreateChatProps) => {
                 placeholder="Whats on your mind"
               />
             </Form.Item>
-
+            {message &&
+              <HandleErrors errors={message} />
+            }
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={loading}>
-                Continue
+                {loading ? "Generating content" : "Continue"}
               </Button>
             </Form.Item>
           </Form>

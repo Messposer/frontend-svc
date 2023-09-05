@@ -1,5 +1,5 @@
 import fetch from "auth/axios";
-import { ContactServiceType, CreateContactType } from "./types/ContactServiceType";
+import { ContactServiceType, CreateContactType, CsvFormDataType } from "./types/ContactServiceType";
 import { AxiosResponse } from "axios";
 
 let ContactService: ContactServiceType = {};
@@ -13,6 +13,17 @@ ContactService.createContact = async (data: CreateContactType):Promise<AxiosResp
   });
   return response;
 };
+
+ContactService.bulkUpload = async (data: CsvFormDataType):Promise<AxiosResponse> => {
+  console.log("ok")
+  const response = await fetch({
+    url: `${_url}/bulk`,
+    method: "post",
+    data
+  });
+  return response;
+};
+
 
 ContactService.updateContact = async (data: CreateContactType, id: number):Promise<AxiosResponse> => {
   const response = await fetch({

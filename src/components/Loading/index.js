@@ -1,6 +1,5 @@
-import React from 'react';
 import { Spin } from 'antd';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const Icon = <LoadingOutlined style={{ fontSize: 35 }} spin />
@@ -9,7 +8,7 @@ const Loading = (props) => {
 	const { align, cover } = props
 	return (
 		<div className={`loading mt-5 text-${align} cover-${cover}`}>
-			<Spin indicator={Icon} /> Loading Layout...
+			<Spin indicator={Icon} />
 		</div>
 	)
 }

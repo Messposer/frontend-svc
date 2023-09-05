@@ -11,6 +11,8 @@ import 'react-phone-number-input/style.css';
 import { useState } from "react";
 import AlertInfo from "components/Dashboard/AlertInfo";
 import AlertWarning from "components/Dashboard/AlertWarning";
+import { HandleErrors } from "services/error/handleErrors";
+import { ERROR_MESSAGES } from "configs/AppConfig";
 
 interface CreateContactProps {
   title: string
@@ -23,6 +25,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
 	const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const onCreate = async (values: ContactType) => {
     try {
@@ -30,8 +33,12 @@ const CreateContact = ({ title }: CreateContactProps) => {
       form.resetFields();
 			await messageApi.success('Contact added successfully');
       navigate("/contacts");
-		} catch (error) {
-			console.log(error);
+		} catch (error:any ) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
 		}
   }
 
@@ -148,7 +155,9 @@ const CreateContact = ({ title }: CreateContactProps) => {
                 maxLength={50}
               />
             </Form.Item>
-
+            {errorMessage &&
+              <HandleErrors errors={errorMessage} />
+            }
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={loading}>
                 Create Contact

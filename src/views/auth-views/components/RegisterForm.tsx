@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Input, Alert } from "antd";
 import { authenticated } from "redux/actions";
@@ -9,6 +9,7 @@ import { AUTH_ACTION_TYPES } from "redux/constants/Auth";
 import { DASHBOARD_PREFIX_PATH } from "configs/AppConfig";
 import { RootState } from "redux/types/Root";
 import { RegisterType } from "services/types/AuthServiceType";
+import { HandleErrors } from "services/error/handleErrors";
 
 
 type FieldType = {
@@ -38,7 +39,7 @@ const RegisterForm: React.FC = (props: any) => {
         navigate(`${DASHBOARD_PREFIX_PATH}`);
       } catch (error: any) {
         setMessage(
-          error?.response?.data
+          error?.response?.data?.message
             ? error?.response?.data?.message
             : ERROR_MESSAGES.NETWORK_CONNECTIVITY
         );
@@ -105,11 +106,7 @@ const RegisterForm: React.FC = (props: any) => {
       </Form.Item>
 
       {message &&
-        <Alert
-          type="error"
-          showIcon
-          message={message}
-        ></Alert>
+        <HandleErrors errors={message} />
       }
 
       <Form.Item>

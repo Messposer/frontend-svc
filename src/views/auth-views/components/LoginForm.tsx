@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Button, Form, Input, Alert } from "antd";
+import { Button, Form, Input } from "antd";
 import {
   authenticated
 } from "redux/actions";
@@ -10,10 +10,7 @@ import { DASHBOARD_PREFIX_PATH, ERROR_MESSAGES } from "configs/AppConfig";
 import { AUTH_ACTION_TYPES } from "redux/constants/Auth";
 import { LoginType } from "services/types/AuthServiceType";
 import { RootState } from "redux/types/Root";
-
-// interface LoginFormProps {
-//   authenticated: () => void;
-// }
+import { HandleErrors } from "services/error/handleErrors";
 
 type FieldType = {
   email?: string;
@@ -42,8 +39,8 @@ const LoginForm: React.FC = (props: any) => {
         navigate(`${DASHBOARD_PREFIX_PATH}`);
       } catch (error: any) {
         setMessage(
-          error?.response?.data?.data
-            ? error?.response?.data?.data?.MESSAGE
+          error?.response?.data?.message
+            ? error?.response?.data?.message
             : ERROR_MESSAGES.NETWORK_CONNECTIVITY
         );
       } finally {
@@ -94,15 +91,7 @@ const LoginForm: React.FC = (props: any) => {
         />
       </Form.Item>
       {message &&
-        <div
-          className="mb-3"
-        >
-          <Alert
-            type="error"
-            showIcon
-            message={message}
-          ></Alert>
-        </div>
+        <HandleErrors errors={message} />
       }
 
       <Form.Item>
