@@ -2,7 +2,7 @@ import { useDocumentTitle } from 'hooks/useDocumentTitle';
 import { useLoading } from 'hooks/useLoading';
 import { useEffect, useState } from 'react';
 import UserService from 'services/UserService';
-import { Button, Table, message, Menu, Dropdown } from 'antd';
+import { Button, Table, message, Menu, Dropdown, MenuProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ContactType } from 'redux/types';
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,7 +33,6 @@ const Contact = ({title}: ContactProps) => {
 	};
 
 	const columns: ColumnsType<ContactType> = [
-		Table.EXPAND_COLUMN,
 		{ title: 'First Name', dataIndex: 'first_name', key: 'first_name' },
 		{ title: 'Last Name', dataIndex: 'last_name', key: 'last_name' },
 		{ title: 'Email', dataIndex: 'email', key: 'email' },
@@ -72,17 +71,23 @@ const Contact = ({title}: ContactProps) => {
 		setShowCsvModal(!showCsvModal);
 	}
 
-	const contactMenu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleAdd}>Create a new contact</Menu.Item>
-      <Menu.Item key="2" onClick={toggleUploadCsvModal}>Upload CSV file</Menu.Item>
-    </Menu>
-  );
+	const items: MenuProps['items'] = [
+		{
+			label: 'Create a new contact',
+			key: '1',
+			onClick: handleAdd
+		},
+		{
+			label: 'Upload CSV file',
+			key: '2',
+			onClick: toggleUploadCsvModal
+		}
+	];
 
 	return (
 		<div className='p-5 chat-body-container'>
 			{contextHolder}
-			<Dropdown overlay={contactMenu} trigger={['click']} placement="bottomLeft" arrow>
+			<Dropdown menu={{ items }} trigger={['click']} placement="bottomLeft" arrow>
 				<Button type="primary" style={{ marginBottom: 16 }}>Add Contact</Button>
 			</Dropdown>
 			<Table

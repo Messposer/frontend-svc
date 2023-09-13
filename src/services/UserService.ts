@@ -1,10 +1,11 @@
 import fetch from "auth/axios";
 import { GetUserSingleChatType, UserServiceType } from "./types/UserServiceType";
+import { AxiosResponse } from "axios";
 
 let UserService: UserServiceType = {};
 const _url = "user";
 
-UserService.getUserChats = async ():Promise<any> => {
+UserService.getUserChats = async ():Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/chats`,
     method: "get"
@@ -12,7 +13,7 @@ UserService.getUserChats = async ():Promise<any> => {
   return response;
 };
 
-UserService.getUserChatSummary = async ():Promise<any> => {
+UserService.getUserChatSummary = async ():Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/chat-summary`,
     method: "get"
@@ -20,7 +21,7 @@ UserService.getUserChatSummary = async ():Promise<any> => {
   return response;
 };
 
-UserService.getUserContacts = async ():Promise<any> => {
+UserService.getUserContacts = async ():Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/contacts`,
     method: "get"
@@ -29,7 +30,7 @@ UserService.getUserContacts = async ():Promise<any> => {
 };
 
 
-UserService.deleteUserContact = async ({ id }: GetUserSingleChatType):Promise<any> => {
+UserService.deleteUserContact = async ({ id }: GetUserSingleChatType):Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/contacts/${id}`,
     method: "delete"
@@ -38,7 +39,7 @@ UserService.deleteUserContact = async ({ id }: GetUserSingleChatType):Promise<an
 };
 
 
-UserService.getUserSingleChat = async ({ id }: GetUserSingleChatType) :Promise<any> => {
+UserService.getUserSingleChat = async ({ id }: GetUserSingleChatType) :Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/chats/${id}`,
     method: "get"
@@ -46,4 +47,35 @@ UserService.getUserSingleChat = async ({ id }: GetUserSingleChatType) :Promise<a
   return response;
 };
 
+UserService.getUserContactGroups = async () :Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url}/contact-groups`,
+    method: "get"
+  });
+  return response;
+};
+
+UserService.getUserContactsInGroup = async (id: number) :Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url}/contacts-in-group/${id}`,
+    method: "get"
+  });
+  return response;
+};
+
+UserService.getUserSchedules = async () :Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url}/schedules`,
+    method: "get"
+  });
+  return response;
+};
+
+UserService.deleteUserContactGroup = async ({ id }: GetUserSingleChatType):Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url}/contact-groups/${id}`,
+    method: "delete"
+  });
+  return response;
+};
 export default UserService;

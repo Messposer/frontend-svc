@@ -8,6 +8,8 @@ export const CHAT_PREFIX_PATH = "/chats";
 export const SETTING_PREFIX_PATH = "/setting";
 export const REPORT_PREFIX_PATH = "/reports";
 export const CONTACT_PREFIX_PATH = "/contacts";
+export const CONTACT_GROUP_PREFIX_PATH = "/broadcast-list";
+export const SCHEDULE_PREFIX_PATH = "/schedule-jobs";
 
 export const ROLES = {
   USER: 'USER',

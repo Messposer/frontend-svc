@@ -5,13 +5,17 @@ import GuestMiddleWare from "middlewares/guestMiddleWare";
 import Error404 from "./errors/404";
 import {
   CHAT_PREFIX_PATH,
+  CONTACT_GROUP_PREFIX_PATH,
   CONTACT_PREFIX_PATH,
-  DASHBOARD_PREFIX_PATH
+  DASHBOARD_PREFIX_PATH,
+  SCHEDULE_PREFIX_PATH
 } from "configs/AppConfig";
 import AuthLayout from "layouts/auth-layout";
 import DashboardLayout from "layouts/dashboard-layout";
 import ChatLayout from "layouts/chat-layout";
 import ContactLayout from "layouts/contact-layout";
+import BroadCastLayout from "layouts/broadcast-layout";
+import ScheduleLayout from "layouts/schedule-layout";
 
 export const Views = (props) => {
   const { token } = props;
@@ -48,6 +52,18 @@ export const Views = (props) => {
           path={`${CONTACT_PREFIX_PATH}/*`}
           element={
             <ContactLayout />
+          }
+        />
+        <Route
+          path={`${CONTACT_GROUP_PREFIX_PATH}/*`}
+          element={
+            <BroadCastLayout />
+          }
+        />
+        <Route
+          path={`${SCHEDULE_PREFIX_PATH}/*`}
+          element={
+            <ScheduleLayout />
           }
         />
       </Route>

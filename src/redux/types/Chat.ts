@@ -35,6 +35,44 @@ export interface ContactType {
   deleted_at: string | null;
 }
 
+export interface BroadCastType { 
+  id: number;
+  name: string;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+}
+
+export interface ScheduledType {
+  id: number;
+  sendDate: string; 
+  notify_day: number;
+  created_at: string;
+  updated_at: string; 
+  deleted_at: string | null; 
+  autoGenerate: string;
+  name: string;
+  prompt: string;
+  status: string;
+  contactGroup: {
+    id: number;
+    name: string;
+    note: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+  };
+  messageScheduler: {
+    id: number;
+    text: string;
+    transporter: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+  };
+}
+
 export interface MessageType {
   id: number;
   text: string;

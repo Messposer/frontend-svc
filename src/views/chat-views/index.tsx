@@ -9,14 +9,16 @@ const Continue = lazy(() => import(`./chat/continue`));
 
 export const ChatViews = () => {
   return (
-    <Suspense fallback={<Loading cover="page"/>}>
-      <Routes>
-        <Route path="/" element={<Chat title="Chats"/>} />
-        <Route path="/:id" element={<SingleChat title="Chats"/>} />
-        <Route path="/compose" element={<Create title="New Chat"/>} />
-        <Route path="/continue-chat" element={<Continue title="Continue Chat"/>} />
-      </Routes>
-    </Suspense>
+    <div className="bg-background">
+      <Suspense fallback={<Loading cover="page"/>}>
+        <Routes>
+          <Route path="/" element={<Chat title="Chats"/>} />
+          <Route path="/:id" element={<SingleChat title="Chats"/>} />
+          <Route path="/compose" element={<Create title="New Chat"/>} />
+          <Route path="/continue-chat" element={<Continue title="Continue Chat"/>} />
+        </Routes>
+      </Suspense>
+    </div>
   )
 }
 

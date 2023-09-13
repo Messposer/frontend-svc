@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, MenuProps } from "antd";
 import UserAvatar from 'components/AvatarStatus';
 import { User } from 'redux/types/Auth';
 import { signOut } from "redux/actions";
@@ -11,9 +11,9 @@ interface HeaderProps {
 }
 
 const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
-  const menu = (
-    <Menu className="profile-dropdown-menu mt-3">
-      <Menu.Item key="0">
+  const items: MenuProps['items'] = [
+    {
+      label: (
         <div className="d-flex">
           <div className="flex-shrink-0">
             <UserAvatar size={40} authUser={authUser} />
@@ -27,19 +27,20 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
             </p>
           </div>
         </div>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <div className="mt-2">
-          <span className="ms-2">My Profile</span>
-        </div>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <div className="mt-2" onClick={signOut}>
-          <span className="ms-2">Sign Out</span>
-        </div>
-      </Menu.Item>
-    </Menu>
-  );
+      ),
+      key: '0'
+    },
+    {
+      label: <span className="ms-2">My Profile</span>,
+      key: '1'
+    },
+    {
+      label: <span className="ms-2">Sign Out</span>,
+      key: '3',
+      onClick: signOut
+    }
+  ];
+      
 
   return (
     <>
@@ -51,7 +52,7 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
                 <li className="ant-menu-item ant-menu-item-only-child p-0 pl-3 pl-lg-3">
                   <Dropdown
                     className="profile-dropdown"
-                    overlay={menu}
+                    menu = {{ items }}
                     trigger={["click"]}
                   >
                     <span onClick={(e) => e.preventDefault()}>

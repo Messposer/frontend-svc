@@ -6,7 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ContactType } from "redux/types";
 import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
-
+import { HandleErrors } from "services/error/handleErrors";
+import { ERROR_MESSAGES } from "configs/AppConfig";
 interface UpdateContactProps {
   title: string
 }
@@ -20,14 +21,19 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
   const [contact, setContact] = useState<ContactType>();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const onCreate = async (values: ContactType) => {
     try {
 			await withLoading(ContactService.updateContact(values, id));
 			await messageApi.success('Contact updated successfully');
       navigate("/contacts");
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
 		}
   };
 
@@ -35,8 +41,12 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
     try {
 			const contact = await getWithLoading(ContactService.getContact(id));
       setContact(contact);
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
 		}
   };
 
@@ -45,13 +55,13 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
   }, []);
 
   return (
-    <div className='chat-body-container p-5'>
+    <div className='p-5 chat-body-container'>
       {!getLoading && 
       <>
         <h4>Update a contact</h4>
         {contextHolder}
         <div className="row">
-          <div className="col-md-7 bg-white p-3">
+          <div className="p-3 bg-white col-md-7">
             <Form
               form={form}
               layout="vertical"
@@ -147,7 +157,9 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                   maxLength={50}
                 />
               </Form.Item>
-
+              {errorMessage &&
+                <HandleErrors errors={errorMessage} />
+              }
               <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading}>
                   Create Contact

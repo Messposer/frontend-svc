@@ -1,8 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Poppins', 'lato', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -14,17 +13,20 @@ body {
   --bg-secondary-color: #343A40;
   --bg-tertiary-color: #FC912B;
   --bg-upgrade-bg: #FFF9DB;
+  --bg-primary: #436D48;
+  --bg-secondary: #436D48;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Poppins', 'lato', sans-serif !important;
+}
+
+a {
+  color: var(--bg-primary) !important;
 }
 
 .left-slider-wrapper{
   height: 100vh;
-  background-color: var(--white) !important;
-  border-right: 1px solid var(--border-color);
   padding: 20px;
 }
 
@@ -44,7 +46,7 @@ code {
   border-radius: 4px;
   padding: 15px 20px;
   margin-top: 5px;
-  color: var(--bg-secondary-color);
+  color: var(--white) !important;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
@@ -52,7 +54,7 @@ code {
 }
 
 .left-sider-nav-item > li a{
-  color: var(--bg-secondary-color);
+  color: var(--white) !important;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -61,13 +63,13 @@ code {
 .left-sider-nav-item > li.active {
   background-color: var(--bg-secondary-color);
   font-weight: 700;
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 .left-sider-nav-item > li.active a{
   background-color: var(--bg-secondary-color);
   font-weight: 700;
-  color: var(--white);
+  color: var(--white) !important;
   cursor: pointer;
   text-decoration: none;
 }
@@ -75,14 +77,14 @@ code {
 .left-sider-nav-item > li:hover {
   background-color: var(--bg-secondary-color);
   font-weight: 700;
-  color: var(--white);
+  color: var(--white) !important;
   animation: fadeIn 2s;
 }
 
 .left-sider-nav-item > li:hover a{
   background-color: var(--bg-secondary-color);
   font-weight: 700;
-  color: var(--white);
+  color: var(--white) !important;
   animation: fadeIn 2s;
 }
 
@@ -150,9 +152,13 @@ code {
 }
 
 .horizontal-header-wrapper{
-  background: var(--white);
   box-shadow: 0px -1.21081px 3.63243px rgba(0, 0, 0, 0.11), 0px -6.45766px 14.5297px rgba(0, 0, 0, 0.13); 
   padding: 10px 40px 0px 40px;  
+}
+
+.bg-background{
+  background-color: #d7d6d6;
+  min-height: 90vh;
 }
 
 .header-menu {
@@ -171,4 +177,31 @@ code {
   background: #dc0202;
   color: #fff;
   font-size: 14px;
+}
+
+.card-group-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.card-group-details {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.schedule-status-wrapper {
+  background-color: var(--bg-primary);
+  color: #fff;
+  padding: 2px 25px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  font-size: 13px;
+}
+
+:where(.css-dev-only-do-not-override-1i536d8).ant-btn-primary {
+  background-color: var(--bg-secondary);
+}
+
+.schedule-message .ql-container.ql-snow {
+  min-height: 200px;
 }

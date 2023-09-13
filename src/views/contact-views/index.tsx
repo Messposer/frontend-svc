@@ -6,17 +6,19 @@ const Contact = lazy(() => import(`./contact`));
 const Create = lazy(() => import(`./contact/create`));
 const Update = lazy(() => import(`./contact/update`));
 
-export const ChatViews = () => {
+export const ContactViews = () => {
   return (
-    <Suspense fallback={<Loading cover="page"/>}>
-      <Routes>
-        <Route path="/" element={<Contact title="Contacts"/>} />
-        <Route path="/:id" element={<Update title="Update Contact"/>} />
-        <Route path="/new" element={<Create title="Create Contact"/>} />
-      </Routes>
-    </Suspense>
+    <div className="bg-background">
+      <Suspense fallback={<Loading cover="page"/>}>
+        <Routes>
+          <Route path="/" element={<Contact title="Contacts"/>} />
+          <Route path="/:id" element={<Update title="Update Contact"/>} />
+          <Route path="/new" element={<Create title="Create Contact"/>} />
+        </Routes>
+      </Suspense>
+    </div>
   )
 }
 
-export default ChatViews;
+export default ContactViews;
 

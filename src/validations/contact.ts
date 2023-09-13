@@ -26,5 +26,23 @@ export const rules = {
             required: true,
             message: "Please input your last name",
         },
+    ],
+    broadCastName: [
+        {
+            required: true,
+            message: "Please input your broadcast name",
+        },
+    ],
+    autoGenerate: [
+        {
+            required: true,
+            message: "Do you want the AI to auto generate the content for you?",
+        },
+    ],
+    enterContent: [
+        {
+            required: true,
+            message: "Compose your content",
+        },
     ]
 };

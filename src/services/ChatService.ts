@@ -1,6 +1,11 @@
 import fetch from "auth/axios";
 import { AxiosResponse } from "axios";
-import { ChatServiceType, CreateChatType, CreateMessageType, SendAudioType } from "./types/ChatServiceType";
+import { 
+  ChatServiceType, 
+  CreateChatType, 
+  CreateMessageType, 
+  SendAudioType 
+} from "./types/ChatServiceType";
 
 let ChatService: ChatServiceType = {};
 const _url = "chat";

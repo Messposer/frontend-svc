@@ -4,6 +4,10 @@ export interface UserServiceType {
   getUserContacts?: any;
   deleteUserContact?: any;
   getUserChatSummary?: any;
+  getUserContactGroups?: any;
+  getUserContactsInGroup?: any;
+  deleteUserContactGroup?: any;
+  getUserSchedules?: any;
 }
 
 export interface GetUserSingleChatType {
