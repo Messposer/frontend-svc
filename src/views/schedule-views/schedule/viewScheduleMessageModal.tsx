@@ -10,6 +10,8 @@ import ContactService from "services/ContactService";
 import ScheduleModalTitle from "./scheduleModalTitle";
 import moment from 'moment';
 import AlertInfo from "components/Dashboard/AlertInfo";
+import RawHTMLComponent from 'components/RawHtml';
+import { DAY_MONTH_YEAR } from "configs/dateFormat";
 
 interface ViewScheduleMessageModalProps {
   title: string,
@@ -68,26 +70,23 @@ const ViewScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: 
       <div className="row">
         <div className="col-md-8">
           <ScheduleModalTitle title={schedule?.name || "Schedule Name"} status={schedule?.status || "waiting"} />
-          <div className="mt-4">
-            Keep in mind that you'll need to have Bootstrap CSS properly linked in 
-            your project for this class to work. If you haven't included Bootstrap 
-            in your project yet, you can
-          </div>
-          <div className="p-3 mt-3 card">
-            <h5 className="card-title card-group-title">Group Details</h5>
-            <h6 className="card-group-details">Name: {schedule?.contactGroup?.name}</h6>
-            <h6 className="card-group-details">Note: {schedule?.contactGroup?.note}</h6>
-            <h6 className="card-group-details">This contact group has {contacts?.length} total contacts which includes:</h6>
-            <p className="font-weight-bold">{displayContacts()}</p>
-          </div>  
           <h6 className="mt-3">Schedule Details</h6>
           <div className="mt-3 text-capitalize">
-            Scheduled Date: {moment(schedule?.created_at).format('Do MMMM, YYYY')} <br />
+            Scheduled For: <strong>{moment(schedule?.sendDate).format(DAY_MONTH_YEAR)} </strong><br />
+            Scheduled Created on: <strong>{moment(schedule?.created_at).format(DAY_MONTH_YEAR)} </strong><br />
           </div>
 
+          <div className="p-3 mt-3 card">
+            <h5 className="card-title card-group-title">Group Details</h5>
+            <h6 className="card-group-details">Name: <strong>{schedule?.contactGroup?.name}</strong></h6>
+            <h6 className="card-group-details">Note: <strong>{schedule?.contactGroup?.note}</strong></h6>
+            <h6 className="card-group-details">This contact group has <strong>{contacts?.length}</strong> total contacts which includes:</h6>
+            <p className="font-weight-bold"><strong>{displayContacts()}</strong></p>
+          </div>  
+          
           <h6 className="mt-3">Schedule Message:</h6>
           <div className="mt-3 text-capitalize">
-            {schedule?.messageScheduler?.text}
+            <RawHTMLComponent htmlContent={schedule?.messageScheduler?.text || ''} />
           </div>
         </div>
         <div className="mt-5 col-md-4">

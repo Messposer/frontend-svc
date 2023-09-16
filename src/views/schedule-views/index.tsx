@@ -37,7 +37,7 @@ export const ScheduleViews = () => {
       <Suspense fallback={<Loading cover="page"/>}>
         <Routes>
           <Route path="/" element={<Schedule onOpenModal={onOpenModal} title="Your Schedules"/>} />
-          <Route path="/create" element={<CreateSchedule title="Create a Schedule"/>} />
+          <Route path="/create" element={<CreateSchedule onOpenModal={onOpenModal} title="Create a Schedule"/>} />
         </Routes>
       </Suspense>
       <ViewScheduleMessageModal title='View Schedule' scheduleId={scheduleId} onClose={onCloseModal} isOpen={isShowScheduleModalOpen} />

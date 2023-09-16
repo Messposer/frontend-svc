@@ -10,7 +10,8 @@ import { Layout } from 'antd';
 import Logo from './Logo';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  DASHBOARD_PREFIX_PATH, SETTING_PREFIX_PATH, CHAT_PREFIX_PATH,
+  DASHBOARD_PREFIX_PATH, 
+  SETTING_PREFIX_PATH,
   CONTACT_PREFIX_PATH,
   CONTACT_GROUP_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH
@@ -55,15 +56,7 @@ const Sidebar = () => {
                 <Link to={`${CONTACT_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
                     <TeamOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Contact</span>
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === CHAT_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${CHAT_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <MessageOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Message</span>
+                    <span className='ms-2'>Contacts</span>
                   </div>
                 </Link>
               </li>
@@ -71,7 +64,7 @@ const Sidebar = () => {
                 <Link to={`${CONTACT_GROUP_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
                     <ClusterOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Broadcast list</span>
+                    <span className='ms-2'>Broadcast lists</span>
                   </div>
                 </Link>
               </li>

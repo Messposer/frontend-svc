@@ -8,7 +8,10 @@ import { ScheduledType } from 'redux/types';
 import { useNavigate, Link } from 'react-router-dom';
 import { EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
-
+import { DAY_MONTH_YEAR } from 'configs/dateFormat';
+import ScheduleService from 'services/ScheduleService';
+import { ERROR_MESSAGES } from 'configs/AppConfig';
+import { HandleErrors } from "services/error/handleErrors";
 interface ScheduleProps {
 	title: string,
 	onOpenModal: (id: string, type: string) => void,
@@ -20,16 +23,25 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 	const [schedules, setSchedules] = useState<ScheduledType[]>([]);
 	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
+	const [deleteLoading, setDeleteLoading] = useState<number | null>(null);
 
 	const deleteSchedule = async (id: number) => {
-		// try {
-		// 	await withDeleteLoading(UserService.deleteUserContact({id}));
-		// 	const newData = broadCast.filter((broadcast: any) => broadcast.id !== id);
-		// 	setBroadCast(newData);
-		// 	messageApi.info('Broadcast group deleted successfully');
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+		try {
+			setDeleteLoading(id);
+			await withDeleteLoading(ScheduleService.deleteSchedule(id));
+			const newData = schedules.filter((schedule: ScheduledType) => schedule.id !== id);
+			setSchedules(newData);
+			messageApi.info('Schedule has been deleted successfully');
+		} catch (error: any) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
+		}	finally {
+			setDeleteLoading(null); 
+		}
 	};
 	const columns: ColumnsType<ScheduledType> = [
 		{ title: 'Name', dataIndex: 'name', key: 'name' },
@@ -56,7 +68,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 		{ 
 			title: 'Dated Created', 
 			key: 'createdAt',
-			render: (schedule: ScheduledType) => moment(schedule?.created_at).format('Do MMMM, YYYY') 
+			render: (schedule: ScheduledType) => moment(schedule?.created_at).format(DAY_MONTH_YEAR) 
 		},
 		{
 			title: 'Action',
@@ -66,14 +78,14 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 			render: (schedule: ScheduledType) => 
 				<Dropdown 
 					menu={{
-						items,
+						items: getDropdownItems(schedule),
 						onClick: (event) => handleMenuClick(event, schedule),
 					}}
 				placement="bottomLeft" trigger={['click']}>
 					<Button 
 						type="primary" 
 						danger={true}
-						loading={loadingDelete}
+						loading={deleteLoading === schedule?.id}
 					> 
 						Options
 					</Button>
@@ -81,15 +93,26 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 		},
 	];
 
-	const handleMenuClick = (e: any, schedule: any) => {
-    if (e.key === 'edit') {
-			navigate(`${schedule?.id}`);
-    } else if (e.key === 'view') {
-      onOpenModal(String(schedule?.id), "show");
-    } else if (e.key === 'delete') {
-      deleteSchedule(schedule?.id);
-    }
-  };
+	const getDropdownItems = (schedule: ScheduledType) => {
+		const isViewDisabled = moment(schedule?.sendDate).isSameOrBefore(moment().startOf('day')) || schedule?.isSent;// Add your condition here;
+		
+		return items.map(item => {
+			if (item.key === 'edit') {
+				return {
+					...item,
+					disabled: isViewDisabled,
+				};
+			}
+			if (item.key === 'delete') {
+				return {
+					...item,
+					disabled: isViewDisabled,
+					danger: isViewDisabled ? false : true,
+				};
+			}
+			return item;
+		});
+	};
 
 	const items = [
 		{
@@ -106,16 +129,30 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 			label: 'Delete',
 			key: 'delete',
 			icon: <DeleteOutlined />,
-			danger: true,
 		},
 	];
+
+	const handleMenuClick = (e: any, schedule: any) => {
+    if (e.key === 'edit') {
+			navigate(`${schedule?.id}`);
+    } else if (e.key === 'view') {
+      onOpenModal(String(schedule?.id), "show");
+    } else if (e.key === 'delete') {
+      deleteSchedule(schedule?.id);
+    }
+  };
+
 	
 	const getSchedules = async () => {
 		try {
 			const schedules = await withLoading(UserService.getUserSchedules());
 			setSchedules(schedules);
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
 		}
 	}
 	
@@ -129,6 +166,9 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 		<div className='p-5 schedule-body-container'>
 			{contextHolder}
 			<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Schedule</Button>
+			{errorMessage &&
+				<HandleErrors errors={errorMessage} />
+			}
 			<Table
 				columns={columns}
 				loading={loading}

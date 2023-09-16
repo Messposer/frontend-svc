@@ -39,10 +39,30 @@ export const rules = {
             message: "Do you want the AI to auto generate the content for you?",
         },
     ],
+
+    sendDate: [
+        {
+            required: true,
+            message: "When do you want the message to go out?",
+        },
+    ],
+
     enterContent: [
         {
             required: true,
             message: "Compose your content",
+        },
+    ],
+    enterSubject: [
+        {
+            required: true,
+            message: "Enter a subject for this content",
+        },
+    ],
+    enterTransporter: [
+        {
+            required: true,
+            message: "Enter a transporter for this content",
         },
     ]
 };

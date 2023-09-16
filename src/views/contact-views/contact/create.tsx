@@ -116,7 +116,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
             </Form.Item>
             
             <Form.Item 
-              name="phoneNumber" 
+              name="number" 
               label="Phone Number"
               rules={[{ required: true, validator: validatePhoneNumber }]}
             >

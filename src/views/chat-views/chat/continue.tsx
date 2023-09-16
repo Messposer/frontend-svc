@@ -70,9 +70,9 @@ const CreateChat = ({ title, newChat }: CreateChatProps) => {
                 onChange={handleTransporterChange}
               >
                 <Select.Option key="EMAIL" value="EMAIL">EMAIL</Select.Option>
-                <Select.Option key="WHATSAPP" value="WHATSAPP">WHATSAPP</Select.Option>
+                {/* <Select.Option key="WHATSAPP" value="WHATSAPP">WHATSAPP</Select.Option>
                 <Select.Option key="SMS" value="SMS">SMS</Select.Option>
-                <Select.Option key="TELEGRAM" value="TELEGRAM">TELEGRAM</Select.Option>
+                <Select.Option key="TELEGRAM" value="TELEGRAM">TELEGRAM</Select.Option> */}
 
               </Select>
             </Form.Item>

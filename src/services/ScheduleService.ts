@@ -32,4 +32,13 @@ ScheduleService.getSchedule = async (id: number):Promise<AxiosResponse> => {
   return response;
 };
 
+ScheduleService.deleteSchedule = async (id: number):Promise<AxiosResponse> => {
+  console.log(id)
+  const response = await fetch({
+    url: `${_url}/${id}`,
+    method: "delete",
+  });
+  return response;
+};
+
 export default ScheduleService;

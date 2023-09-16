@@ -5,7 +5,7 @@ interface ScheduleModalTitleProps {
 const ScheduleModalTitle = ({title, status}: ScheduleModalTitleProps) => {
   return (
     <div className="d-flex justify-content-between">
-      <h6 className="mr-3">{title}</h6>
+      <h5 className="mr-3 text-text-capitalize"><strong>{title}</strong></h5>
       <div className="schedule-status-wrapper">{status}</div>
     </div>
   );

@@ -46,14 +46,12 @@ export interface BroadCastType {
 
 export interface ScheduledType {
   id: number;
+  isSent: boolean;
   sendDate: string; 
-  notify_day: number;
   created_at: string;
   updated_at: string; 
   deleted_at: string | null; 
-  autoGenerate: string;
   name: string;
-  prompt: string;
   status: string;
   contactGroup: {
     id: number;
