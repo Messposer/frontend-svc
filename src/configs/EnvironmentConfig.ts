@@ -10,7 +10,7 @@ const prod = {
 const test = {
 	API_ENDPOINT_URL: "http://localhost:4000"
 };
-
+console.log(process.env.DEVELOPMENT_API_ENDPOINT_URL);
 const getEnv = () => {
 	switch (process.env.NODE_ENV) {
 		case 'development':
