@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Radio, Select, message } from "antd";
 import { HandleErrors } from "services/error/handleErrors";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
-import { ScheduledType } from "redux/types";
+import { ChatType, ScheduledType } from "redux/types";
 import ScheduleService from "services/ScheduleService";
 import { useLoading } from "hooks/useLoading";
 import { ERROR_MESSAGES, SCHEDULE_PREFIX_PATH } from "configs/AppConfig";
@@ -10,6 +10,8 @@ import AlertInfo from "components/Dashboard/AlertInfo";
 import { rules } from "validations/contact";
 import TextEditor from "components/Editor";
 import { CreateMessageScheduleType } from "services/types/ScheduleServiceType";
+import { CreateChatType } from "services/types/ChatServiceType";
+import ChatService from "services/ChatService";
 
 interface ViewScheduleMessageModalProps {
   title: string,
@@ -21,11 +23,16 @@ interface ViewScheduleMessageModalProps {
 const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: ViewScheduleMessageModalProps) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, withLoading] = useLoading();
+  const [getChatLoading, withGetChatLoading] = useLoading();
   const [loadingSchedule, withScheduleLoading] = useLoading();
 	const [schedule, setSchedule] = useState<ScheduledType>();
   const [makeAutoComplete, setMakeAutoComplete] = useState<string|null>(null);
 	const [messageApi, contextHolder] = message.useMessage();
+  const [chat, setChat] = useState<ChatType | null>(null);
+  const [userSuggestion, setUserSuggestion] = useState<string|null>(null);
   const [form] = Form.useForm();
+  const { TextArea } = Input;
+
   useDocumentTitle(title);
 
   const getSchedule = async () => {
@@ -43,7 +50,7 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
 
   const onCreate = async (values: any) => {
     const createScheduleMessagePayload: CreateMessageScheduleType = {
-      text: values?.text,
+      text: makeAutoComplete === 'yes' ? values?.autoText : values?.text,
       subject: values?.subject,
       transporter: values?.transporter,
       scheduler_id: Number(scheduleId),
@@ -56,6 +63,19 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
 			await messageApi.success('Message added schedule');
       window.location.href = `${SCHEDULE_PREFIX_PATH}`;
 		} catch (error:any ) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
+		}
+  }
+
+  const generateChat = async (values: CreateChatType) => {
+    try {
+			const chat = await withGetChatLoading(ChatService.createChat(values));
+      setChat(chat);
+		} catch (error: any) {
 			setErrorMessage(
         error?.response?.data?.message
           ? error?.response?.data?.message
@@ -85,6 +105,19 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
   const closeModal = () => {
     setMakeAutoComplete(null);
     onClose();
+  }
+
+  const handleUserSuggestion = (e: any) => {
+    setUserSuggestion(e?.target?.value);
+  }
+
+  const handGetUserContentFromSuggestion = () => {
+    if(userSuggestion){
+      const getUserContent: CreateChatType = {
+        message: userSuggestion || ""
+      };
+      generateChat(getUserContent);
+    }
   }
 
   return (
@@ -137,7 +170,7 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
                 rules={rules.autoGenerate}
                 hasFeedback
                 validateFirst={true}
-                initialValue={""}
+                initialValue={null}
               >
                 <Radio.Group 
                   name="radiogroup" 
@@ -160,6 +193,45 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
                 >
                   <TextEditor placeholder="Enter your content"/>
                 </Form.Item>
+              }
+
+              {
+                makeAutoComplete === "yes" &&
+                <>
+                  <Form.Item
+                    name="message"
+                    label="Describe what you want to send"
+                    hasFeedback
+                    rules={[{required: true, message: "Give a description of what you want to send"}]}
+                    validateFirst={true}
+                  >
+                    <TextArea 
+                      rows={4}
+                      autoComplete="off"
+                      onChange={handleUserSuggestion}
+                      placeholder="Whats on your mind"
+                      allowClear
+                    />
+                  </Form.Item>
+                  <div className="mt-3">
+                    <Button type="primary" onClick={handGetUserContentFromSuggestion} loading={getChatLoading}>Generate</Button>
+                  </div>
+                </>
+              }
+              {
+                chat &&
+                <div className="mt-4">
+                  <Form.Item
+                    name="autoText"
+                    label="Make changes to your content"
+                    rules={[...rules.enterContent, { validator: validateContent } ]}
+                    hasFeedback
+                    validateFirst={true}
+                    initialValue={chat?.chat_gpt_message}
+                  >
+                    <TextEditor placeholder="Enter your content"/>
+                  </Form.Item>
+                </div>
               }
 
               {errorMessage &&

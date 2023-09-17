@@ -70,7 +70,7 @@ const AddContactToBroadcastModal = ({ showAddContactToBroadcastModal = false, to
   const handleAddToGroup = async () => {
     try {
       const createUserContactPayload: CreateUserContactType = {
-        contactIds: selectedRowIds,
+        contactIds: [...new Set(selectedRowIds)],
         groupId: broadCast?.id,
       }
 			await withLoading(ContactService.createUserContact(createUserContactPayload));

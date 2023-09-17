@@ -5,7 +5,7 @@ export interface ChatServiceType {
 }
 
 export interface CreateChatType {
-  contact_id: number;
+  contact_id?: number;
   message: string;
 };
 

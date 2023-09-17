@@ -4,17 +4,20 @@ import store from "./redux/store";
 import { BrowserRouter as Router } from "react-router-dom";
 import Views from "./views";
 import { Route, Routes } from "react-router-dom";
+import ErrorBoundary from './views/errors/ErrorBoundary';
 
 function App() {
   return (
     <div className="App">
-      <Provider store={store}>
-        <Router>
-          <Routes>
-            <Route path="/*" element={<Views />} />
-          </Routes>
-        </Router>
-      </Provider>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <Router>
+            <Routes>
+              <Route path="/*" element={<Views />} />
+            </Routes>
+          </Router>
+        </Provider>
+      </ErrorBoundary>
     </div>
   );
 }

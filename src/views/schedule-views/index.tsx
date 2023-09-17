@@ -2,20 +2,19 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Loading from 'components/Loading';
 import { useSearchParams } from 'react-router-dom';
-import { ScheduledType } from 'redux/types';
-import AddScheduleMessageModal from './schedule/addScheduleMessageModal';
 
 const Schedule = lazy(() => import(`./schedule`));
 const CreateSchedule = lazy(() => import(`./schedule/create`));
 const ViewScheduleMessageModal = lazy(() => import(`./schedule/viewScheduleMessageModal`));
+const AddScheduleMessageModal = lazy(() => import(`./schedule/addScheduleMessageModal`));
 
 export const ScheduleViews = () => {
   const [searchParams, setSearchParams] = useSearchParams({ schedule_id: '', modal_mode: '', });
 
   const onOpenModal = (param: string, type: string) => {
     const nextSearchParams = new URLSearchParams(searchParams);
-    nextSearchParams.set('schedule_id', param);
-    nextSearchParams.set('modal_mode', type);
+    nextSearchParams.set('schedule_id', param ?? '');
+    nextSearchParams.set('modal_mode', type ?? '');
     setSearchParams(nextSearchParams);
   }
 
@@ -39,9 +38,9 @@ export const ScheduleViews = () => {
           <Route path="/" element={<Schedule onOpenModal={onOpenModal} title="Your Schedules"/>} />
           <Route path="/create" element={<CreateSchedule onOpenModal={onOpenModal} title="Create a Schedule"/>} />
         </Routes>
+        <ViewScheduleMessageModal title='View Schedule' scheduleId={scheduleId} onClose={onCloseModal} isOpen={isShowScheduleModalOpen} />
+        <AddScheduleMessageModal title='Add Schedule' scheduleId={scheduleId} onClose={onCloseModal} isOpen={isAddScheduleModalOpen} />
       </Suspense>
-      <ViewScheduleMessageModal title='View Schedule' scheduleId={scheduleId} onClose={onCloseModal} isOpen={isShowScheduleModalOpen} />
-      <AddScheduleMessageModal title='Add Schedule' scheduleId={scheduleId} onClose={onCloseModal} isOpen={isAddScheduleModalOpen} />
     </div>
   )
 }

@@ -24,7 +24,6 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
 	const [loading, withLoading] = useLoading();
 	const [loadingContact, withContactLoading] = useLoading();
 	const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedDate, setSelectedDate] = useState<string>("");
 	const [broadCast, setBroadCast] = useState<BroadCastType[]>([]);
@@ -42,9 +41,8 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
     try {
 			const schedule = await withContactLoading(ScheduleService.createSchedule(createSchedulePayload));
       form.resetFields();
-			await messageApi.success('Broadcast list added successfully');
+			messageApi.success('Broadcast list added successfully');
       onOpenModal(String(schedule?.id), "add")
-      navigate(SCHEDULE_PREFIX_PATH);
 		} catch (error:any ) {
 			setErrorMessage(
         error?.response?.data?.message
