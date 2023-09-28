@@ -8,7 +8,8 @@ import {
   CONTACT_GROUP_PREFIX_PATH,
   CONTACT_PREFIX_PATH,
   DASHBOARD_PREFIX_PATH,
-  SCHEDULE_PREFIX_PATH
+  SCHEDULE_PREFIX_PATH,
+  TEMPLATE_PREFIX_PATH
 } from "configs/AppConfig";
 import AuthLayout from "layouts/auth-layout";
 import DashboardLayout from "layouts/dashboard-layout";
@@ -16,6 +17,7 @@ import ChatLayout from "layouts/chat-layout";
 import ContactLayout from "layouts/contact-layout";
 import BroadCastLayout from "layouts/broadcast-layout";
 import ScheduleLayout from "layouts/schedule-layout";
+import TemplateLayout from "layouts/template-layout";
 
 export const Views = (props) => {
   const { token } = props;
@@ -64,6 +66,12 @@ export const Views = (props) => {
           path={`${SCHEDULE_PREFIX_PATH}/*`}
           element={
             <ScheduleLayout />
+          }
+        />
+        <Route
+          path={`${TEMPLATE_PREFIX_PATH}/*`}
+          element={
+            <TemplateLayout />
           }
         />
       </Route>
