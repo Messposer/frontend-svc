@@ -1,10 +1,5 @@
+import React, { useState, useEffect, useRef } from "react";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
-import { useEffect, useState } from "react";
-import ButtonElement from "./Elements/ButtonElement";
-import PictureElement from "./Elements/PictureElement";
-import ParagraphElement from "./Elements/ParagraphElement";
-import VariableElement from "./Elements/VariableElement";
-import ReactDOMServer from 'react-dom/server';
 import { useLoading } from "hooks/useLoading";
 import TemplateService from "services/TemplateService";
 import { UserTemplateType } from "services/types/TemplateServiceType";
@@ -17,23 +12,18 @@ interface TemplateProps {
   onOpenModal: (id: string) => void;
 }
 
-const TemplateBuilder = ({title, onOpenModal}: TemplateProps) => {
-  const [template, setTemplate] = useState<any>([]);
+const TemplateBuilder = ({ title, onOpenModal }: TemplateProps) => {
   const [userTemplate, setUserTemplate] = useState<UserTemplateType>();
   const [templateLoading, withTemplateLoading] = useLoading();
   const [errorMessage, setErrorMessage] = useState(null);
   const { id } = useParams();
   useDocumentTitle(title);
-
-  const generateHtml = () => {
-    return ReactDOMServer.renderToString(<div>{template}</div>);
-  };
+  const contentEditableRef = useRef<HTMLDivElement>(null);
 
   const getAUserTemplate = async () => {
     try {
       const template = await withTemplateLoading(TemplateService.getAUserTemplate(id));
       setUserTemplate(template);
-      setTemplate(template.template_body ? [template.template_body] : []);
     } catch (error: any) {
       setErrorMessage(
         error?.response?.data?.message
@@ -43,50 +33,53 @@ const TemplateBuilder = ({title, onOpenModal}: TemplateProps) => {
     }
   }
 
-  const handleAddButton = () => {
-    setTemplate([...template, <ButtonElement key={Date.now()} />]);
-  };
+  const handleAddElement = (elementType: string) => {
+    if (!userTemplate || !userTemplate.template_body || !contentEditableRef.current) return;
 
-  const handleAddPicture = () => {
-    setTemplate([...template, <PictureElement key={Date.now()} />]);
-  };
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(userTemplate.template_body, "text/html");
+    const newElement = document.createElement(elementType);
 
-  const handleAddParagraph = () => {
-    setTemplate([...template, <ParagraphElement key={Date.now()} />]);
-  };
+    // Customize the new element (e.g., set attributes, innerHTML, etc.)
+    // For example, if elementType is "button":
+    // newElement.innerHTML = "Click Me";
 
-  const handleAddVariable = () => {
-    const variable = prompt('Enter variable name:');
-    if (variable) {
-      setTemplate([...template, <VariableElement key={Date.now()} variable={variable} />]);
+    const selection = window.getSelection();
+    const range = selection?.getRangeAt(0);
+
+    if (range) {
+      range.insertNode(newElement);
+      range.collapse(false);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
     }
+
+    const updatedHTML = new XMLSerializer().serializeToString(doc);
+    setUserTemplate((prevUserTemplate: any) => ({
+      ...prevUserTemplate,
+      template_body: updatedHTML
+    }));
   };
 
   useEffect(() => {
     getAUserTemplate();
   }, []);
 
-  console.log(userTemplate)
   return (
     <div className="template-builder-container">
-      <button onClick={() => alert(generateHtml())}>Generate HTML</button>
+      <button onClick={() => alert(userTemplate?.template_body)}>Generate HTML</button>
       <div className="mx-2 row">
-        <div className="col-md-2">
-          <button onClick={handleAddButton}>Add Button</button>
-          <button onClick={handleAddPicture}>Add Picture</button>
-          <button onClick={handleAddParagraph}>Add Paragraph</button>
-          <button onClick={handleAddVariable}>Add Variable</button>
+        <div className="col-md-3">
+          <button onClick={() => handleAddElement("button")}>Add Button</button>
+          <button onClick={() => handleAddElement("img")}>Add Picture</button>
+          <button onClick={() => handleAddElement("p")}>Add Paragraph</button>
+          {/* Add more buttons as needed */}
         </div>
-        {
-          userTemplate &&
-          <div className="col-md-7">
+        {userTemplate && (
+          <div className="col-md-9" contentEditable ref={contentEditableRef}>
             <RawHTMLComponent htmlContent={userTemplate?.template_body || ''} />
           </div>
-        }
-
-        <div className="col-md-3">
-
-        </div>
+        )}
       </div>
     </div>
   );
