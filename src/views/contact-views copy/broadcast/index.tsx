@@ -4,20 +4,19 @@ import { useEffect, useState } from 'react';
 import UserService from 'services/UserService';
 import { Button, Dropdown, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { BroadCastType, ContactType } from 'redux/types';
-import { Link, useNavigate } from 'react-router-dom';
-import AddContactToBroadcastModal from './addContactToBroadcastModal';
+import { BroadCastType } from 'redux/types';
+import { useNavigate } from 'react-router-dom';
 import { EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 interface BroadProps {
 	title: string,
+	onOpenModal: (id: string) => void;
 }
 
-const BroadCast = ({title}: BroadProps) => {
+const BroadCast = ({title, onOpenModal}: BroadProps) => {
 	const [loading, withLoading] = useLoading();
 	const [loadingDelete, withDeleteLoading] = useLoading();
 	const [broadCast, setBroadCast] = useState<BroadCastType[]>([]);
 	const [messageApi, contextHolder] = message.useMessage();
-	const [showContactToBroadcastModal, setShowContactToBroadcastModal] = useState<boolean>(false);
 	const [broadCastSingle, setBroadCastSingle] = useState<any>();
 	const navigate = useNavigate();
 
@@ -42,7 +41,7 @@ const BroadCast = ({title}: BroadProps) => {
 			width: 100,
 			render: (broadCast: BroadCastType) => 
 				<Button type="primary" onClick={() => 
-					[toggleContactToBroadcastModal(), setBroadCastSingle(broadCast)]
+					[onOpenModal(String(broadCast?.id)), setBroadCastSingle(broadCast)]
 				}>Manage Contacts</Button>,
 		},
 		{
@@ -112,10 +111,6 @@ const BroadCast = ({title}: BroadProps) => {
 
 	useDocumentTitle(title);
 
-	const toggleContactToBroadcastModal = () => {
-		setShowContactToBroadcastModal(prevState => !prevState);
-	}
-
 	return (
 		<div className='p-5 chat-body-container'>
 			{contextHolder}
@@ -127,14 +122,6 @@ const BroadCast = ({title}: BroadProps) => {
 				rowKey={(broadcast) => broadcast.id}
 				dataSource={broadCast}
 			/>
-			{
-				showContactToBroadcastModal &&
-				<AddContactToBroadcastModal 
-					showAddContactToBroadcastModal={showContactToBroadcastModal} 
-					broadCast={broadCastSingle}
-					toggleAddContactToBroadcastModal={toggleContactToBroadcastModal} 
-				/>
-			}
 		</div>
 
 	)

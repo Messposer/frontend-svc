@@ -1,6 +1,9 @@
+import { ContactType, ScheduledType } from "redux/types";
+
 export interface ScheduleServiceType {
   createSchedule?: any;
   getSchedule?: any;
+  getContactSchedule?: any;
   createMessageSchedule?: any;
   deleteSchedule?: any;
 }
@@ -18,4 +21,13 @@ export interface CreateMessageScheduleType {
   scheduler_id: number;
   subject: string;
   transporter: string;
+}
+
+export interface ContactScheduleType {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  contact: ContactType;
+  schedule: ScheduledType;
 }

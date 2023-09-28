@@ -5,6 +5,7 @@ import { CreateMessageScheduleType, CreateScheduleType, ScheduleServiceType } fr
 let ScheduleService: ScheduleServiceType = {};
 const _url = "scheduler";
 const _message_url = "message-scheduler";
+const _contact_schedule_url = "contact-schedule";
 
 ScheduleService.createSchedule = async (data: CreateScheduleType):Promise<AxiosResponse> => {
   const response = await fetch({
@@ -27,6 +28,14 @@ ScheduleService.createMessageSchedule = async (data: CreateMessageScheduleType):
 ScheduleService.getSchedule = async (id: number):Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/${id}`,
+    method: "get",
+  });
+  return response;
+};
+
+ScheduleService.getContactSchedule = async (id: number):Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_contact_schedule_url}/contacts/${id}`,
     method: "get",
   });
   return response;

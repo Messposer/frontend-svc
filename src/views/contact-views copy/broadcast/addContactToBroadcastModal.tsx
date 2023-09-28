@@ -10,16 +10,24 @@ import { BroadCastType, ContactType } from "redux/types";
 import { ColumnsType } from "antd/es/table";
 import UserService from "services/UserService";
 import { CreateUserContactType } from "services/types/ContactServiceType";
+import { useDocumentTitle } from "hooks/useDocumentTitle";
 
 interface AddContactToBroadcastModalProps {
-  showAddContactToBroadcastModal: boolean;
-  toggleAddContactToBroadcastModal: () => void;
-  broadCast: BroadCastType;
-
+  title: string;
+  broadCastId: string | null;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const AddContactToBroadcastModal = ({ showAddContactToBroadcastModal = false, toggleAddContactToBroadcastModal, broadCast }: AddContactToBroadcastModalProps) => {
+const AddContactToBroadcastModal = ({ 
+  isOpen = false, 
+  onClose, 
+  broadCastId,
+  title 
+}: AddContactToBroadcastModalProps) => {
+  useDocumentTitle(title);
   const [loading, withLoading] = useLoading();
+  const [broadCast, setBroadCast] = useState<BroadCastType>();
   const [errorMessage, setErrorMessage] = useState(null);
 	const [contacts, setContacts] = useState<ContactType[]>([]);
   const [selectedRowIds, setSelectedRowIds] = useState<number[]>([]);
@@ -45,9 +53,22 @@ const AddContactToBroadcastModal = ({ showAddContactToBroadcastModal = false, to
 		}
 	}
 
+  const getBroadCast = async () => {
+		try {
+			const broadCast = await withLoading(ContactService.getBroadCast(broadCastId));
+			setBroadCast(broadCast);
+		} catch (error: any) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
+		}
+	}
+
   const getContactsInGroup = async () => {
 		try {
-			const contactIds = await withLoading(UserService.getUserContactsInGroup(broadCast?.id));
+			const contactIds = await withLoading(UserService.getUserContactsInGroup(broadCastId));
 			setSelectedRowIds(contactIds);
 		} catch (error: any) {
 			setErrorMessage(
@@ -61,20 +82,17 @@ const AddContactToBroadcastModal = ({ showAddContactToBroadcastModal = false, to
   useEffect(() => {
 		getContacts();
     getContactsInGroup();
-    return () => {
-      setContacts([]);
-      setSelectedRowIds([]);
-    }
+    getBroadCast();
   }, []);
 
   const handleAddToGroup = async () => {
     try {
       const createUserContactPayload: CreateUserContactType = {
         contactIds: [...new Set(selectedRowIds)],
-        groupId: broadCast?.id,
+        groupId: Number(broadCastId),
       }
 			await withLoading(ContactService.createUserContact(createUserContactPayload));
-			toggleAddContactToBroadcastModal();
+			onClose();
 		} catch (error:any) {
 			setErrorMessage(
         error?.response?.data?.message
@@ -89,8 +107,8 @@ const AddContactToBroadcastModal = ({ showAddContactToBroadcastModal = false, to
       title={`Add Contacts to ${broadCast?.name} Broadcast`}
       centered
       width={900}
-      open={showAddContactToBroadcastModal}
-      onCancel={toggleAddContactToBroadcastModal}
+      open={isOpen}
+      onCancel={onClose}
       onOk={handleAddToGroup}
     >
       {loading && <Loading />}

@@ -114,7 +114,7 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
             <Form.Item
               name="contact_group_id"
               label="Broadcast Group"
-              rules={rules.email}
+              rules={rules.chooseBroadCastGroup}
               hasFeedback
               validateFirst={true}
             >

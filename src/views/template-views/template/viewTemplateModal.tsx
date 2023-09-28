@@ -6,7 +6,7 @@ import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TemplateService from "services/TemplateService";
-import { AddUserToTemplateType, UserTemplateType } from "services/types/TemplateServiceType";
+import { AddUserToTemplateType, TemplateType, UserTemplateType } from "services/types/TemplateServiceType";
 
 interface ViewTemplateModalProps {
   title: string;
@@ -20,7 +20,7 @@ const ViewTemplateModal = ({ title, isOpen = false, onClose, templateId }: ViewT
   const [errorMessage, setErrorMessage] = useState(null);
   const [templateLoading, withTemplateLoading] = useLoading();
   const navigate = useNavigate();
-  const [userTemplate, setUserTemplate] = useState<UserTemplateType>();
+  const [userTemplate, setUserTemplate] = useState<any>();
 
   const getAUserTemplate = async () => {
     if(templateId){
@@ -66,7 +66,8 @@ const ViewTemplateModal = ({ title, isOpen = false, onClose, templateId }: ViewT
       footer={null}
     >
       <div className="view-template-modal-container">
-        <h5>{userTemplate?.template?.title}</h5>
+        <h5 className="text-capitalize">{userTemplate?.title ?? userTemplate?.template?.title}</h5>
+        <hr />
         <RawHTMLComponent htmlContent={ userTemplate?.template_body ? userTemplate?.template_body : userTemplate?.template?.template_body || "" } />
         <Button onClick={handleClick} loading={addUserToTemplateLoading} type="primary">Open template</Button>
       </div>

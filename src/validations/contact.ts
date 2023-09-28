@@ -33,6 +33,12 @@ export const rules = {
             message: "Please input your broadcast name",
         },
     ],
+    chooseBroadCastGroup: [
+        {
+            required: true,
+            message: "Please select a broadcast group",
+        },
+    ],
     autoGenerate: [
         {
             required: true,

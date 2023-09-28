@@ -1,10 +1,10 @@
 import { useDocumentTitle } from "hooks/useDocumentTitle";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonElement from "./Elements/ButtonElement";
 import PictureElement from "./Elements/PictureElement";
 import ParagraphElement from "./Elements/ParagraphElement";
 import VariableElement from "./Elements/VariableElement";
-import ReactDOMServer from 'react-dom/server'; 
+import ReactDOMServer from 'react-dom/server';
 import { useLoading } from "hooks/useLoading";
 import TemplateService from "services/TemplateService";
 import { UserTemplateType } from "services/types/TemplateServiceType";
@@ -19,27 +19,11 @@ interface TemplateProps {
 
 const TemplateBuilder = ({title, onOpenModal}: TemplateProps) => {
   const [template, setTemplate] = useState<any>([]);
-  const [selectedElement, setSelectedElement] = useState<any>(null);
   const [userTemplate, setUserTemplate] = useState<UserTemplateType>();
   const [templateLoading, withTemplateLoading] = useLoading();
   const [errorMessage, setErrorMessage] = useState(null);
   const { id } = useParams();
   useDocumentTitle(title);
-
-  const handleElementClick = (element: any) => {
-    setSelectedElement(element);
-  };
-
-  const handleDeselectElement = () => {
-    setSelectedElement(null);
-  };
-
-  const handleInsertNewTag = (tag: string) => {
-    if (selectedElement) {
-      const elementClone = React.cloneElement(selectedElement, {}, [tag, selectedElement.props.children]);
-      setTemplate(template.map((el: any) => el === selectedElement ? elementClone : el));
-    }
-  };
 
   const generateHtml = () => {
     return ReactDOMServer.renderToString(<div>{template}</div>);
@@ -49,8 +33,6 @@ const TemplateBuilder = ({title, onOpenModal}: TemplateProps) => {
     try {
       const template = await withTemplateLoading(TemplateService.getAUserTemplate(id));
       setUserTemplate(template);
-
-      // Add the template elements to the builder
       setTemplate(template.template_body ? [template.template_body] : []);
     } catch (error: any) {
       setErrorMessage(
@@ -84,6 +66,7 @@ const TemplateBuilder = ({title, onOpenModal}: TemplateProps) => {
     getAUserTemplate();
   }, []);
 
+  console.log(userTemplate)
   return (
     <div className="template-builder-container">
       <button onClick={() => alert(generateHtml())}>Generate HTML</button>
@@ -94,22 +77,15 @@ const TemplateBuilder = ({title, onOpenModal}: TemplateProps) => {
           <button onClick={handleAddParagraph}>Add Paragraph</button>
           <button onClick={handleAddVariable}>Add Variable</button>
         </div>
-
-        <div className="col-md-7">
-          {template.map((element: any, index: any) => (
-            <div key={index} onClick={() => handleElementClick(element)}>
-              <RawHTMLComponent htmlContent={element || ''} />
-            </div>
-          ))}
-        </div>
+        {
+          userTemplate &&
+          <div className="col-md-7">
+            <RawHTMLComponent htmlContent={userTemplate?.template_body || ''} />
+          </div>
+        }
 
         <div className="col-md-3">
-          <button onClick={handleDeselectElement}>Deselect Element</button>
-          <input 
-            type="text" 
-            placeholder="Enter new tag" 
-            onChange={(e) => handleInsertNewTag(e.target.value)}
-          />
+
         </div>
       </div>
     </div>
