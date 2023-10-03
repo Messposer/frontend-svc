@@ -3,6 +3,7 @@ export interface TemplateServiceType {
   getAUserTemplate?: any;
   getAllTemplate?: any;
   addUserToTemplate?: any;
+  saveUserTemplate?: any;
 }
 
 export interface UserTemplateType {
@@ -24,5 +25,10 @@ export interface TemplateType {
 }
 
 export interface AddUserToTemplateType {
-  template_id: string | null;
+  template_id: number | null;
+}
+
+export interface SaveUserToTemplateType {
+  template_id: number | undefined;
+  template_body: string;
 }

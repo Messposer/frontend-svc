@@ -34,6 +34,7 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
   const onCreate = async (values: any) => {
     const createSchedulePayload: CreateScheduleType = {
       name: values?.name,
+      subject: values?.subject,
       contact_group_id: values?.contact_group_id,
       scheduledDate: schedulePost ? selectedDate : moment().format(Now),
     };
@@ -106,6 +107,21 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
               <Input
                 autoComplete="off"
                 placeholder="Enter your schedule name"
+                maxLength={100}
+                className="custom-input"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="subject"
+              label="Add a Subject"
+              rules={rules.enterSubject}
+              hasFeedback
+              validateFirst={true}
+            >
+              <Input
+                autoComplete="off"
+                placeholder="Enter a subject"
                 maxLength={100}
                 className="custom-input"
               />

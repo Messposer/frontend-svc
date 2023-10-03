@@ -1,6 +1,6 @@
 import fetch from "auth/axios";
 import { AxiosResponse } from "axios";
-import { AddUserToTemplateType, TemplateServiceType } from "./types/TemplateServiceType";
+import { AddUserToTemplateType, TemplateServiceType, SaveUserToTemplateType } from "./types/TemplateServiceType";
 
 let TemplateService: TemplateServiceType = {};
 const _url = "user-template";
@@ -18,6 +18,15 @@ TemplateService.addUserToTemplate = async (data: AddUserToTemplateType):Promise<
   const response = await fetch({
     url: _url,
     method: "post",
+    data
+  });
+  return response;
+};
+
+TemplateService.saveUserTemplate = async (data: SaveUserToTemplateType):Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: _url,
+    method: "put",
     data
   });
   return response;

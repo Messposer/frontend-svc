@@ -46,6 +46,13 @@ export const rules = {
         },
     ],
 
+    useTemplate: [
+        {
+            required: true,
+            message: "Do you want to use a template for this schedule?",
+        },
+    ],
+
     sendDate: [
         {
             required: true,

@@ -9,6 +9,7 @@ import {
   CONTACT_PREFIX_PATH,
   DASHBOARD_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH,
+  TEMPLATE_BUILDER_PREFIX_PATH,
   TEMPLATE_PREFIX_PATH
 } from "configs/AppConfig";
 import AuthLayout from "layouts/auth-layout";
@@ -18,6 +19,7 @@ import ContactLayout from "layouts/contact-layout";
 import BroadCastLayout from "layouts/broadcast-layout";
 import ScheduleLayout from "layouts/schedule-layout";
 import TemplateLayout from "layouts/template-layout";
+import TemplateBuilderLayout from "layouts/builder-layout";
 
 export const Views = (props) => {
   const { token } = props;
@@ -72,6 +74,12 @@ export const Views = (props) => {
           path={`${TEMPLATE_PREFIX_PATH}/*`}
           element={
             <TemplateLayout />
+          }
+        />
+        <Route
+          path={`${TEMPLATE_BUILDER_PREFIX_PATH}/*`}
+          element={
+            <TemplateBuilderLayout />
           }
         />
       </Route>

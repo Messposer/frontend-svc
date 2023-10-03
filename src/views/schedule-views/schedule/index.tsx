@@ -5,12 +5,12 @@ import UserService from 'services/UserService';
 import { Button, Dropdown, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ScheduledType } from 'redux/types';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { DAY_MONTH_YEAR } from 'configs/dateFormat';
 import ScheduleService from 'services/ScheduleService';
-import { ERROR_MESSAGES } from 'configs/AppConfig';
+import { ERROR_MESSAGES, TEMPLATE_PREFIX_PATH, VIEW_TEMPLATE_TYPE } from 'configs/AppConfig';
 import { HandleErrors } from "services/error/handleErrors";
 interface ScheduleProps {
 	title: string,
@@ -57,12 +57,18 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 			render: (schedule: ScheduledType) => schedule?.contactGroup?.name
 		},
 		{ 
-			title: 'Scheduled Message', 
+			title: 'Message', 
 			key: 'scheduledMessage',
 			render: (schedule: ScheduledType) => {
-				return !schedule?.messageScheduler ? 
-				<Button onClick={() => onOpenModal(String(schedule?.id), "add")}>Add Message</Button> 
-					: <Button onClick={() => onOpenModal(String(schedule?.id), "show")}>View Message</Button> 
+				return schedule?.userTemplate
+					? <Button 
+							onClick={() => navigate(`${TEMPLATE_PREFIX_PATH}?templateId=${schedule?.userTemplate?.template?.id}&modal_mode=show_template&viewType=${VIEW_TEMPLATE_TYPE?.USER}`)}
+						>
+							View Template
+						</Button>
+					: !schedule?.messageScheduler
+						? <Button onClick={() => onOpenModal(String(schedule?.id), "add")}>Add Message</Button>
+						: <Button onClick={() => onOpenModal(String(schedule?.id), "show")}>View Message</Button>;
 			}
 		},
 		{ 

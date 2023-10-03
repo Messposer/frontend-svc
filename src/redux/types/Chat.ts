@@ -1,5 +1,6 @@
 import { CreateChatType } from 'services/types/ChatServiceType';
 import { CHAT_ACTION_TYPES } from '../constants/Chat';
+import { UserTemplateType } from 'services/types/TemplateServiceType';
 
 interface SAVE_USER_CHATS {
   type: CHAT_ACTION_TYPES.SAVE_ALL_USER_CHAT
@@ -52,6 +53,7 @@ export interface ScheduledType {
   updated_at: string; 
   deleted_at: string | null; 
   name: string;
+  subject: string;
   status: string;
   contactGroup: {
     id: number;
@@ -69,6 +71,7 @@ export interface ScheduledType {
     updated_at: string;
     deleted_at: string | null;
   };
+  userTemplate: UserTemplateType;
 }
 
 export interface MessageType {

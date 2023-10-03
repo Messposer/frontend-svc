@@ -5,7 +5,7 @@ import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { ContactType, ScheduledType } from "redux/types";
 import ScheduleService from "services/ScheduleService";
 import { useLoading } from "hooks/useLoading";
-import { ERROR_MESSAGES } from "configs/AppConfig";
+import { ERROR_MESSAGES, TEMPLATE_PREFIX_PATH, VIEW_TEMPLATE_TYPE } from "configs/AppConfig";
 import ContactService from "services/ContactService";
 import ScheduleModalTitle from "./scheduleModalTitle";
 import moment from 'moment';
@@ -14,6 +14,7 @@ import { DAY_MONTH_YEAR } from "configs/dateFormat";
 import { ContactScheduleType } from "services/types/ScheduleServiceType";
 import { displayContactScheduleNames } from "utils/schedules/displayContactScheduleNames";
 import GroupDetails from "./components/groupDetails";
+import { useNavigate } from "react-router-dom";
 
 interface ViewScheduleMessageModalProps {
   title: string,
@@ -31,6 +32,7 @@ const ViewScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId, o
 	const [schedule, setSchedule] = useState<ScheduledType>();
   const [contacts, setContacts] = useState<ContactType[]>([]);
   const [contactSchedule, setContactSchedule] = useState<ContactScheduleType[]>([]);
+  const navigate = useNavigate();
   useDocumentTitle(title);
 
   const getSchedules = async () => {
@@ -94,11 +96,19 @@ const ViewScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId, o
             </div>
           }
           {
-            !schedule?.messageScheduler &&
+            schedule?.userTemplate &&
             <>
-              <p>No message is attached to this schedule, schedule would run unless you add a message to it</p>
-              <Button type="primary" onClick={() => onOpenModal(String(schedule?.id), "add")}>Create a message</Button>
+              <div className="card text-center">
+                <div className="card-body">
+                  <h5 className="card-title">{schedule?.userTemplate?.template?.title}</h5>
+                  <Button type="primary" onClick={() => navigate(`${TEMPLATE_PREFIX_PATH}?templateId=${schedule?.userTemplate?.template?.id}&modal_mode=show_template&viewType=${VIEW_TEMPLATE_TYPE?.USER}`)}>View Template</Button>
+                </div>
+              </div>
             </>
+          }
+
+          {
+
           }
         </div>
         <div className="mt-5 col-md-4">

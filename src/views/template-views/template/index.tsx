@@ -1,14 +1,16 @@
 import { Button } from "antd";
-import { ERROR_MESSAGES } from "configs/AppConfig";
+import { ERROR_MESSAGES, VIEW_TEMPLATE_TYPE } from "configs/AppConfig";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import TemplateService from "services/TemplateService";
 import { TemplateType, UserTemplateType } from "services/types/TemplateServiceType";
+import TemplateCard from "./templateCard";
+import RawHTMLComponent from "components/RawHtml";
 
 interface TemplateProps {
   title: string;
-	onOpenModal: (id: string) => void;
+	onOpenModal: (id: string, type: string) => void;
 };
 const TemplateIndex = ({ title, onOpenModal }: TemplateProps) => {
   const [userTemplates, setUserTemplates] = useState<UserTemplateType[]>([]);
@@ -57,14 +59,11 @@ const TemplateIndex = ({ title, onOpenModal }: TemplateProps) => {
         {
           userTemplates.length > 0 &&
           <div className="row">
-            <div>
-              {userTemplates.map((template: UserTemplateType) => (
-                <div key={template?.id}>
-                  <h6>{template?.template?.title}</h6>
-                  <Button role="button" type="primary" onClick={() => onOpenModal(String(template?.template?.id))}>Details</Button>
-                </div>
-              ))}
-            </div>
+            {userTemplates.map((template: UserTemplateType) => (
+              <div key={template?.id} className="col-md-3">
+                <TemplateCard viewType={VIEW_TEMPLATE_TYPE.USER} userTemplate={template} onOpenModal={onOpenModal}/>
+              </div>
+            ))}
           </div>
         }
       </div>
@@ -73,14 +72,11 @@ const TemplateIndex = ({ title, onOpenModal }: TemplateProps) => {
         {
           allTemplates.length > 0 &&
           <div className="row">
-            <div>
-              {allTemplates.map((template: TemplateType) => (
-                <div key={template?.id}>
-                  <h6>{template?.title}</h6>
-                  <Button role="button" type="primary" onClick={() => onOpenModal(String(template?.id))}>Details</Button>
-                </div>
-              ))}
-            </div>
+            {allTemplates.map((template: TemplateType) => (
+              <div key={template?.id} className="col-md-3">
+                <TemplateCard viewType={VIEW_TEMPLATE_TYPE.SYSTEM} template={template} onOpenModal={onOpenModal}/>
+              </div>
+            ))}
           </div>
         }
       </div>
