@@ -13,6 +13,7 @@ export interface UserTemplateType {
   updated_at: string | null;
   deleted_at: string | null;
   template: TemplateType;
+  variables: string;
 }
 
 export interface TemplateType {
@@ -31,4 +32,9 @@ export interface AddUserToTemplateType {
 export interface SaveUserToTemplateType {
   template_id: number | undefined;
   template_body: string;
+}
+
+export interface TemplateVariableType {
+  name: string;
+  value: string;
 }

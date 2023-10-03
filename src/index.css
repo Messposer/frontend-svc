@@ -213,10 +213,33 @@ a {
 }
 
 .save-builder-container {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   justify-content: end;
   background: #7200ff;
   position: sticky;
-  margin-bottom: 20px;
+}
+
+.builder-input-small {
+  width: 60px;
+  border-radius: 10px;
+  border: 1px solid #bdbcbc;
+  padding: 5px 10px;
+}
+
+.builder-label-small {
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.builder-group{
+  padding: 10px 0px;
+  font-size: 14px;
+  border-top: 1px solid #c6c1c1;
+}
+
+.builder-group-title {
+  font-size: 13px;
+  font-weight: 500;
 }

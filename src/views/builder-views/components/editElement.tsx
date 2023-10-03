@@ -35,8 +35,6 @@ const EditElement = ({ clickedElement }: EditElementProps) => {
 
       try {
         const cloudinaryUrl = await withUploadImageLoading(ImageUploadService.uploadImage(formData));
-        console.log(cloudinaryUrl);
-
         setNewSrc(cloudinaryUrl);
 
         if (clickedElement && clickedElement instanceof HTMLImageElement) {

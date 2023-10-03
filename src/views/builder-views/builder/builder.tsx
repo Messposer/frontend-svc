@@ -12,7 +12,9 @@ import StyleEditor from "../components/styleEditor";
 import ElementButtons from "../components/addElement";
 import EditElement from "../components/editElement";
 import SaveBuilder from "../components/saveBuilder";
-
+import PerfectScrollbar from "react-perfect-scrollbar";
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import ShowVariable from "../components/variables";
 interface TemplateProps {
   title: string;
 }
@@ -24,10 +26,13 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedElement, setSelectedElement] = useState<HTMLElement | null>(null);
   const [editedStyles, setEditedStyles] = useState<{ [key: string]: string }>({});
-
+  const [showVariables, setShowVariables] = useState<boolean>(false);
   const { id } = useParams();
+
   useDocumentTitle(title);
   const contentEditableRef = useRef<HTMLDivElement>(null);
+
+  const toggleShowVariable = () => setShowVariables(!showVariables);
 
   const getAUserTemplate = async () => {
     try {
@@ -65,6 +70,9 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
     styles: React.CSSProperties[],
     existingElementString: string
   ) => {
+    if(showVariables){
+      toggleShowVariable();
+    }
     if (!userTemplate || !userTemplate.template_body || !contentEditableRef.current) return;
   
     const parser = new DOMParser();
@@ -107,6 +115,9 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
   };
 
   const handleElementClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if(showVariables){
+      toggleShowVariable();
+    }
     const clickedElement = e.target as HTMLElement;
 
     if (selectedElement) {
@@ -120,12 +131,19 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
   }
 
   const deSelectElement = () => {
+    if(showVariables){
+      toggleShowVariable();
+    }
     if (selectedElement) {
       selectedElement.style.border = ''; 
+      setSelectedElement(null);
     }
   }
 
   const handleDeleteElement = () => {
+    if(showVariables){
+      toggleShowVariable();
+    }
     if (selectedElement && selectedElement.parentElement) {
       if (selectedElement) {
         applyEditedStyles(selectedElement, editedStyles);
@@ -157,30 +175,54 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
         saveTemplateLoading={saveTemplateLoading}
         saveUserTemplate={saveUserTemplate}
       />
-      <div className="mx-2 row">
+      <div className="m-0 row bg-white">
         <div className="col-md-1">
-          <ElementButtons 
-            handleAddElement={handleAddElement} 
-            handleDeleteElement={handleDeleteElement} 
-            deSelectElement={deSelectElement}
-          />
+          <PerfectScrollbar style={{height: '91vh'}}>
+            <ElementButtons
+              toggleShowVariable={toggleShowVariable} 
+              handleAddElement={handleAddElement} 
+              handleDeleteElement={handleDeleteElement} 
+              deSelectElement={deSelectElement}
+            />
+          </PerfectScrollbar>
         </div>
-        <div className="col-md-8">
-          {userTemplate && (
-            <div 
-              className="template-builder-editor-wrapper" 
-              contentEditable 
-              ref={contentEditableRef}
-              onClick={handleElementClick}
-              onKeyPress={(e) => disableKeyBoardEvents(e, "Enter")}
-            >
-              <RawHTMLComponent htmlContent={userTemplate?.template_body || ''} />
-            </div>
-          )}
+        <div className="col-md-8 p-0">
+          <PerfectScrollbar style={{height: '91vh'}}>
+            {userTemplate && (
+              <div 
+                className="template-builder-editor-wrapper" 
+                contentEditable 
+                ref={contentEditableRef}
+                onClick={handleElementClick}
+                onKeyPress={(e) => disableKeyBoardEvents(e, "Enter")}
+              >
+                <RawHTMLComponent htmlContent={userTemplate?.template_body || ''} />
+              </div>
+            )}
+          </PerfectScrollbar>
         </div>
         <div className="col-md-3">
-          <EditElement clickedElement={selectedElement} />
-          <StyleEditor editedStyles={editedStyles} handleStyleChange={handleStyleChange} />
+          <PerfectScrollbar style={{height: '91vh'}}>
+            {
+              showVariables &&
+              <ShowVariable 
+                toggleShowVariable={toggleShowVariable}
+                userTemplate={userTemplate}
+              />
+            }
+            {
+              !showVariables && 
+              <>
+                <EditElement 
+                  clickedElement={selectedElement} 
+                />
+                <StyleEditor 
+                  editedStyles={editedStyles} 
+                  handleStyleChange={handleStyleChange} 
+                />
+              </>
+            }
+          </PerfectScrollbar>
         </div>
       </div>
     </div>

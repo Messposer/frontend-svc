@@ -106,10 +106,6 @@ const ViewScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId, o
               </div>
             </>
           }
-
-          {
-
-          }
         </div>
         <div className="mt-5 col-md-4">
           <div className="p-3 mt-3 card">

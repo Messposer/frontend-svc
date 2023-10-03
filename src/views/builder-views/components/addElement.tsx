@@ -5,6 +5,7 @@ interface ElementButtonsProps {
   handleAddElement: (styles: React.CSSProperties[], existingElementString: string) => void;
   handleDeleteElement: () => void;
   deSelectElement: () => void;
+  toggleShowVariable: () => void;
 }
 
 const defaultImageStyles = {
@@ -33,7 +34,7 @@ const buttonStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  width: '120px',
+  width: '100px',
   marginBottom: '10px', 
   padding: '10px 0px',
   height: '50px'
@@ -41,7 +42,12 @@ const buttonStyle: React.CSSProperties = {
 
 const size = "large";
 
-const ElementButtons: React.FC<ElementButtonsProps> = ({ deSelectElement, handleAddElement, handleDeleteElement }) => {
+const ElementButtons: React.FC<ElementButtonsProps> = ({ 
+  toggleShowVariable, 
+  deSelectElement, 
+  handleAddElement, 
+  handleDeleteElement 
+}) => {
   return (
     <>
       <Button 
@@ -75,6 +81,14 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({ deSelectElement, handle
         onClick={() => deSelectElement()}
       >
         Deselect
+      </Button>
+      <Button 
+        type="primary" 
+        size={size} 
+        style={buttonStyle}
+        onClick={() => toggleShowVariable()}
+      >
+        Variables
       </Button>
       <Button 
         type="primary"
