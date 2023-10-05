@@ -65,6 +65,7 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

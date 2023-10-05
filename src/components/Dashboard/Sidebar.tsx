@@ -15,7 +15,8 @@ import {
   CONTACT_PREFIX_PATH,
   CONTACT_GROUP_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH,
-  TEMPLATE_PREFIX_PATH
+  TEMPLATE_PREFIX_PATH,
+  MEDIA_PREFIX_PATH
 } from "configs/AppConfig";
 
 const { Sider } = Layout;
@@ -58,6 +59,14 @@ const Sidebar = () => {
                   <div className='d-flex align-items-center'>
                     <CalendarOutlined className='left-sider-nav-icon'/> 
                     <span className='ms-2'>Template</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={`${location?.pathname === MEDIA_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${MEDIA_PREFIX_PATH}`}>
+                  <div className='d-flex align-items-center'>
+                    <CalendarOutlined className='left-sider-nav-icon'/> 
+                    <span className='ms-2'>Media</span>
                   </div>
                 </Link>
               </li>

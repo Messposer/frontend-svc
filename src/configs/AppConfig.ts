@@ -12,6 +12,7 @@ export const CONTACT_GROUP_PREFIX_PATH = "/broadcast-list";
 export const SCHEDULE_PREFIX_PATH = "/schedule-jobs";
 export const TEMPLATE_PREFIX_PATH = "/template";
 export const TEMPLATE_BUILDER_PREFIX_PATH = "/template-builder";
+export const MEDIA_PREFIX_PATH = "/media";
 
 export const ROLES = {
   USER: 'USER',

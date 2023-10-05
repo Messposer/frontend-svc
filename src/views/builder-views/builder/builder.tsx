@@ -10,7 +10,7 @@ import { disableKeyBoardEvents, getFilteredCSSProperties, parseHtmlString } from
 import { propertyListToShow } from "utils/template/styleSelected";
 import StyleEditor from "../components/styleEditor";
 import ElementButtons from "../components/addElement";
-import EditElement from "../components/editElement";
+import ImageSettings from "../components/image-settings";
 import SaveBuilder from "../components/saveBuilder";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -67,46 +67,51 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
   }
 
   const handleAddElement = (
-    styles: React.CSSProperties[],
-    existingElementString: string
-  ) => {
-    if(showVariables){
-      toggleShowVariable();
-    }
-    if (!userTemplate || !userTemplate.template_body || !contentEditableRef.current) return;
-  
-    const parser = new DOMParser();
-    const existingElement = parseHtmlString(existingElementString);
-    if (!existingElement) return;
+  styles: React.CSSProperties[],
+  existingElementString: string
+) => {
+  if(showVariables){
+    toggleShowVariable();
+  }
+  if (!userTemplate || !userTemplate.template_body || !contentEditableRef.current) return;
 
-    const doc = parser.parseFromString(userTemplate.template_body, "text/html");
-  
-    const newElement = existingElement.cloneNode(true) as HTMLElement;
-  
-    styles.forEach(style => {
-      for (const [property, value] of Object.entries(style)) {
-        newElement.style[property as any] = value;
-      }
-    });
-  
+  const parser = new DOMParser();
+  const existingElement = parseHtmlString(existingElementString);
+  if (!existingElement) return;
+
+  const doc = parser.parseFromString(userTemplate.template_body, "text/html");
+
+  const newElement = existingElement.cloneNode(true) as HTMLElement;
+
+  styles.forEach(style => {
+    for (const [property, value] of Object.entries(style)) {
+      newElement.style[property as any] = value;
+    }
+  });
+
+  const wrapper = contentEditableRef.current;
+
+  if (!wrapper.innerHTML.trim()) {
+    // If .template-builder-editor-wrapper is empty, append the new element inside it
+    wrapper.appendChild(newElement);
+  } else {
     const selection = window.getSelection();
     const range = selection?.getRangeAt(0);
-  
-    const wrapper = contentEditableRef.current;
-  
+
     if (range && wrapper.contains(range.commonAncestorContainer)) {
       const parentElement = range.commonAncestorContainer.parentElement;
       if (parentElement) {
         parentElement.insertAdjacentElement("afterend", newElement);
       }
     }
-  
-    const updatedHTML = new XMLSerializer().serializeToString(doc);
-    setUserTemplate((prevUserTemplate: any) => ({
-      ...prevUserTemplate,
-      template_body: updatedHTML
-    }));
-  };  
+  }
+
+  const updatedHTML = new XMLSerializer().serializeToString(doc);
+  setUserTemplate((prevUserTemplate: any) => ({
+    ...prevUserTemplate,
+    template_body: updatedHTML
+  }));
+};  
 
   const applyEditedStyles = (element: HTMLElement, editedStyles: { [key: string]: string }) => {
     for (const [property, value] of Object.entries(editedStyles)) {
@@ -145,6 +150,9 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
       toggleShowVariable();
     }
     if (selectedElement && selectedElement.parentElement) {
+      if (selectedElement.classList.contains("template-builder-editor-wrapper")) {
+        return; // Do nothing if it's the wrapper element
+      }  
       if (selectedElement) {
         applyEditedStyles(selectedElement, editedStyles);
         setSelectedElement(null);
@@ -213,7 +221,7 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
             {
               !showVariables && 
               <>
-                <EditElement 
+                <ImageSettings 
                   clickedElement={selectedElement} 
                 />
                 <StyleEditor 

@@ -8,32 +8,6 @@ const ComponentSettings: React.FC<ComponentSettingsProps> = ({ editedStyles, han
     <div className="component-container">
       <h4 className="builder-group-title text-primary">Component Settings</h4>
       <div className="builder-group">
-        <h5 className="builder-group-title">Background</h5>
-        <div>
-          <span>Color:</span>
-          {editedStyles['background-color'] && (
-            <input
-              type="color"
-              value={editedStyles['background-color']}
-              title="input-color"
-              onChange={(e) => handleStyleChange('background-color', e.target.value)}
-            />
-          )}
-        </div>
-        <div>
-          <span>Image:</span>
-          <select
-            value={editedStyles['background-image']}
-            title="select-background-image"
-            onChange={(e) => handleStyleChange('background-image', e.target.value)}
-          >
-            <option value="image1">Image 1</option>
-            <option value="image2">Image 2</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="builder-group">
         <h5 className="builder-group-title">Padding</h5>
         <div className="mb-3">
           {editedStyles['padding'] && (

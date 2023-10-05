@@ -14,12 +14,8 @@ const defaultImageStyles = {
 };
 
 const defaultButtonStyles = {
-  fontSize: "16px",
-  padding: "20px 30px",
-  backgroundColor: "rgb(14, 67, 245)",
-  fontWeight: "bold",
-  color: "#fff",
-  border: "none"
+  display: "flex",
+  justifyContent: "center",
 };
 
 const defaultTextStyles = {
@@ -62,7 +58,7 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
         type="primary" 
         size={size} 
         style={buttonStyle}
-        onClick={() => handleAddElement([defaultButtonStyles], "<button>Button</button>")}
+        onClick={() => handleAddElement([defaultButtonStyles], "<div className='button-wrapper'><button>Button</button></div>")}
       >
         <FolderAddOutlined style={{ fontSize: '24px' }} />
       </Button>

@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import { ERROR_MESSAGES, VIEW_TEMPLATE_TYPE } from "configs/AppConfig";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
@@ -6,7 +5,6 @@ import { useEffect, useState } from "react";
 import TemplateService from "services/TemplateService";
 import { TemplateType, UserTemplateType } from "services/types/TemplateServiceType";
 import TemplateCard from "./templateCard";
-import RawHTMLComponent from "components/RawHtml";
 
 interface TemplateProps {
   title: string;

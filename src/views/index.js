@@ -8,6 +8,7 @@ import {
   CONTACT_GROUP_PREFIX_PATH,
   CONTACT_PREFIX_PATH,
   DASHBOARD_PREFIX_PATH,
+  MEDIA_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH,
   TEMPLATE_BUILDER_PREFIX_PATH,
   TEMPLATE_PREFIX_PATH
@@ -20,6 +21,7 @@ import BroadCastLayout from "layouts/broadcast-layout";
 import ScheduleLayout from "layouts/schedule-layout";
 import TemplateLayout from "layouts/template-layout";
 import TemplateBuilderLayout from "layouts/builder-layout";
+import MediaLayout from "layouts/media-layout";
 
 export const Views = (props) => {
   const { token } = props;
@@ -80,6 +82,12 @@ export const Views = (props) => {
           path={`${TEMPLATE_BUILDER_PREFIX_PATH}/*`}
           element={
             <TemplateBuilderLayout />
+          }
+        />
+        <Route
+          path={`${MEDIA_PREFIX_PATH}/*`}
+          element={
+            <MediaLayout />
           }
         />
       </Route>

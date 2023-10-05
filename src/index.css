@@ -222,9 +222,10 @@ a {
 
 .builder-input-small {
   width: 60px;
-  border-radius: 10px;
-  border: 1px solid #bdbcbc;
+  border-radius: 5px;
+  border: 1px solid #494949;
   padding: 5px 10px;
+  font-weight: 500;
 }
 
 .builder-label-small {
@@ -243,3 +244,31 @@ a {
   font-size: 13px;
   font-weight: 500;
 }
+
+.builder-property-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0px;
+  align-items: center;
+}
+
+.builder-select-small {
+  padding: 5px 6px;
+  border-radius: 5px;
+  font-weight: 500;
+  border: 1px solid #494949;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* .button {
+  font-size: 16px;
+  padding: 20px 30px;
+  background-color: rgb(14, 67, 245);
+  font-weight: bold;
+  color: #fff;
+  border: none;
+} */
