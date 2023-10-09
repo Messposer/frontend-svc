@@ -37,6 +37,8 @@ export interface User {
   updated_at: string;
   deleted_at: string | null;
   lastLoginAt: string;
+  subscription_expire: string | null;
+  credit: number;
 }
 
 export interface AuthData {

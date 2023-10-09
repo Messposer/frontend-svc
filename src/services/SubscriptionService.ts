@@ -16,6 +16,14 @@ SubscriptionService.addUserToSubscription = async (data: AddUserSubscriptionType
 
 SubscriptionService.getUserSubscription = async ():Promise<AxiosResponse> => {
   const response = await fetch({
+    url: `${_url}/user/subscription`,
+    method: "get",
+  });
+  return response;
+};
+
+SubscriptionService.getAllSubscription = async ():Promise<AxiosResponse> => {
+  const response = await fetch({
     url: _url,
     method: "get",
   });

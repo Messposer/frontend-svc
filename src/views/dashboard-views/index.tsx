@@ -6,10 +6,7 @@ const Dashboard = lazy(() => import(`./dashboard`));
 
 export const DashboardViews = () => {
   return (
-    <div className="bg-background">
-      <div className="alert alert-warning" role="alert">
-        A simple warning alert—check it out!
-      </div>
+    <div className="bg-background pt-4">
       <Suspense fallback={<Loading cover="page"/>}>
         <Routes>
           <Route path="/" element={<Dashboard title="Dashboard"/>} />

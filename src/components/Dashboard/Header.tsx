@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Dropdown, Menu, MenuProps } from "antd";
+import { Dropdown, MenuProps } from "antd";
 import UserAvatar from 'components/AvatarStatus';
 import { User } from 'redux/types/Auth';
 import { signOut } from "redux/actions";

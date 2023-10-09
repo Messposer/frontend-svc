@@ -51,7 +51,7 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
     const body = document.querySelector(".template-builder-editor-wrapper");
     if (body) {
       const saveUserTemplatePayload: SaveUserToTemplateType = {
-        template_body: body.outerHTML,
+        template_body: body.innerHTML,
         template_id: userTemplate?.id
       };
       try {
@@ -67,51 +67,63 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
   }
 
   const handleAddElement = (
-  styles: React.CSSProperties[],
-  existingElementString: string
-) => {
-  if(showVariables){
-    toggleShowVariable();
-  }
-  if (!userTemplate || !userTemplate.template_body || !contentEditableRef.current) return;
-
-  const parser = new DOMParser();
-  const existingElement = parseHtmlString(existingElementString);
-  if (!existingElement) return;
-
-  const doc = parser.parseFromString(userTemplate.template_body, "text/html");
-
-  const newElement = existingElement.cloneNode(true) as HTMLElement;
-
-  styles.forEach(style => {
-    for (const [property, value] of Object.entries(style)) {
-      newElement.style[property as any] = value;
+    styles: React.CSSProperties[],
+    existingElementString: string
+  ) => {
+    if (showVariables) {
+      toggleShowVariable();
     }
-  });
-
-  const wrapper = contentEditableRef.current;
-
-  if (!wrapper.innerHTML.trim()) {
-    // If .template-builder-editor-wrapper is empty, append the new element inside it
-    wrapper.appendChild(newElement);
-  } else {
-    const selection = window.getSelection();
-    const range = selection?.getRangeAt(0);
-
-    if (range && wrapper.contains(range.commonAncestorContainer)) {
-      const parentElement = range.commonAncestorContainer.parentElement;
-      if (parentElement) {
-        parentElement.insertAdjacentElement("afterend", newElement);
+    if (
+      !userTemplate ||
+      !userTemplate.template_body ||
+      !contentEditableRef.current
+    )
+      return;
+  
+    const parser = new DOMParser();
+    const existingElement = parseHtmlString(existingElementString);
+    if (!existingElement) return;
+  
+    const doc = parser.parseFromString(
+      userTemplate.template_body,
+      "text/html"
+    );
+  
+    const newElement = existingElement.cloneNode(true) as HTMLElement;
+  
+    styles.forEach((style) => {
+      for (const [property, value] of Object.entries(style)) {
+        newElement.style[property as any] = value;
+      }
+    });
+  
+    const wrapper = contentEditableRef.current;
+  
+    if (!wrapper.innerHTML.trim()) {
+      // If .template-builder-editor-wrapper is empty, append the new element inside it
+      wrapper.appendChild(newElement);
+    } else {
+      const selection = window.getSelection();
+      const range = selection?.getRangeAt(0);
+  
+      if (
+        range &&
+        wrapper.contains(range.commonAncestorContainer) &&
+        (range.commonAncestorContainer as HTMLElement).classList.contains(
+          "template-builder-editor-wrapper"
+        )
+      ) {
+        // Only insert the new element if the commonAncestorContainer is the .template-builder-editor-wrapper
+        (range.commonAncestorContainer as HTMLElement).appendChild(newElement);
       }
     }
-  }
-
-  const updatedHTML = new XMLSerializer().serializeToString(doc);
-  setUserTemplate((prevUserTemplate: any) => ({
-    ...prevUserTemplate,
-    template_body: updatedHTML
-  }));
-};  
+  
+    const updatedHTML = new XMLSerializer().serializeToString(doc);
+    setUserTemplate((prevUserTemplate: any) => ({
+      ...prevUserTemplate,
+      template_body: updatedHTML,
+    }));
+  };    
 
   const applyEditedStyles = (element: HTMLElement, editedStyles: { [key: string]: string }) => {
     for (const [property, value] of Object.entries(editedStyles)) {
@@ -183,7 +195,7 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
         saveTemplateLoading={saveTemplateLoading}
         saveUserTemplate={saveUserTemplate}
       />
-      <div className="m-0 row bg-white">
+      <div className="m-0 row mt-3">
         <div className="col-md-1">
           <PerfectScrollbar style={{height: '91vh'}}>
             <ElementButtons
@@ -202,10 +214,9 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
                 contentEditable 
                 ref={contentEditableRef}
                 onClick={handleElementClick}
+                dangerouslySetInnerHTML={{ __html: userTemplate?.template_body||"" }}
                 onKeyPress={(e) => disableKeyBoardEvents(e, "Enter")}
-              >
-                <RawHTMLComponent htmlContent={userTemplate?.template_body || ''} />
-              </div>
+              />
             )}
           </PerfectScrollbar>
         </div>

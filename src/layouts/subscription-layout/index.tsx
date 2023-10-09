@@ -1,16 +1,15 @@
 import React from 'react';
 import { Routes, Route, } from "react-router-dom";
-import DashboardViews from 'views/dashboard-views';
 import { Layout } from 'antd';
 import Sidebar from 'components/Dashboard/Sidebar';
 import HeaderNav from 'components/Dashboard/Header';
-import UserSubscription from 'components/Dashboard/UserSubscription';
+import UserSubscriptionViews from 'views/subscription-views';
 const { Content } = Layout;
 
-export const BoardingLayout: React.FC = () => {
+export const SubscriptionLayout: React.FC = () => {
 
 	return (
-		<div className="dashboard-container">
+		<div className="subscription-container">
 			<Layout>
 				<Sidebar />
 				<Layout className="site-layout">
@@ -20,9 +19,8 @@ export const BoardingLayout: React.FC = () => {
 						}}
 					>
 						<HeaderNav />
-						<UserSubscription alt={false} />
 						<Routes>
-							<Route path="/*" element={<DashboardViews/>} />
+							<Route path="/*" element={<UserSubscriptionViews/>} />
 						</Routes>
 					</Content>
 				</Layout>
@@ -32,4 +30,4 @@ export const BoardingLayout: React.FC = () => {
 }
 
 
-export default BoardingLayout
+export default SubscriptionLayout

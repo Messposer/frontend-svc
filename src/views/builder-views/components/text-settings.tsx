@@ -26,10 +26,10 @@ const TextSettings: React.FC<TextSettingsProps> = ({ editedStyles, handleStyleCh
           <h5 className="builder-group-title">Text Color:</h5>
           <input
             type="color"
-            value={editedStyles['background-color']}
+            value={editedStyles['color']}
             title="input-color"
             className="builder-input-small"
-            onChange={(e) => handleStyleChange('background-color', e.target.value)}
+            onChange={(e) => handleStyleChange('color', e.target.value)}
           />
         </div>
 

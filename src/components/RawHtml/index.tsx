@@ -1,11 +1,13 @@
 import DOMPurify from 'dompurify';
-
 interface RawHTMLComponentProps {
-  htmlContent: string;
+  htmlContent: string | null;
 }
 
 const RawHTMLComponent: React.FC<RawHTMLComponentProps> = ({ htmlContent }) => {
-  const sanitizedHTML = DOMPurify.sanitize(htmlContent) || '';
+  if (!htmlContent) return null;
+
+  const sanitizedHTML = DOMPurify.sanitize(htmlContent, { USE_PROFILES: { html: true } });
+
   return <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />;
 };
 

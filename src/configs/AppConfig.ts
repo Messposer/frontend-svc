@@ -13,6 +13,7 @@ export const SCHEDULE_PREFIX_PATH = "/schedule-jobs";
 export const TEMPLATE_PREFIX_PATH = "/template";
 export const TEMPLATE_BUILDER_PREFIX_PATH = "/template-builder";
 export const MEDIA_PREFIX_PATH = "/media";
+export const SUBSCRIPTION_PREFIX_PATH = "/subscription";
 
 export const ROLES = {
   USER: 'USER',
@@ -22,6 +23,11 @@ export const ROLES = {
 export const VIEW_TEMPLATE_TYPE = {
   USER: 'USER',
   SYSTEM: 'SYSTEM',
+};
+
+export const SUBSCRIPTION_TYPE = {
+  FREE: 'free',
+  PAID: 'paid',
 };
 
 export const ERROR_MESSAGES = {

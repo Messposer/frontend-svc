@@ -10,6 +10,7 @@ import {
   DASHBOARD_PREFIX_PATH,
   MEDIA_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH,
+  SUBSCRIPTION_PREFIX_PATH,
   TEMPLATE_BUILDER_PREFIX_PATH,
   TEMPLATE_PREFIX_PATH
 } from "configs/AppConfig";
@@ -22,77 +23,86 @@ import ScheduleLayout from "layouts/schedule-layout";
 import TemplateLayout from "layouts/template-layout";
 import TemplateBuilderLayout from "layouts/builder-layout";
 import MediaLayout from "layouts/media-layout";
+import SubscriptionLayout from "layouts/subscription-layout";
 
 export const Views = (props) => {
   const { token } = props;
   return (
-    <Routes>
-      <Route
-        element={
-          <GuestMiddleWare isAuthenticated={token} />
-        }
-      >
+    <>
+      <Routes>
         <Route
-          path="/*"
-          element={<AuthLayout />}
-        />
-      </Route>
-      <Route
-        element={
-          <AuthMiddleWare isAuthenticated={token} />
-        }
-      >
-        <Route
-          path={`${DASHBOARD_PREFIX_PATH}/*`}
           element={
-            <DashboardLayout />
+            <GuestMiddleWare isAuthenticated={token} />
           }
-        />
+        >
+          <Route
+            path="/*"
+            element={<AuthLayout />}
+          />
+        </Route>
         <Route
-          path={`${CHAT_PREFIX_PATH}/*`}
           element={
-            <ChatLayout />
+            <AuthMiddleWare isAuthenticated={token} />
           }
-        />
-        <Route
-          path={`${CONTACT_PREFIX_PATH}/*`}
-          element={
-            <ContactLayout />
-          }
-        />
-        <Route
-          path={`${CONTACT_GROUP_PREFIX_PATH}/*`}
-          element={
-            <BroadCastLayout />
-          }
-        />
-        <Route
-          path={`${SCHEDULE_PREFIX_PATH}/*`}
-          element={
-            <ScheduleLayout />
-          }
-        />
-        <Route
-          path={`${TEMPLATE_PREFIX_PATH}/*`}
-          element={
-            <TemplateLayout />
-          }
-        />
-        <Route
-          path={`${TEMPLATE_BUILDER_PREFIX_PATH}/*`}
-          element={
-            <TemplateBuilderLayout />
-          }
-        />
-        <Route
-          path={`${MEDIA_PREFIX_PATH}/*`}
-          element={
-            <MediaLayout />
-          }
-        />
-      </Route>
-      <Route path="*" element={<Error404 title="Page not found" />} />
-    </Routes>
+        >
+          <Route
+            path={`${DASHBOARD_PREFIX_PATH}/*`}
+            element={
+              <DashboardLayout />
+            }
+          />
+          <Route
+            path={`${CHAT_PREFIX_PATH}/*`}
+            element={
+              <ChatLayout />
+            }
+          />
+          <Route
+            path={`${CONTACT_PREFIX_PATH}/*`}
+            element={
+              <ContactLayout />
+            }
+          />
+          <Route
+            path={`${CONTACT_GROUP_PREFIX_PATH}/*`}
+            element={
+              <BroadCastLayout />
+            }
+          />
+          <Route
+            path={`${SCHEDULE_PREFIX_PATH}/*`}
+            element={
+              <ScheduleLayout />
+            }
+          />
+          <Route
+            path={`${TEMPLATE_PREFIX_PATH}/*`}
+            element={
+              <TemplateLayout />
+            }
+          />
+          <Route
+            path={`${TEMPLATE_BUILDER_PREFIX_PATH}/*`}
+            element={
+              <TemplateBuilderLayout />
+            }
+          />
+          <Route
+            path={`${MEDIA_PREFIX_PATH}/*`}
+            element={
+              <MediaLayout />
+            }
+          />
+          <Route
+            path={`${SUBSCRIPTION_PREFIX_PATH}/*`}
+            element={
+              <SubscriptionLayout />
+            }
+          />
+        </Route>
+        <Route path="*" element={<Error404 title="Page not found" />} />
+      </Routes>
+    </>
   );
 };
 
