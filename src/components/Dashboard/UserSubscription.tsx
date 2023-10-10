@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { ERROR_MESSAGES } from "configs/AppConfig";
+import { ERROR_MESSAGES, SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import { RootState } from "redux/types/Root";
@@ -7,6 +7,7 @@ import SubscriptionService from "services/SubscriptionService";
 import { SubscriptionType } from "services/types/SubscriptionServiceType";
 import { connect } from "react-redux";
 import { User } from "redux/types";
+import { useNavigate } from "react-router-dom";
 
 interface UserSubscriptionType {
   alt: boolean;
@@ -16,6 +17,7 @@ const UserSubscription = ({ alt = false, authUser }: UserSubscriptionType) => {
   const [userSubscription, setUserSubscription] = useState<SubscriptionType>();
 	const [subscriptionLoading, withSubscriptionLoading] = useLoading();
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const getUserSubscription = async () => {
 		try {
@@ -56,6 +58,7 @@ const UserSubscription = ({ alt = false, authUser }: UserSubscriptionType) => {
         <Button 
           type='primary' 
           size="large"
+          onClick={() => navigate(SUBSCRIPTION_PREFIX_PATH)}
         >
           Upgrade to paid
         </Button>

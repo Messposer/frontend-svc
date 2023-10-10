@@ -10,6 +10,7 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import UploadCSVModal from './csvModal';
+import FilterInput from 'components/Input/filterInput';
 
 interface ContactProps {
 	title: string,
@@ -20,6 +21,13 @@ const Contact = ({title}: ContactProps) => {
 	const [contacts, setContacts] = useState<ContactType[]>([]);
 	const [messageApi, contextHolder] = message.useMessage();
 	const [showCsvModal, setShowCsvModal] = useState<boolean>(false);
+	const [filterValue, setFilterValue] = useState<string>('');
+
+	const filteredContacts = contacts.filter((contact: ContactType) =>
+    `${contact.first_name} ${contact.last_name} ${contact.email} ${contact.number}`
+      .toLowerCase()
+      .includes(filterValue.toLowerCase())
+  ); 
 
 	const deleteContact = async (id: number) => {
 		try {
@@ -87,9 +95,16 @@ const Contact = ({title}: ContactProps) => {
 	return (
 		<div className='p-5 chat-body-container'>
 			{contextHolder}
-			<Dropdown menu={{ items }} trigger={['click']} placement="bottomLeft" arrow>
-				<Button type="primary" style={{ marginBottom: 16 }}>Add Contact</Button>
-			</Dropdown>
+			<div className='d-flex justify-content-between align-items-center mb-3'>
+				<Dropdown menu={{ items }} trigger={['click']} placement="bottomLeft" arrow>
+					<Button type="primary">Add Contact</Button>
+				</Dropdown>
+				<FilterInput 
+					filterValue={filterValue} 
+					setFilterValue={setFilterValue} 
+					placeholder='Filter contacts'
+				/>
+			</div>
 			<Table
 				columns={columns}
 				rowSelection={{}}
@@ -111,7 +126,7 @@ const Contact = ({title}: ContactProps) => {
 						</div>
 					</p>,
 				}}
-				dataSource={contacts}
+				dataSource={filteredContacts}
 			/>
 			<UploadCSVModal showCsvModal={showCsvModal} getContacts={getContacts} toggleUploadCsvModal={toggleUploadCsvModal} />
 		</div>

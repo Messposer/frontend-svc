@@ -12,7 +12,8 @@ import {
   SCHEDULE_PREFIX_PATH,
   SUBSCRIPTION_PREFIX_PATH,
   TEMPLATE_BUILDER_PREFIX_PATH,
-  TEMPLATE_PREFIX_PATH
+  TEMPLATE_PREFIX_PATH,
+  TRANSACTIONS_PREFIX_PATH,
 } from "configs/AppConfig";
 import AuthLayout from "layouts/auth-layout";
 import DashboardLayout from "layouts/dashboard-layout";
@@ -24,6 +25,7 @@ import TemplateLayout from "layouts/template-layout";
 import TemplateBuilderLayout from "layouts/builder-layout";
 import MediaLayout from "layouts/media-layout";
 import SubscriptionLayout from "layouts/subscription-layout";
+import TransactionLayout from "layouts/transaction-layout";
 
 export const Views = (props) => {
   const { token } = props;
@@ -97,6 +99,12 @@ export const Views = (props) => {
             path={`${SUBSCRIPTION_PREFIX_PATH}/*`}
             element={
               <SubscriptionLayout />
+            }
+          />
+          <Route
+            path={`${TRANSACTIONS_PREFIX_PATH}/*`}
+            element={
+              <TransactionLayout />
             }
           />
         </Route>

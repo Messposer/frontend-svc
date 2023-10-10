@@ -4,6 +4,9 @@ import UserAvatar from 'components/AvatarStatus';
 import { User } from 'redux/types/Auth';
 import { signOut } from "redux/actions";
 import { RootState } from "redux/types/Root";
+import { SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
+import { useNavigate } from "react-router-dom";
+import { TRANSACTIONS_PREFIX_PATH } from "configs/AppConfig";
 
 interface HeaderProps {
   authUser: User | null;
@@ -11,6 +14,16 @@ interface HeaderProps {
 }
 
 const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
+  const navigate = useNavigate();
+
+  const handleSubscriptionClick = () => {
+    navigate(SUBSCRIPTION_PREFIX_PATH);
+  }
+
+  const handleTransactionsClick = () => {
+    navigate(TRANSACTIONS_PREFIX_PATH);
+  }
+  
   const items: MenuProps['items'] = [
     {
       label: (
@@ -35,8 +48,18 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
       key: '1'
     },
     {
-      label: <span className="ms-2">Sign Out</span>,
+      label: <span className="ms-2">Subscription</span>,
+      key: '2',
+      onClick: handleSubscriptionClick
+    },
+    {
+      label: <span className="ms-2">Transactions</span>,
       key: '3',
+      onClick: handleTransactionsClick
+    },
+    {
+      label: <span className="ms-2">Sign Out</span>,
+      key: '4',
       onClick: signOut
     }
   ];

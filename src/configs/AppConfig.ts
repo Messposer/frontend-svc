@@ -14,6 +14,7 @@ export const TEMPLATE_PREFIX_PATH = "/template";
 export const TEMPLATE_BUILDER_PREFIX_PATH = "/template-builder";
 export const MEDIA_PREFIX_PATH = "/media";
 export const SUBSCRIPTION_PREFIX_PATH = "/subscription";
+export const TRANSACTIONS_PREFIX_PATH = "/transactions";
 
 export const ROLES = {
   USER: 'USER',

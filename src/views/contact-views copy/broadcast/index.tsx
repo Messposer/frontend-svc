@@ -6,7 +6,9 @@ import { Button, Dropdown, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { BroadCastType } from 'redux/types';
 import { useNavigate } from 'react-router-dom';
-import { EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import FilterInput from 'components/Input/filterInput';
+
 interface BroadProps {
 	title: string,
 	onOpenModal: (id: string) => void;
@@ -17,8 +19,8 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 	const [loadingDelete, withDeleteLoading] = useLoading();
 	const [broadCast, setBroadCast] = useState<BroadCastType[]>([]);
 	const [messageApi, contextHolder] = message.useMessage();
-	const [broadCastSingle, setBroadCastSingle] = useState<any>();
 	const navigate = useNavigate();
+	const [filterValue, setFilterValue] = useState<string>('');
 
 	const deleteBroadCast = async (id: number) => {
 		try {
@@ -31,6 +33,12 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 		}
 	};
 
+	const filteredBroadCasts = broadCast.filter((broadCast: BroadCastType) =>
+    `${broadCast.name} ${broadCast.note}`
+      .toLowerCase()
+      .includes(filterValue.toLowerCase())
+  ); 
+
 	const columns: ColumnsType<BroadCastType> = [
 		{ title: 'Name', dataIndex: 'name', key: 'name' },
 		{ title: 'Note', dataIndex: 'note', key: 'note' },
@@ -41,7 +49,7 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 			width: 100,
 			render: (broadCast: BroadCastType) => 
 				<Button type="primary" onClick={() => 
-					[onOpenModal(String(broadCast?.id)), setBroadCastSingle(broadCast)]
+					[onOpenModal(String(broadCast?.id))]
 				}>Manage Contacts</Button>,
 		},
 		{
@@ -70,8 +78,6 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 	const handleMenuClick = (e: any, broadCast: BroadCastType) => {
     if (e.key === 'edit') {
 			navigate(`${broadCast?.id}`);
-    } else if (e.key === 'view') {
-      alert("view");
     } else if (e.key === 'delete') {
       deleteBroadCast(broadCast?.id);
     }
@@ -82,11 +88,6 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 			label: 'Edit',
 			key: 'edit',
 			icon: <EditOutlined />,
-		},
-		{
-			label: 'View',
-			key: 'view',
-			icon: <EyeOutlined />,
 		},
 		{
 			label: 'Delete',
@@ -114,13 +115,20 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 	return (
 		<div className='p-5 chat-body-container'>
 			{contextHolder}
-			<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Broadcast list</Button>
+			<div className='d-flex justify-content-between align-items-center mb-3'>
+				<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Broadcast list</Button>
+				<FilterInput 
+					filterValue={filterValue} 
+					setFilterValue={setFilterValue} 
+					placeholder='Filter broadcast list'
+				/>
+			</div>
 			<Table
 				columns={columns}
 				rowSelection={{}}
 				loading={loading}
 				rowKey={(broadcast) => broadcast.id}
-				dataSource={broadCast}
+				dataSource={filteredBroadCasts}
 			/>
 		</div>
 

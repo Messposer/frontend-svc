@@ -12,6 +12,8 @@ import { DAY_MONTH_YEAR } from 'configs/dateFormat';
 import ScheduleService from 'services/ScheduleService';
 import { ERROR_MESSAGES, TEMPLATE_PREFIX_PATH, VIEW_TEMPLATE_TYPE } from 'configs/AppConfig';
 import { HandleErrors } from "services/error/handleErrors";
+import FilterInput from 'components/Input/filterInput';
+
 interface ScheduleProps {
 	title: string,
 	onOpenModal: (id: string, type: string) => void,
@@ -25,6 +27,13 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 	const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
 	const [deleteLoading, setDeleteLoading] = useState<number | null>(null);
+	const [filterValue, setFilterValue] = useState<string>('');
+
+	const filteredSchedules = schedules.filter((schedule: ScheduledType) =>
+    `${schedule.name} ${schedule.status}`
+      .toLowerCase()
+      .includes(filterValue.toLowerCase())
+  ); 
 
 	const deleteSchedule = async (id: number) => {
 		try {
@@ -171,7 +180,14 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 	return (
 		<div className='p-5 schedule-body-container'>
 			{contextHolder}
-			<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Schedule</Button>
+			<div className='d-flex justify-content-between align-items-center mb-3'>
+				<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Schedule</Button>
+				<FilterInput 
+					filterValue={filterValue} 
+					setFilterValue={setFilterValue} 
+					placeholder='Filter schedule list'
+				/>
+			</div>
 			{errorMessage &&
 				<HandleErrors errors={errorMessage} />
 			}
@@ -179,7 +195,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 				columns={columns}
 				loading={loading}
 				rowKey={(schedule) => schedule.id}
-				dataSource={schedules}
+				dataSource={filteredSchedules}
 			/>
 		</div>
 

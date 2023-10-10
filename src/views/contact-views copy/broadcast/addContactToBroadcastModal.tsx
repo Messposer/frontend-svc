@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Table, Upload, message } from "antd";
-import { UploadOutlined } from '@ant-design/icons';
+import { Modal, Table } from "antd";
 import { useLoading } from "hooks/useLoading";
 import ContactService from "services/ContactService";
 import Loading from "components/Loading";
-import { CONTACT_GROUP_PREFIX_PATH, ERROR_MESSAGES } from "configs/AppConfig";
+import { ERROR_MESSAGES } from "configs/AppConfig";
 import { HandleErrors } from "services/error/handleErrors";
 import { BroadCastType, ContactType } from "redux/types";
 import { ColumnsType } from "antd/es/table";
 import UserService from "services/UserService";
 import { CreateUserContactType } from "services/types/ContactServiceType";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
+import FilterInput from 'components/Input/filterInput';
 
 interface AddContactToBroadcastModalProps {
   title: string;
@@ -31,6 +31,7 @@ const AddContactToBroadcastModal = ({
   const [errorMessage, setErrorMessage] = useState(null);
 	const [contacts, setContacts] = useState<ContactType[]>([]);
   const [selectedRowIds, setSelectedRowIds] = useState<number[]>([]);
+	const [filterValue, setFilterValue] = useState<string>('');
 
   const columns: ColumnsType<ContactType> = [
 		Table.EXPAND_COLUMN,
@@ -39,6 +40,12 @@ const AddContactToBroadcastModal = ({
 		{ title: 'Email', dataIndex: 'email', key: 'email' },
 		{ title: 'Phone', dataIndex: 'number', key: 'number' },
 	];
+
+  const filteredContacts = contacts.filter((contact: ContactType) =>
+    `${contact.first_name} ${contact.last_name} ${contact.email} ${contact.number}`
+      .toLowerCase()
+      .includes(filterValue.toLowerCase())
+  ); 
 
   const getContacts = async () => {
 		try {
@@ -113,31 +120,40 @@ const AddContactToBroadcastModal = ({
     >
       {loading && <Loading />}
       {!loading && (
-        <Table
-          columns={columns}
-          rowSelection={{
-            onSelect: (row, selected) => {
-              if (selected) {
-                setSelectedRowIds(prevIds => [...prevIds, row.id]);
-              } else {
-                setSelectedRowIds(prevIds => prevIds.filter(id => id !== row.id));
-              }
-            },
-            onSelectAll: (selected, selectedRows) => {
-              if (selected) {
-                const selectedIds = selectedRows.map(row => row.id);
-                const uniqueIds = Array.from(new Set(selectedIds));
-                setSelectedRowIds(uniqueIds);
-              } else {
-                setSelectedRowIds([]);
-              }
-            },
-            selectedRowKeys: [...selectedRowIds]
-          }}
-          loading={loading}
-          rowKey={(contact) => contact.id}
-          dataSource={contacts}
-        />
+        <>
+          <div className='d-flex justify-content-end align-items-center mb-3'>
+            <FilterInput 
+              filterValue={filterValue} 
+              setFilterValue={setFilterValue} 
+              placeholder='Filter contacts'
+            />
+          </div>
+          <Table
+            columns={columns}
+            rowSelection={{
+              onSelect: (row, selected) => {
+                if (selected) {
+                  setSelectedRowIds(prevIds => [...prevIds, row.id]);
+                } else {
+                  setSelectedRowIds(prevIds => prevIds.filter(id => id !== row.id));
+                }
+              },
+              onSelectAll: (selected, selectedRows) => {
+                if (selected) {
+                  const selectedIds = selectedRows.map(row => row.id);
+                  const uniqueIds = Array.from(new Set(selectedIds));
+                  setSelectedRowIds(uniqueIds);
+                } else {
+                  setSelectedRowIds([]);
+                }
+              },
+              selectedRowKeys: [...selectedRowIds]
+            }}
+            loading={loading}
+            rowKey={(contact) => contact.id}
+            dataSource={filteredContacts}
+          />
+        </>
       )}
       {errorMessage &&
         <HandleErrors errors={errorMessage} />

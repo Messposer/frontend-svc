@@ -4,6 +4,7 @@ import { AddUserSubscriptionType, SubscriptionServiceType } from "./types/Subscr
 
 let SubscriptionService: SubscriptionServiceType = {};
 const _url = "subscription";
+const _url_payment = "payment";
 
 SubscriptionService.addUserToSubscription = async (data: AddUserSubscriptionType):Promise<AxiosResponse> => {
   const response = await fetch({
@@ -17,6 +18,22 @@ SubscriptionService.addUserToSubscription = async (data: AddUserSubscriptionType
 SubscriptionService.getUserSubscription = async ():Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/user/subscription`,
+    method: "get",
+  });
+  return response;
+};
+
+SubscriptionService.getUserPayments = async ():Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url_payment}/user/payments`,
+    method: "get",
+  });
+  return response;
+};
+
+SubscriptionService.getPaymentDetails = async (id: number):Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url_payment}/${id}`,
     method: "get",
   });
   return response;

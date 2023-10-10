@@ -38,7 +38,14 @@ const Media = ({title, onOpenModal}: MediaProps) => {
   return (
     <div className='p-3 media-container'>
       <h4>Media</h4>
-			<Button onClick={() => onOpenModal('MEDIA', 'add')} type="primary" className="my-2">Upload</Button>
+			<Button 
+        onClick={() => onOpenModal('MEDIA', 'add')} 
+        type="primary" 
+        className="my-2"
+        size="large"
+      >
+        Upload new media
+      </Button>
       <div className="p-3 mt-3 bg-white user-templates-container">
         <h6>My Media</h6> <hr />
         {
