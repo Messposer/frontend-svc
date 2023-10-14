@@ -66,6 +66,8 @@ const MediaCard = ({ onOpenModal, media }: MediaCardProps) => {
           isOpen={showModal}
           onClose={toggleShowModal}
           errorMessage={errorMessage}
+          continueText="Yes, delete"
+          errorMessageTitle="Error, deleting file"
         />
       }
     </div>

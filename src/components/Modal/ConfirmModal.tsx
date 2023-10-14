@@ -5,9 +5,11 @@ interface ConfirmModalProps {
   title: string;
   handleConfirm: () => void;
   onClose: () => void;
-  loading: boolean;
+  loading?: boolean;
+  continueText?: string;
   isOpen: boolean;
   errorMessage: any;
+  errorMessageTitle?: string;
 }
 
 const ConfirmModal = ({ 
@@ -16,7 +18,9 @@ const ConfirmModal = ({
   title,
   onClose,
   isOpen,
-  errorMessage 
+  errorMessage, 
+  continueText = "continue",
+  errorMessageTitle,
 }: ConfirmModalProps) => {
   return (
     <Modal
@@ -46,11 +50,15 @@ const ConfirmModal = ({
             loading={loading}
             onClick={handleConfirm}
           >
-            Continue
+            {continueText}
           </Button>
         </div>
         {errorMessage &&
-          <HandleErrors errors={errorMessage} />
+          <HandleErrors 
+            errors={errorMessage} 
+            isToast={true}
+            title={errorMessageTitle}
+          />
         }
       </div>
     </Modal>

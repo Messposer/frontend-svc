@@ -5,6 +5,8 @@ import {
   TeamOutlined,
   CalendarOutlined,
   ClusterOutlined,
+  FileTextOutlined,
+  FileImageOutlined,
 } from '@ant-design/icons';
 import { Layout } from 'antd';
 import Logo from './Logo';
@@ -57,7 +59,7 @@ const Sidebar = () => {
               <li className={`${location?.pathname === TEMPLATE_PREFIX_PATH ? "active" : ""}`}>
                 <Link to={`${TEMPLATE_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
-                    <CalendarOutlined className='left-sider-nav-icon'/> 
+                    <FileTextOutlined className='left-sider-nav-icon'/> 
                     <span className='ms-2'>Template</span>
                   </div>
                 </Link>
@@ -65,7 +67,7 @@ const Sidebar = () => {
               <li className={`${location?.pathname === MEDIA_PREFIX_PATH ? "active" : ""}`}>
                 <Link to={`${MEDIA_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
-                    <CalendarOutlined className='left-sider-nav-icon'/> 
+                    <FileImageOutlined className='left-sider-nav-icon'/> 
                     <span className='ms-2'>Media</span>
                   </div>
                 </Link>

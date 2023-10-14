@@ -1,27 +1,26 @@
 import { Button } from "antd";
 import UserSubscription from "components/Dashboard/UserSubscription";
-import { ERROR_MESSAGES, SUBSCRIPTION_TYPE } from "configs/AppConfig";
+import { ERROR_MESSAGES, PAYMENT_TYPE, SUBSCRIPTION_TYPE } from "configs/AppConfig";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import SubscriptionService from "services/SubscriptionService";
-import TemplateService from "services/TemplateService";
-import { SubscriptionType } from "services/types/SubscriptionServiceType";
-import { TemplateType, UserTemplateType } from "services/types/TemplateServiceType";
-
+import { HandleErrors } from "services/error/handleErrors";
+import { AddUserSubscriptionType, SubscriptionType } from "services/types/SubscriptionServiceType";
 interface TemplateProps {
   title: string;
 };
 const TemplateIndex = ({ title }: TemplateProps) => {
   const [userSubscription, setUserSubscription] = useState<SubscriptionType>();
   const [allSubscription, setAllSubscription] = useState<SubscriptionType[]>([]);
-  const [allTemplateLoading, withAllTemplateLoading] = useLoading();
-  const [allUserTemplateLoading, withUserAllTemplateLoading] = useLoading();
+  const [allSubscriptionLoading, withAllSubscriptionLoading] = useLoading();
+  const [allUserSubscriptionLoading, withUserAllSubscriptionLoading] = useLoading();
+  const [addSubscriptionLoading, withAddSubscriptionLoading] = useLoading();
   const [errorMessage, setErrorMessage] = useState(null);
 
   const getSubscription = async () => {
     try {
-			const subscription = await withUserAllTemplateLoading(SubscriptionService.getAllSubscription());
+			const subscription = await withAllSubscriptionLoading(SubscriptionService.getAllSubscription());
 			setAllSubscription(subscription);
 		} catch (error: any) {
 			setErrorMessage(
@@ -34,8 +33,25 @@ const TemplateIndex = ({ title }: TemplateProps) => {
 
   const getUserSubscription = async () => {
     try {
-			const subscription = await withAllTemplateLoading(SubscriptionService.getUserSubscription());
+			const subscription = await withUserAllSubscriptionLoading(SubscriptionService.getUserSubscription());
 			setUserSubscription(subscription);
+		} catch (error: any) {
+			setErrorMessage(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : ERROR_MESSAGES.NETWORK_CONNECTIVITY
+      );
+		}
+  }
+
+  const handleAddUserSubscription = async (planId: number) => {
+    try {
+      const addUserToPlanPayload: AddUserSubscriptionType = {
+        payment_type: PAYMENT_TYPE.SUBSCRIPTION,
+        planId
+      }
+			const subscription = await withAddSubscriptionLoading(SubscriptionService.addUserToSubscription(addUserToPlanPayload));
+      window.open(subscription.authorization_url, '_blank');
 		} catch (error: any) {
 			setErrorMessage(
         error?.response?.data?.message
@@ -65,7 +81,7 @@ const TemplateIndex = ({ title }: TemplateProps) => {
                 <div className="card h-100">
                   <div className="card-body">
                       <h5 className="card-title text-capitalize">{ subscription?.name} Plan</h5>
-                      <h6 className="card-subtitle mb-2 text-muted">{ subscription?.description }</h6>
+                      <h6 className="mb-2 card-subtitle text-muted">{ subscription?.description }</h6>
                       <p className="card-text">Some description of the premium plan goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                       <h2>${subscription?.price}/month</h2>
                       {
@@ -85,6 +101,8 @@ const TemplateIndex = ({ title }: TemplateProps) => {
                           type="primary"
                           block
                           size="large"
+                          loading={addSubscriptionLoading}
+                          onClick={() => handleAddUserSubscription(subscription?.id)}
                         >
                           Subscribe
                         </Button>
@@ -96,6 +114,13 @@ const TemplateIndex = ({ title }: TemplateProps) => {
           </div>
         }
       </div>
+      {errorMessage &&
+        <HandleErrors 
+          errors={errorMessage} 
+          isToast={true}
+          title="Payment Failed"
+        />
+      }
     </div>
   );
 }

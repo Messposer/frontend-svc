@@ -31,6 +31,23 @@ export const SUBSCRIPTION_TYPE = {
   PAID: 'paid',
 };
 
+export const PAYMENT_TYPE = {
+  SUBSCRIPTION: 'SUBSCRIPTION',
+  TOP_UP: 'TOP_UP',
+};
+
+export const PAYMENT_STATUS = {
+  SUCCESS: 'SUCCESS',
+  PENDING: 'PENDING',
+  FAILED: 'FAILED',
+  ABANDONED: 'ABANDONED',
+  CANCELLED: 'CANCELLED',
+  TIMEOUT: 'TIMEOUT',
+  REVERSED: 'REVERSED',
+  REFUNDED: 'REFUNDED',
+  UNKNOWN: 'UNKNOWN',
+};
+
 export const ERROR_MESSAGES = {
-  NETWORK_CONNECTIVITY: "No response from server",
+  NETWORK_CONNECTIVITY: "No response from server, check you connectivity",
 }

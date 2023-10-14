@@ -6,7 +6,13 @@ import { Button, Dropdown, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { BroadCastType } from 'redux/types';
 import { useNavigate } from 'react-router-dom';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { 
+	EditOutlined, 
+	DeleteOutlined, 
+	ClusterOutlined, 
+	TeamOutlined, 
+	SettingOutlined 
+} from '@ant-design/icons';
 import FilterInput from 'components/Input/filterInput';
 
 interface BroadProps {
@@ -48,9 +54,13 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 			fixed: 'right',
 			width: 100,
 			render: (broadCast: BroadCastType) => 
-				<Button type="primary" onClick={() => 
-					[onOpenModal(String(broadCast?.id))]
-				}>Manage Contacts</Button>,
+				<Button 
+					type="primary" 
+					onClick={() => onOpenModal(String(broadCast?.id))}
+					icon={<TeamOutlined />}
+				>
+					Manage Contacts
+				</Button>,
 		},
 		{
 			title: 'Action',
@@ -68,6 +78,7 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 						type="primary" 
 						danger={true}
 						loading={loadingDelete}
+						icon={<SettingOutlined />}
 					> 
 						Options
 					</Button>
@@ -116,7 +127,14 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 		<div className='p-5 chat-body-container'>
 			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
-				<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Broadcast list</Button>
+				<Button 
+					onClick={() => navigate('create')} 
+					type="primary"
+					size="large"
+					icon={<ClusterOutlined />}
+				>
+					Add Broadcast list
+				</Button>
 				<FilterInput 
 					filterValue={filterValue} 
 					setFilterValue={setFilterValue} 

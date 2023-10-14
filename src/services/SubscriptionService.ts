@@ -8,9 +8,17 @@ const _url_payment = "payment";
 
 SubscriptionService.addUserToSubscription = async (data: AddUserSubscriptionType):Promise<AxiosResponse> => {
   const response = await fetch({
-    url: _url,
+    url: _url_payment,
     method: "post",
     data,
+  });
+  return response;
+};
+
+SubscriptionService.getPaymentStatus = async (reference: string):Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url_payment}/verify/${reference}`,
+    method: "get",
   });
   return response;
 };

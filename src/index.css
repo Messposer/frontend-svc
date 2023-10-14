@@ -198,7 +198,7 @@ a {
   font-size: 13px;
 }
 
-:where(.css-dev-only-do-not-override-1i536d8).ant-btn-primary {
+.ant-btn-primary {
   background-color: var(--bg-secondary);
 }
 
@@ -279,4 +279,65 @@ a {
   box-shadow: 1px 2px 2px lightgrey;
   font-weight: 500;
   border-radius: 8px;
+}
+
+.ant-checkbox {
+  border: 1px solid #d7d6d6;
+  border-radius: 1px;
+  box-shadow: 1px 2px 2px lightgrey;
+}
+
+.custom-toast {
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.ant-message-notice-content {
+  padding: 0px !important;
+}
+
+.custom-toast ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.custom-toast-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0px;
+}
+
+.ant-message-custom-content{
+  display: flex;
+  align-items: center;
+  padding: 0px 20px;
+  border-radius: 10px;
+}
+
+.ant-message-custom-content.ant-message-error {
+  background: var(--bs-danger);
+  color: #fff;
+  border: 1px solid currentColor;
+}
+
+.ant-message-custom-content.ant-message-success {
+  background: var(--bs-success);
+  color: #fff;
+  border: 1px solid currentColor;
+}
+
+.ant-message-error .anticon {
+  color: #ffffff !important;
+}
+
+.ant-btn-primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li.ant-dropdown-menu-item {
+  margin-top: 10px !important;
 }

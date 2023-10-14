@@ -6,7 +6,13 @@ import { Button, Dropdown, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ScheduledType } from 'redux/types';
 import { useNavigate } from 'react-router-dom';
-import { EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { 
+	EditOutlined, 
+	EyeOutlined, 
+	DeleteOutlined, 
+	ScheduleOutlined,
+	SettingOutlined, 
+} from '@ant-design/icons';
 import moment from 'moment';
 import { DAY_MONTH_YEAR } from 'configs/dateFormat';
 import ScheduleService from 'services/ScheduleService';
@@ -100,6 +106,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 					<Button 
 						type="primary" 
 						danger={true}
+						icon={<SettingOutlined />}
 						loading={deleteLoading === schedule?.id}
 					> 
 						Options
@@ -181,7 +188,14 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 		<div className='p-5 schedule-body-container'>
 			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
-				<Button onClick={() => navigate('create')} type="primary" style={{ marginBottom: 16 }}>Add Schedule</Button>
+				<Button 
+					onClick={() => navigate('create')} 
+					type="primary" 
+					size="large"
+					icon={<ScheduleOutlined />}
+				>
+					Add Schedule
+				</Button>
 				<FilterInput 
 					filterValue={filterValue} 
 					setFilterValue={setFilterValue} 

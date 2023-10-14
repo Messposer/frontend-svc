@@ -30,7 +30,7 @@ UserService.getUserContacts = async ():Promise<AxiosResponse> => {
 };
 
 
-UserService.deleteUserContact = async ({ id }: GetUserSingleChatType):Promise<AxiosResponse> => {
+UserService.deleteUserContact = async (id: number):Promise<AxiosResponse> => {
   const response = await fetch({
     url: `${_url}/contacts/${id}`,
     method: "delete"

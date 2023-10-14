@@ -4,10 +4,12 @@ export interface SubscriptionServiceType {
   getAllSubscription?: any;
   getUserPayments?: any;
   getPaymentDetails?: any;
+  getPaymentStatus?: any;
 };
 
 export interface AddUserSubscriptionType {
-  subscriptionId: number;
+  planId: number;
+  payment_type: string;
 }
 
 export interface SubscriptionType {

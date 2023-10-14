@@ -7,7 +7,14 @@ import { RootState } from "redux/types/Root";
 import { SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
 import { useNavigate } from "react-router-dom";
 import { TRANSACTIONS_PREFIX_PATH } from "configs/AppConfig";
-
+import { useState } from "react";
+import ConfirmModal from "components/Modal/ConfirmModal";
+import { 
+	UserOutlined, 
+	CreditCardOutlined, 
+	DollarCircleOutlined, 
+	LogoutOutlined, 
+} from '@ant-design/icons';
 interface HeaderProps {
   authUser: User | null;
   signOut: () => void;
@@ -15,6 +22,7 @@ interface HeaderProps {
 
 const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleSubscriptionClick = () => {
     navigate(SUBSCRIPTION_PREFIX_PATH);
@@ -23,6 +31,10 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
   const handleTransactionsClick = () => {
     navigate(TRANSACTIONS_PREFIX_PATH);
   }
+
+  const toggleShowModal = () => {
+    setShowModal(!showModal);
+  };
   
   const items: MenuProps['items'] = [
     {
@@ -44,23 +56,39 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
       key: '0'
     },
     {
-      label: <span className="ms-2">My Profile</span>,
+      label: 
+        <div className="d-flex justify-content-start align-items-center">
+          <UserOutlined /> 
+          <span className="ms-2">My Profile</span>
+        </div>,
       key: '1'
     },
     {
-      label: <span className="ms-2">Subscription</span>,
+      label: 
+        <div className="d-flex justify-content-start align-items-center">
+          <CreditCardOutlined /> 
+          <span className="ms-2">Subscription</span>
+        </div>,
       key: '2',
       onClick: handleSubscriptionClick
     },
     {
-      label: <span className="ms-2">Transactions</span>,
+      label: 
+        <div className="d-flex justify-content-start align-items-center">
+          <DollarCircleOutlined /> 
+          <span className="ms-2">Transactions</span>
+        </div>,
       key: '3',
       onClick: handleTransactionsClick
     },
     {
-      label: <span className="ms-2">Sign Out</span>,
+      label: 
+        <div className="d-flex justify-content-start align-items-center">
+          <LogoutOutlined /> 
+          <span className="ms-2">Sign Out</span>
+        </div>,
       key: '4',
-      onClick: signOut
+      onClick: toggleShowModal
     }
   ];
       
@@ -88,7 +116,17 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
           </div>
         </div>
       </div>
-      
+      {
+        showModal &&
+        <ConfirmModal 
+          title="You will be logged out of the system, and will have to login next time"
+          handleConfirm={signOut}
+          isOpen={showModal}
+          onClose={toggleShowModal}
+          errorMessage={null}
+          continueText="Logout"
+        />
+      }
     </>
   );
 };

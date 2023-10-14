@@ -10,7 +10,7 @@ import { DASHBOARD_PREFIX_PATH } from "configs/AppConfig";
 import { RootState } from "redux/types/Root";
 import { RegisterType } from "services/types/AuthServiceType";
 import { HandleErrors } from "services/error/handleErrors";
-
+import { UserAddOutlined } from '@ant-design/icons';
 
 type FieldType = {
   email?: string;
@@ -110,7 +110,14 @@ const RegisterForm: React.FC = (props: any) => {
       }
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block loading={loading}>
+        <Button 
+          type="primary" 
+          htmlType="submit" 
+          block 
+          loading={loading}
+          size="large"
+          icon={<UserAddOutlined />} 
+        >
           Sign Up
         </Button>
       </Form.Item>

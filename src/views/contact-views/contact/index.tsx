@@ -8,9 +8,12 @@ import { ContactType } from 'redux/types';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   DeleteOutlined,
+	TeamOutlined,
 } from '@ant-design/icons';
 import UploadCSVModal from './csvModal';
 import FilterInput from 'components/Input/filterInput';
+import { ERROR_MESSAGES } from 'configs/AppConfig';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 
 interface ContactProps {
 	title: string,
@@ -22,6 +25,9 @@ const Contact = ({title}: ContactProps) => {
 	const [messageApi, contextHolder] = message.useMessage();
 	const [showCsvModal, setShowCsvModal] = useState<boolean>(false);
 	const [filterValue, setFilterValue] = useState<string>('');
+	const [deleteId, setDeleteId] = useState<number>();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
 	const filteredContacts = contacts.filter((contact: ContactType) =>
     `${contact.first_name} ${contact.last_name} ${contact.email} ${contact.number}`
@@ -29,14 +35,26 @@ const Contact = ({title}: ContactProps) => {
       .includes(filterValue.toLowerCase())
   ); 
 
-	const deleteContact = async (id: number) => {
-		try {
-			await withLoading(UserService.deleteUserContact({id}));
-			const newData = contacts.filter((contact: ContactType) => contact.id !== id);
-			setContacts(newData);
-			messageApi.info('Contact deleted successfully');
-		} catch (error) {
-			console.log(error);
+	const toggleShowModal = () => {
+    setShowModal(!showModal);
+    setErrorMessage(null);
+  };
+
+	const deleteContact = async () => {
+		if(deleteId){
+			try {
+				await withLoading(UserService.deleteUserContact(deleteId));
+				const newData = contacts.filter((contact: ContactType) => contact.id !== deleteId);
+				setContacts(newData);
+				toggleShowModal();
+				messageApi.info('Contact deleted successfully');
+			} catch (error: any) {
+				setErrorMessage(
+					error?.response?.data?.message
+						? error?.response?.data?.message
+						: ERROR_MESSAGES.NETWORK_CONNECTIVITY
+				);
+			}
 		}
 	};
 
@@ -50,7 +68,7 @@ const Contact = ({title}: ContactProps) => {
 			key: 'operation',
 			fixed: 'right',
 			width: 100,
-			render: (contact: ContactType) => <DeleteOutlined onClick={() => deleteContact(contact.id)}/>,
+			render: (contact: ContactType) => <DeleteOutlined onClick={() => [setDeleteId(contact.id), toggleShowModal()]}/>,
 		},
 	];
 
@@ -97,7 +115,13 @@ const Contact = ({title}: ContactProps) => {
 			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<Dropdown menu={{ items }} trigger={['click']} placement="bottomLeft" arrow>
-					<Button type="primary">Add Contact</Button>
+					<Button 
+						type="primary"
+						icon={<TeamOutlined />}
+						size="large"
+					>
+						Add Contact
+					</Button>
 				</Dropdown>
 				<FilterInput 
 					filterValue={filterValue} 
@@ -129,6 +153,19 @@ const Contact = ({title}: ContactProps) => {
 				dataSource={filteredContacts}
 			/>
 			<UploadCSVModal showCsvModal={showCsvModal} getContacts={getContacts} toggleUploadCsvModal={toggleUploadCsvModal} />
+			{
+        showModal &&
+        <ConfirmModal 
+          title="The selected contact will be deleted, which might after your existing templates"
+          loading={loading} 
+          handleConfirm={deleteContact}
+          isOpen={showModal}
+          onClose={toggleShowModal}
+          errorMessage={errorMessage}
+          continueText="Yes, delete"
+					errorMessageTitle="Error Deleting"
+        />
+      }
 		</div>
 
 	)

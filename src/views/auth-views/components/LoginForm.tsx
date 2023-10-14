@@ -11,6 +11,7 @@ import { AUTH_ACTION_TYPES } from "redux/constants/Auth";
 import { LoginType } from "services/types/AuthServiceType";
 import { RootState } from "redux/types/Root";
 import { HandleErrors } from "services/error/handleErrors";
+import { LoginOutlined } from '@ant-design/icons';
 
 type FieldType = {
   email?: string;
@@ -95,7 +96,13 @@ const LoginForm: React.FC = (props: any) => {
       }
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block loading={loading}>
+        <Button 
+          type="primary" 
+          htmlType="submit" 
+          size="large"
+          icon={<LoginOutlined />} 
+          block
+          loading={loading}>
           Sign In
         </Button>
       </Form.Item>

@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { ERROR_MESSAGES, SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
+import { ERROR_MESSAGES, SUBSCRIPTION_PREFIX_PATH, SUBSCRIPTION_TYPE } from "configs/AppConfig";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import { RootState } from "redux/types/Root";
@@ -52,7 +52,7 @@ const UserSubscription = ({ alt = false, authUser }: UserSubscriptionType) => {
       </div>
     }
     {
-      !alt &&
+      !alt && userSubscription?.name === SUBSCRIPTION_TYPE.FREE &&
       <div className="d-flex justify-content-between align-items-center m-0 alert alert-warning" role="alert">
         <h6>You are on a free plan</h6>
         <Button 
