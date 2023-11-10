@@ -46,6 +46,14 @@ const ImageSettings = ({ clickedElement }: ImageSettingsProps) => {
     }
   };
 
+  const cardStyle = (media: MediaType) => {
+    return {
+      backgroundImage: `url(${media?.url})`,
+      height: 50,
+      backgroundSize: 'cover',
+    }
+  }
+
   return (
     <div className="component-container">
       <h4>{selectedElement}</h4>
@@ -56,13 +64,13 @@ const ImageSettings = ({ clickedElement }: ImageSettingsProps) => {
             <hr />
             {
               media.length > 0 &&
-              <div className="row">
+              <div className="row m-0">
                 {media.map((media: MediaType) => (
-                  <div key={media?.id} className="col-md-6">
+                  <div key={media?.id} className="col-md-4 p-0">
                     <div className="card text-center">
-                      <img src={media?.url} className="card-img-top h-4" alt={media?.name} />
-                      <div className="card-body">
-                        <Button type="primary" onClick={() => handleUploadImage(media?.url)}>Use Image</Button>
+                      <div className="media-card" style={cardStyle(media)}></div>
+                      <div className="d-flex justify-content-center py-2">
+                        <Button type="primary" onClick={() => handleUploadImage(media?.url)}>Use</Button>
                       </div>
                     </div>
                   </div>

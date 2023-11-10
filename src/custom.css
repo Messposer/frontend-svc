@@ -1,0 +1,223 @@
+:root{
+  --font-size-normal: 16px;
+}
+.custom-input {
+  padding: 10px;
+  border: 1px solid var(--bs-gray-900);
+  font-size: var(--font-size-normal);
+}
+
+.ant-input.custom-textarea {
+  padding: 10px;
+  border: 1px solid var(--bs-gray-900);
+  font-size: var(--font-size-normal);
+}
+
+:where(.css-dev-only-do-not-override-1i536d8).ant-select:not(:where(.css-dev-only-do-not-override-1i536d8).ant-select-customize-input) .ant-select-selector {
+  border: 1px solid var(--bs-gray-900);
+  font-size: var(--font-size-normal);
+  padding: 8px;
+  height: auto;
+}
+
+.ant-radio-inner {
+  border: 1px solid var(--bs-gray-900) !important;
+}
+
+.ant-select-selector {
+}
+
+.text-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.text-sub-title {
+  font-size: var(--font-size-normal);
+  font-weight: 400;
+}
+
+.ant-form-item-label {
+  font-size: var(--font-size-normal);
+  font-weight: 500;
+}
+
+.auth-bg{
+  background-color: var(--bs-blue);
+  height: 100vh;
+}
+
+.auth-content{
+  display: flex;
+  align-items: center;
+}
+
+.row{
+  margin: 0px !important;
+}
+
+/* Sidebar */
+/* aside.ant-layout-sider.ant-layout-sider-dark.left-slider-wrapper {
+  background-color: transparent !important;
+} */
+.left-slider-wrapper{
+  height: 100vh;
+  padding: 20px;
+}
+
+.left-sider-nav-heading{
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--text-secondary-color);
+}
+
+.left-sider-nav-item {
+  list-style: none;
+  padding: 0px;
+}
+
+.left-sider-nav-item > li {
+  border-radius: 4px;
+  padding: 15px 20px;
+  margin-top: 5px;
+  color: var(--white) !important;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+}
+
+.left-sider-nav-item > li a{
+  color: var(--white) !important;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.left-sider-nav-item > li.active {
+  background-color: var(--bg-secondary-color);
+  font-weight: 700;
+  color: var(--white) !important;
+}
+
+.left-sider-nav-item > li.active a{
+  background-color: var(--bg-secondary-color);
+  font-weight: 700;
+  color: var(--white) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.left-sider-nav-item > li:hover {
+  background-color: var(--bg-secondary-color);
+  font-weight: 700;
+  color: var(--white) !important;
+  animation: fadeIn 2s;
+}
+
+.left-sider-nav-item > li:hover a{
+  background-color: var(--bg-secondary-color);
+  font-weight: 700;
+  color: var(--white) !important;
+  animation: fadeIn 2s;
+}
+
+.left-sider-nav-item > li.active .left-sider-nav-icon {
+  font-size: 24px;
+}
+
+.left-sider-nav-item > li .left-sider-nav-icon {
+  font-size: 20px;
+}
+
+
+/* Link */
+a {
+  color: var(--bs-blue) !important;
+  font-size: var(--font-size-normal);
+  text-decoration: none;
+}
+
+/* Forms */
+
+.custom-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-button-md {
+  padding: 15px !important;
+}
+
+.custom-button-lg {
+  padding: 20px !important;
+}
+
+.custom-button-auth {
+  padding: 25px !important;
+}
+
+.custom-button-sm {
+  padding: 10px !important;
+}
+
+.custom-primary-button {
+  background-color: var(--bs-blue) !important;
+  border: 1px solid var(--bs-blue);
+}
+
+.custom-secondary-button {
+  background-color: var(--bs-code-color) !important;
+  border: 1px solid var(--bs-code-color);
+}
+
+.ant-form-item-feedback-icon {
+  padding: 0px;
+  margin-top: -1px;
+}
+
+.ant-form-item-explain-error {
+  font-size: 16px;
+  padding: 5px 0px;
+}
+
+.custom-checkbox .ant-checkbox {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid var(--bs-gray-800);
+}
+
+.auth-banner-content-wrapper{
+  height: 100vh;
+}
+
+.center-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.PhoneInputCountry{
+  height: 46px;
+  padding: 10px 15px;
+  border: 1px solid var(--bs-gray-800);
+  border-radius: 5px;
+}
+
+.PhoneInputInput {
+  padding: 10px;
+  border: 1px solid var(--bs-gray-900);
+  font-size: var(--font-size-normal);
+  border-radius: 5px;
+}
+
+.PhoneInput--focus .PhoneInputInput{
+  border: 1px solid var(--bs-blue) !important;
+  box-shadow: none !important;
+}
+
+.PhoneInputCountryIcon.PhoneInputCountryIcon--border {
+  box-shadow: none;
+}

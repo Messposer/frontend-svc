@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select, message, DatePicker, Radio } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { BroadCastType } from "redux/types";
 import { rules } from "validations/contact";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import { CreateScheduleType } from "services/types/ScheduleServiceType";
 import ScheduleService from "services/ScheduleService";
 import { Now } from "configs/dateFormat";
 import moment from "moment";
+import { ScheduleOutlined } from '@ant-design/icons';
 
 interface CreateScheduleProps {
   title: string,
@@ -86,11 +87,17 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
   };
 
   return (
-    <div className='p-5 chat-body-container'>
-      <h4>Create a new schedule list</h4>
+    <div className='p-3 chat-body-container'>
       {contextHolder}
       <div className="row">
         <div className="p-3 bg-white col-md-7">
+          <div className="d-flex justify-content-between align-items-center">
+            <h4 className="text-title">Create a new schedule list</h4>
+            <Link to="../">
+              Back
+            </Link>
+          </div>
+          <h5 className="text-sub-title pt-1 mb-3">Provide your email and password to continue</h5>
           <Form
             form={form}
             layout="vertical"
@@ -138,6 +145,7 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
                 showSearch
                 placeholder="Select broadcast"
                 loading={loadingContact}
+                className="custom-select"
               >
                 {broadCastOptions}
               </Select>
@@ -155,9 +163,20 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
                   name="radiogroup" 
                   onChange={(e) => toggleSchedulePost(e)}
                   value={false}
+                  className="custom-radio"
                 >
-                  <Radio value={false}>Send Immediately</Radio>
-                  <Radio value={true}>I want to add a send date</Radio>
+                  <Radio 
+                    value={false}
+                    className="custom-radio-option"
+                  >
+                    Send Immediately
+                  </Radio>
+                  <Radio 
+                    value={true}
+                    className="custom-radio-option"
+                  >
+                    I want to add a send date
+                  </Radio>
                 </Radio.Group>
               </Form.Item>
 
@@ -170,7 +189,11 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
                 hasFeedback
                 validateFirst={true}
               >
-                <DatePicker onChange={handleDateSelected}  format={Now}/>
+                <DatePicker 
+                  onChange={handleDateSelected}  
+                  format={Now}
+                  className="custom-input"
+                />
               </Form.Item>
             }
 
@@ -178,13 +201,20 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
               <HandleErrors errors={errorMessage} />
             }
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loadingContact}>
+              <Button 
+                type="primary" 
+                htmlType="submit"
+					      size="large"
+                loading={loadingContact}
+                className="custom-button custom-button-lg custom-primary-button"
+                icon={<ScheduleOutlined />}  
+              >
                 Create Schedule list
               </Button>
             </Form.Item>
           </Form>
         </div>
-        <div className="col-md-5">
+        <div className="col-md-5 p-0 ps-3">
           <AlertInfo />
         </div>
       </div>

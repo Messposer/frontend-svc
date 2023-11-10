@@ -195,9 +195,9 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
         saveTemplateLoading={saveTemplateLoading}
         saveUserTemplate={saveUserTemplate}
       />
-      <div className="m-0 row mt-3">
-        <div className="col-md-1">
-          <PerfectScrollbar style={{height: '91vh'}}>
+      <div className="m-0 row">
+        <div className="col-md-1 m-0 addElementSectionWrapper">
+          <PerfectScrollbar style={{height: '91.5vh'}}>
             <ElementButtons
               toggleShowVariable={toggleShowVariable} 
               handleAddElement={handleAddElement} 
@@ -206,7 +206,7 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
             />
           </PerfectScrollbar>
         </div>
-        <div className="col-md-8 p-0">
+        <div className="col-md-8 addElementSectionWrapper m-0 p-0">
           <PerfectScrollbar style={{height: '91vh'}}>
             {userTemplate && (
               <div 
@@ -220,7 +220,7 @@ const TemplateBuilder = ({ title }: TemplateProps) => {
             )}
           </PerfectScrollbar>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-3 addElementSectionWrapper m-0">
           <PerfectScrollbar style={{height: '91vh'}}>
             {
               showVariables &&

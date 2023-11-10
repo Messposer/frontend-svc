@@ -1,44 +1,34 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Button, Form, Input, Checkbox } from "antd";
-import {
-  authenticated
-} from "redux/actions";
+import { Button, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "services/AuthService";
-import { DASHBOARD_PREFIX_PATH, ERROR_MESSAGES } from "configs/AppConfig";
-import { AUTH_ACTION_TYPES } from "redux/constants/Auth";
-import { LoginType } from "services/types/AuthServiceType";
+import { ERROR_MESSAGES } from "configs/AppConfig";
+import { ForgotPasswordType } from "services/types/AuthServiceType";
 import { RootState } from "redux/types/Root";
 import { HandleErrors } from "services/error/handleErrors";
 import { LoginOutlined } from '@ant-design/icons';
 
 type FieldType = {
   email?: string;
-  password?: string;
-  rememberMe?: boolean;
 };
 
-const LoginForm: React.FC = (props: any) => {
-  const { authenticated } = props;
+const ForgotPasswordForm: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const [loading, showLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const onLogin = async () => {
+  const onSend = async () => {
     form.validateFields()
-    .then( async(values: LoginType) => {
+    .then( async(values: ForgotPasswordType) => {
       setMessage(null);
       showLoading(true);
       try {
-        const response = await AuthService.login(values);
-        const { accessToken, refreshToken } = response?.token;
-        localStorage.setItem(AUTH_ACTION_TYPES.AUTH_TOKEN,accessToken);
-        localStorage.setItem(AUTH_ACTION_TYPES.REFRESH_TOKEN,refreshToken);
-        authenticated(response);
-        navigate(`${DASHBOARD_PREFIX_PATH}`);
+        const response = await AuthService.forgot(values);
+        console.log(response);
+        // navigate(`${DASHBOARD_PREFIX_PATH}`);
       } catch (error: any) {
         setMessage(
           error?.response?.data?.message
@@ -56,7 +46,7 @@ const LoginForm: React.FC = (props: any) => {
       form={form}
       layout="vertical"
       name="login-form"
-      onFinish={onLogin}
+      onFinish={onSend}
     >
       <Form.Item<FieldType>
         name="email"
@@ -76,33 +66,6 @@ const LoginForm: React.FC = (props: any) => {
         />
       </Form.Item>
 
-      <Form.Item<FieldType>
-        name="password"
-        label="Password"
-        hasFeedback
-        rules={[
-          {required: true,message: "Please input your last name",}
-        ]}
-        validateFirst={true}
-      >
-        <Input.Password
-          autoComplete="off"
-          placeholder="Create password"
-          maxLength={50}
-          className="custom-input"
-        />
-      </Form.Item>
-
-      <Form.Item<FieldType>
-        name="rememberMe"
-        className="custom-checkbox"
-      >
-        <Checkbox
-          className="custom-checkbox"
-        >
-          Keep me logged in
-        </Checkbox>
-      </Form.Item>
       {message &&
         <HandleErrors errors={message} />
       }
@@ -116,7 +79,7 @@ const LoginForm: React.FC = (props: any) => {
           icon={<LoginOutlined />} 
           block
           loading={loading}>
-          Sign In
+          Send
         </Button>
       </Form.Item>
 
@@ -127,9 +90,9 @@ const LoginForm: React.FC = (props: any) => {
         </Link>
       </div>
       <div className="w-100 text-sub-title"> 
-        Did you forgot your password, hmmm?
-        <Link to="/forgot">
-          <span>{" "}Recover password</span>
+        You already have an account?
+        <Link to="/">
+          <span>{" "}Login now</span>
         </Link>
       </div>
     </Form>
@@ -141,8 +104,4 @@ const mapStateToProps = ({auth}: RootState) => {
   return { authUser };
 };
 
-const mapDispatchToProps = {
-  authenticated,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, null)(ForgotPasswordForm);

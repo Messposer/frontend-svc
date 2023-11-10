@@ -56,6 +56,7 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 			render: (broadCast: BroadCastType) => 
 				<Button 
 					type="primary" 
+					className="custom-button custom-button-sm custom-primary-button"
 					onClick={() => onOpenModal(String(broadCast?.id))}
 					icon={<TeamOutlined />}
 				>
@@ -76,6 +77,7 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 				placement="bottomLeft" trigger={['click']}>
 					<Button 
 						type="primary" 
+						className="custom-button custom-button-sm custom-secondary-button"
 						danger={true}
 						loading={loadingDelete}
 						icon={<SettingOutlined />}
@@ -124,13 +126,14 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 	useDocumentTitle(title);
 
 	return (
-		<div className='p-5 chat-body-container'>
+		<div className='p-3 chat-body-container'>
 			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<Button 
 					onClick={() => navigate('create')} 
 					type="primary"
 					size="large"
+					className="custom-button custom-button-md custom-primary-button"
 					icon={<ClusterOutlined />}
 				>
 					Add Broadcast list

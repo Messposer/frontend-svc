@@ -106,6 +106,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 					<Button 
 						type="primary" 
 						danger={true}
+						className="custom-button custom-button-sm custom-secondary-button"
 						icon={<SettingOutlined />}
 						loading={deleteLoading === schedule?.id}
 					> 
@@ -185,13 +186,14 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 	useDocumentTitle(title);
 
 	return (
-		<div className='p-5 schedule-body-container'>
+		<div className='p-3 schedule-body-container'>
 			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<Button 
 					onClick={() => navigate('create')} 
 					type="primary" 
 					size="large"
+					className="custom-button custom-button-md custom-primary-button"
 					icon={<ScheduleOutlined />}
 				>
 					Add Schedule

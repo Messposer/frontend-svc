@@ -159,6 +159,10 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
     }
   }
 
+  const handleUseTemplate = (e: any) => {
+    setUseTemplate(e?.target?.value);
+  }
+
   return (
     <Modal
       width={1200}
@@ -202,14 +206,14 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
               >
                 <Radio.Group 
                   name="radiogroup" 
-                  onChange={(e) => setUseTemplate(!useTemplate)}
+                  onChange={(e) => handleUseTemplate(e)}
                 >
                   <Radio value={true}>Yes, i want to use a template</Radio>
                   <Radio value={false}>No, i want a plain text</Radio>
                 </Radio.Group>
               </Form.Item>
               {
-                useTemplate ? (
+                useTemplate === true ? (
                 <>
                 {
                   userTemplates.length > 0 &&
@@ -232,22 +236,25 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
                 </>
                 ) : (
                 <>
-                  <Form.Item
-                    name="autoGenerate"
-                    label="Do you want the AI to generate content for this schedule?"
-                    rules={rules.autoGenerate}
-                    hasFeedback
-                    validateFirst={true}
-                    initialValue={null}
-                  >
-                    <Radio.Group 
-                      name="radiogroup" 
-                      onChange={(e) => toggleAutoGenerate(e)}
+                  {
+                    useTemplate === false &&
+                    <Form.Item
+                      name="autoGenerate"
+                      label="Do you want the AI to generate content for this schedule?"
+                      rules={rules.autoGenerate}
+                      hasFeedback
+                      validateFirst={true}
+                      initialValue={null}
                     >
-                      <Radio value="yes">Yes, autogenerate the content for me</Radio>
-                      <Radio value="no">No, i have my own content</Radio>
-                    </Radio.Group>
-                  </Form.Item>
+                      <Radio.Group 
+                        name="radiogroup" 
+                        onChange={(e) => toggleAutoGenerate(e)}
+                      >
+                        <Radio value="yes">Yes, autogenerate the content for me</Radio>
+                        <Radio value="no">No, i have my own content</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                  }
     
                   {
                     makeAutoComplete === "no" &&

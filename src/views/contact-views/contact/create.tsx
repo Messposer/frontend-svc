@@ -1,18 +1,18 @@
 import { Button, Form, Input, message } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ContactType } from "redux/types";
 import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-
 import 'react-phone-number-input/style.css';
 import { useState } from "react";
 import AlertInfo from "components/Dashboard/AlertInfo";
 import AlertWarning from "components/Dashboard/AlertWarning";
 import { HandleErrors } from "services/error/handleErrors";
 import { ERROR_MESSAGES } from "configs/AppConfig";
+import { TeamOutlined } from '@ant-design/icons';
 
 interface CreateContactProps {
   title: string
@@ -53,11 +53,17 @@ const CreateContact = ({ title }: CreateContactProps) => {
   };
 
   return (
-    <div className='p-5 chat-body-container'>
-      <h4>Create a new contact</h4>
+    <div className='p-3 chat-body-container'>
       {contextHolder}
       <div className="row">
-        <div className="p-3 bg-white col-md-7">
+        <div className="p-4 bg-white col-md-7">
+          <div className="d-flex justify-content-between align-items-center">
+            <h4 className="text-title">Create a new schedule list</h4>
+            <Link to="../">
+              Back
+            </Link>
+          </div>
+          <h5 className="text-sub-title pt-1 mb-3">Provide your email and password to continue</h5>
           <Form
             form={form}
             layout="vertical"
@@ -66,7 +72,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
             onFinish={onCreate}
           >
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 ps-0">
                 <Form.Item
                   name="first_name"
                   label="First Name"
@@ -82,7 +88,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
                   />
                 </Form.Item>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 pe-0">
                 <Form.Item
                   name="last_name"
                   label="Last Name"
@@ -121,8 +127,9 @@ const CreateContact = ({ title }: CreateContactProps) => {
               rules={[{ required: true, validator: validatePhoneNumber }]}
             >
               <PhoneInput
-                countrySelectProps={{ style: { width: '35%' } }}
-                inputProps={{ style: { width: '65%' }, placeholder: 'Phone number', className: "custom-input" }}
+                placeholder="Enter phone number"
+                defaultCountry="NG"
+                initialValueFormat="national"
                 value={phoneNumber}
                 onChange={setPhoneNumber}
               />
@@ -134,11 +141,11 @@ const CreateContact = ({ title }: CreateContactProps) => {
               hasFeedback
               validateFirst={true}
             >
-              <TextArea 
-                rows={4}
+              <Input
                 autoComplete="off"
                 placeholder="Enter contact address"
                 maxLength={50}
+                className="custom-input"
               />
             </Form.Item>
 
@@ -153,13 +160,21 @@ const CreateContact = ({ title }: CreateContactProps) => {
                 autoComplete="off"
                 placeholder="Add note to contact"
                 maxLength={50}
+                className="custom-textarea"
               />
             </Form.Item>
             {errorMessage &&
               <HandleErrors errors={errorMessage} />
             }
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button 
+                type="primary" 
+                htmlType="submit" 
+                loading={loading}
+      					size="large"
+						    icon={<TeamOutlined />}
+                className="custom-button custom-button-auth custom-primary-button"
+              >
                 Create Contact
               </Button>
             </Form.Item>

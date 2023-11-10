@@ -1,5 +1,5 @@
 import fetch from "auth/axios";
-import { AuthServiceType, LoginType, RegisterType } from "./types/AuthServiceType";
+import { AuthServiceType, ForgotPasswordType, LoginType, RegisterType, ResetPasswordType, VerifyCodeType } from "./types/AuthServiceType";
 
 let AuthService: AuthServiceType = {};
 const _url = "auth";
@@ -16,6 +16,30 @@ AuthService.login = (data: LoginType) => {
 AuthService.signUp = (data: RegisterType) => {
   return fetch({
     url: `${_url}/register`,
+    method: "post",
+    data: data,
+  });
+};
+
+AuthService.forgot = (data: ForgotPasswordType) => {
+  return fetch({
+    url: `${_url}/forgot`,
+    method: "post",
+    data: data,
+  });
+};
+
+AuthService.verify = (data: VerifyCodeType) => {
+  return fetch({
+    url: `${_url}/verify`,
+    method: "post",
+    data: data,
+  });
+};
+
+AuthService.reset = (data: ResetPasswordType) => {
+  return fetch({
+    url: `${_url}/reset`,
     method: "post",
     data: data,
   });

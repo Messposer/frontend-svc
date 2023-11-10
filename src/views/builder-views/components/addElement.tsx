@@ -46,55 +46,97 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
 }) => {
   return (
     <>
-      <Button 
-        type="primary" 
-        size={size} 
-        style={buttonStyle}
+      <div
+        className="addElementWrapper text-center px-2 py-3 mb-2 mt-2" 
         onClick={() => handleAddElement([defaultTextStyles], "<h5>Text</h5>")}
       >
-        <FontSizeOutlined style={{ fontSize: '24px' }} />
-      </Button>
-      <Button 
-        type="primary" 
-        size={size} 
-        style={buttonStyle}
-        onClick={() => handleAddElement([defaultButtonStyles], "<div className='button-wrapper'><button>Button</button></div>")}
+        <div 
+          className="addElementIcon"
+        >
+          <FontSizeOutlined style={{ fontSize: '16px' }} />
+        </div>
+        <div 
+          className="addElementText pt-2"
+        >
+          Text
+        </div>
+      </div>
+      
+      <div
+        className="addElementWrapper text-center px-2 py-3 mb-2" 
+        onClick={() => handleAddElement([defaultButtonStyles], "<button>Button</button>")}
       >
-        <FolderAddOutlined style={{ fontSize: '24px' }} />
-      </Button>
-      <Button 
-        type="primary" 
-        size={size} 
-        style={buttonStyle}
+        <div 
+          className="addElementIcon"
+        >
+          <FolderAddOutlined style={{ fontSize: '16px' }} />
+        </div>
+        <div 
+          className="addElementText pt-2"
+        >
+          Button
+        </div>
+      </div>
+      <div
+        className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={() => handleAddElement([defaultImageStyles], "<img src='https://placehold.co/600x400' />")}
       >
-        <FileImageOutlined style={{ fontSize: '24px' }} />
-      </Button>
-      <Button 
-        type="primary" 
-        size={size} 
-        style={buttonStyle}
+        <div 
+          className="addElementIcon"
+        >
+          <FileImageOutlined style={{ fontSize: '16px' }} />
+        </div>
+        <div 
+          className="addElementText pt-2"
+        >
+          Image
+        </div>
+      </div>
+      <div
+        className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={() => deSelectElement()}
       >
-        Deselect
-      </Button>
-      <Button 
-        type="primary" 
-        size={size} 
-        style={buttonStyle}
+        <div 
+          className="addElementIcon"
+        >
+          <FileImageOutlined style={{ fontSize: '16px' }} />
+        </div>
+        <div 
+          className="addElementText pt-2"
+        >
+          Deselect
+        </div>
+      </div>
+      <div
+        className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={() => toggleShowVariable()}
       >
-        Variables
-      </Button>
-      <Button 
-        type="primary"
-        danger 
-        size={size} 
-        style={buttonStyle}
+        <div 
+          className="addElementIcon"  
+        >
+          <FileImageOutlined style={{ fontSize: '16px' }} />
+        </div>
+        <div 
+          className="addElementText pt-2"
+        >
+          Variables
+        </div>
+      </div>
+      <div
+        className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={handleDeleteElement}
       >
-        <DeleteOutlined style={{ fontSize: '24px' }} />
-      </Button>
+        <div 
+          className="addElementIcon"
+        >
+          <DeleteOutlined style={{ fontSize: '16px' }} />
+        </div>
+        <div 
+          className="addElementText pt-2"
+        >
+          Delete
+        </div>
+      </div>
     </>
   );
 };

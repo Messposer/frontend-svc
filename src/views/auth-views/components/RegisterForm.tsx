@@ -67,6 +67,7 @@ const RegisterForm: React.FC = (props: any) => {
       >
         <Input
           autoComplete="off"
+          className="custom-input"
           placeholder="Enter your first name"
           maxLength={50}
         />
@@ -84,6 +85,7 @@ const RegisterForm: React.FC = (props: any) => {
       >
         <Input
           autoComplete="off"
+          className="custom-input"
           placeholder="Enter your email address..."
           maxLength={50}
         />
@@ -100,6 +102,7 @@ const RegisterForm: React.FC = (props: any) => {
       >
         <Input.Password
           autoComplete="off"
+          className="custom-input"
           placeholder="Create password"
           maxLength={50}
         />
@@ -116,17 +119,17 @@ const RegisterForm: React.FC = (props: any) => {
           block 
           loading={loading}
           size="large"
+          className="custom-button custom-button-auth custom-primary-button"
           icon={<UserAddOutlined />} 
         >
           Sign Up
         </Button>
       </Form.Item>
 
-      <div
-        className={`'d-flex justify-content-between w-100 align-items-center text-primary`}
-      >
+      <div className="w-100 text-sub-title"> 
+        You already have an account?
         <Link to="/">
-          <span >I have an account</span>
+          <span>{" "}Login now</span>
         </Link>
       </div>
     </Form>

@@ -111,7 +111,7 @@ const Contact = ({title}: ContactProps) => {
 	];
 
 	return (
-		<div className='p-5 chat-body-container'>
+		<div className='p-3 chat-body-container'>
 			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<Dropdown menu={{ items }} trigger={['click']} placement="bottomLeft" arrow>
@@ -119,6 +119,7 @@ const Contact = ({title}: ContactProps) => {
 						type="primary"
 						icon={<TeamOutlined />}
 						size="large"
+						className="custom-button custom-primary-button"
 					>
 						Add Contact
 					</Button>
