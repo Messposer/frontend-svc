@@ -4,7 +4,7 @@ import UserAvatar from 'components/AvatarStatus';
 import { User } from 'redux/types/Auth';
 import { signOut } from "redux/actions";
 import { RootState } from "redux/types/Root";
-import { SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
+import { ACCOUNT_PREFIX_PATH, SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
 import { useNavigate } from "react-router-dom";
 import { TRANSACTIONS_PREFIX_PATH } from "configs/AppConfig";
 import { useState } from "react";
@@ -28,6 +28,10 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
     navigate(SUBSCRIPTION_PREFIX_PATH);
   }
 
+  const handleProfileClick = () => {
+    navigate(ACCOUNT_PREFIX_PATH);
+  }
+
   const handleTransactionsClick = () => {
     navigate(TRANSACTIONS_PREFIX_PATH);
   }
@@ -38,22 +42,22 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
   
   const items: MenuProps['items'] = [
     {
-      label: (
-        <div className="d-flex">
-          <div className="flex-shrink-0">
-            <UserAvatar size={40} authUser={authUser} />
-          </div>
-          <div className="flex-grow-1 ms-2 user-info mt-1">
-            <div className="mt-0 user-dropdown-name mb-0">
-              {authUser?.username ?? "Your Name"}
-            </div>
-            <p className="mt-0 user-dropdown-address mb-0">
-              {authUser?.email ?? "email address"}
-            </p>
-          </div>
+      label:
+      <div className="d-flex">
+        <div className="flex-shrink-0">
+          <UserAvatar size={40} authUser={authUser} />
         </div>
-      ),
-      key: '0'
+        <div className="flex-grow-1 ms-2 user-info mt-1">
+          <div className="mt-0 user-dropdown-name mb-0">
+            {authUser?.username ?? "Your Name"}
+          </div>
+          <p className="mt-0 user-dropdown-address mb-0">
+            {authUser?.email ?? "email address"}
+          </p>
+        </div>
+      </div>,
+      key: '0',
+      onClick: handleProfileClick
     },
     {
       label: 
@@ -61,7 +65,8 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
           <UserOutlined /> 
           <span className="ms-2">My Profile</span>
         </div>,
-      key: '1'
+      key: '1',
+      onClick: handleProfileClick
     },
     {
       label: 

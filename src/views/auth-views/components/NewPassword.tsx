@@ -1,38 +1,52 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "services/AuthService";
 import { ERROR_MESSAGES } from "configs/AppConfig";
-import { ForgotPasswordType } from "services/types/AuthServiceType";
+import { ResetPasswordType } from "services/types/AuthServiceType";
 import { RootState } from "redux/types/Root";
 import { HandleErrors } from "services/error/handleErrors";
 import { LoginOutlined } from '@ant-design/icons';
-import { saveCurrentEmail } from "redux/actions";
+import { RESET_CODE_TYPE } from "redux/types";
 
 type FieldType = {
-  email?: string;
+  confirmPassword?: string;
+  password?: string;
 };
-interface ForgotPasswordFormProps {
-  saveCurrentEmail: (email: string) => void;
+
+interface NewPasswordFormProps {
+  resetCode: RESET_CODE_TYPE | null
 }
 
-const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
+const NewPasswordForm = ({ resetCode }: NewPasswordFormProps) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const [loading, showLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const onSend = async () => {
+  const validateConfirmPassword = async (_: any, value: string) => {
+    const newPassword = form.getFieldValue('password');
+    if (value && newPassword && value !== newPassword) {
+      throw new Error('Password must match');
+    }
+  };
+
+  const onLogin = async () => {
     form.validateFields()
-    .then( async(values: ForgotPasswordType) => {
+    .then( async(values: ResetPasswordType) => {
       setMessage(null);
       showLoading(true);
       try {
-        await AuthService.forgot(values);
-        saveCurrentEmail(values.email);
-        navigate(`/verify`);
+        if(resetCode){
+          const resetPasswordPayload: ResetPasswordType = {
+            code: resetCode.code,
+            password: values.password
+          }
+          await AuthService.reset(resetPasswordPayload);
+          navigate('/');
+        }
       } catch (error: any) {
         setMessage(
           error?.response?.data?.message
@@ -50,28 +64,45 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
       form={form}
       layout="vertical"
       name="login-form"
-      onFinish={onSend}
+      onFinish={onLogin}
     >
       <Form.Item<FieldType>
-        name="email"
-        label="Email"
-        rules={[
-          {type: "email",message: "Please enter email address in format “youremail@example.com”"}, 
-          {required: true,message: "Please input your email",}
-        ]}
+        name="password"
+        label="Password"
         hasFeedback
+        rules={[
+          {required: true,message: "Please input your password",}
+        ]}
         validateFirst={true}
       >
-        <Input
+        <Input.Password
           autoComplete="off"
-          placeholder="Enter your email address..."
+          placeholder="Create password"
+          maxLength={50}
+          className="custom-input"
+        />
+      </Form.Item>
+
+      <Form.Item<FieldType>
+        name="confirmPassword"
+        label="Confirm Password"
+        hasFeedback
+        rules={[
+          { required: true, message: 'Confirm your new password' },
+          { validator: validateConfirmPassword },
+        ]}
+        validateFirst={true}
+      >
+        <Input.Password
+          autoComplete="off"
+          placeholder="Confirm password"
           maxLength={50}
           className="custom-input"
         />
       </Form.Item>
 
       {message &&
-        <HandleErrors errors={message} isToast={true}/>
+        <HandleErrors errors={message} isToast={true} />
       }
 
       <Form.Item>
@@ -83,7 +114,7 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
           icon={<LoginOutlined />} 
           block
           loading={loading}>
-          Send
+          Reset Password
         </Button>
       </Form.Item>
 
@@ -94,9 +125,9 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
         </Link>
       </div>
       <div className="w-100 text-sub-title"> 
-        You already have an account?
-        <Link to="/">
-          <span>{" "}Login now</span>
+        Did you forgot your password, hmmm?
+        <Link to="/forgot">
+          <span>{" "}Recover password</span>
         </Link>
       </div>
     </Form>
@@ -104,12 +135,8 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
 };
 
 const mapStateToProps = ({auth}: RootState) => {
-  const {  authUser } = auth;
-  return { authUser };
+  const {  resetCode } = auth;
+  return { resetCode };
 };
 
-const mapDispatchToProps = {
-  saveCurrentEmail
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);
+export default connect(mapStateToProps)(NewPasswordForm);

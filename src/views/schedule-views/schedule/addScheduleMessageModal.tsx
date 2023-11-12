@@ -225,7 +225,7 @@ const AddScheduleMessageModal = ({title, isOpen = false, onClose, scheduleId}: V
                           role="button" 
                           type="primary"
                           disabled={userSelectedTemplate === template?.id}
-                          onClick={() => setUserSelectedTemplate(template?.id)}
+                          onClick={() => setUserSelectedTemplate(template?.id ? template?.id : 0)}
                         >
                           {userSelectedTemplate === template?.id ? "Selected": "Select"}
                         </Button>

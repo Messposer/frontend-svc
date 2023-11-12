@@ -15,6 +15,7 @@ export const TEMPLATE_BUILDER_PREFIX_PATH = "/template-builder";
 export const MEDIA_PREFIX_PATH = "/media";
 export const SUBSCRIPTION_PREFIX_PATH = "/subscription";
 export const TRANSACTIONS_PREFIX_PATH = "/transactions";
+export const ACCOUNT_PREFIX_PATH = "/account";
 
 export const ROLES = {
   USER: 'USER',
@@ -27,8 +28,8 @@ export const VIEW_TEMPLATE_TYPE = {
 };
 
 export const SUBSCRIPTION_TYPE = {
-  FREE: 'free',
-  PAID: 'paid',
+  FREE: 'FREE',
+  PREMIUM: 'PREMIUM',
 };
 
 export const PAYMENT_TYPE = {

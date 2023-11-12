@@ -6,19 +6,19 @@ import { Button, Dropdown, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ScheduledType } from 'redux/types';
 import { useNavigate } from 'react-router-dom';
-import { 
-	EditOutlined, 
-	EyeOutlined, 
-	DeleteOutlined, 
+import {
+	EditOutlined,
+	EyeOutlined,
+	DeleteOutlined,
 	ScheduleOutlined,
-	SettingOutlined, 
+	SettingOutlined,
 } from '@ant-design/icons';
 import moment from 'moment';
-import { DAY_MONTH_YEAR } from 'configs/dateFormat';
 import ScheduleService from 'services/ScheduleService';
 import { ERROR_MESSAGES, TEMPLATE_PREFIX_PATH, VIEW_TEMPLATE_TYPE } from 'configs/AppConfig';
 import { HandleErrors } from "services/error/handleErrors";
 import FilterInput from 'components/Input/filterInput';
+import MomentTime from 'components/Moment';
 
 interface ScheduleProps {
 	title: string,
@@ -64,7 +64,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 		{ 
 			title: 'Scheduled Date', 
 			key: 'sendDate',
-			render: (schedule: ScheduledType) => moment(schedule?.sendDate).format('Do MMMM, YYYY') 
+			render: (schedule: ScheduledType) => <MomentTime date={schedule.sendDate} />
 		},
 		{ 
 			title: 'Contact Group', 
@@ -89,7 +89,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 		{ 
 			title: 'Dated Created', 
 			key: 'createdAt',
-			render: (schedule: ScheduledType) => moment(schedule?.created_at).format(DAY_MONTH_YEAR) 
+			render: (schedule: ScheduledType) => <MomentTime date={schedule.created_at} />
 		},
 		{
 			title: 'Action',

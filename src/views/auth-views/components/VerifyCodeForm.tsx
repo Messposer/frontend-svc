@@ -4,20 +4,22 @@ import { Button, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "services/AuthService";
 import { ERROR_MESSAGES } from "configs/AppConfig";
-import { ForgotPasswordType } from "services/types/AuthServiceType";
+import { VerifyCodeType } from "services/types/AuthServiceType";
 import { RootState } from "redux/types/Root";
 import { HandleErrors } from "services/error/handleErrors";
 import { LoginOutlined } from '@ant-design/icons';
-import { saveCurrentEmail } from "redux/actions";
+import { saveResetCode } from "redux/actions";
+import { RESET_CODE_TYPE } from 'redux/types';
 
 type FieldType = {
-  email?: string;
+  code: number;
 };
-interface ForgotPasswordFormProps {
-  saveCurrentEmail: (email: string) => void;
+
+interface VerifyCodeFormProps {
+  saveResetCode: (payload: RESET_CODE_TYPE) => void,
 }
 
-const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
+const VerifyCodeForm = ({saveResetCode}: VerifyCodeFormProps) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -26,13 +28,16 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
 
   const onSend = async () => {
     form.validateFields()
-    .then( async(values: ForgotPasswordType) => {
+    .then( async(values: VerifyCodeType) => {
       setMessage(null);
       showLoading(true);
       try {
-        await AuthService.forgot(values);
-        saveCurrentEmail(values.email);
-        navigate(`/verify`);
+        const verifyCodePayload: VerifyCodeType = {
+          code: Number(values.code)
+        };
+        const response = await AuthService.verify(verifyCodePayload);
+        saveResetCode(response);
+        navigate("/new/password");
       } catch (error: any) {
         setMessage(
           error?.response?.data?.message
@@ -53,18 +58,18 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
       onFinish={onSend}
     >
       <Form.Item<FieldType>
-        name="email"
-        label="Email"
+        name="code"
+        label="Code"
         rules={[
-          {type: "email",message: "Please enter email address in format “youremail@example.com”"}, 
-          {required: true,message: "Please input your email",}
+          {required: true,message: "Please input the code sent to your email",}
         ]}
         hasFeedback
         validateFirst={true}
       >
         <Input
           autoComplete="off"
-          placeholder="Enter your email address..."
+          type="number"
+          placeholder="Enter the code sent email address..."
           maxLength={50}
           className="custom-input"
         />
@@ -83,20 +88,14 @@ const ForgotPasswordForm = ({ saveCurrentEmail }: ForgotPasswordFormProps) => {
           icon={<LoginOutlined />} 
           block
           loading={loading}>
-          Send
+          Verify
         </Button>
       </Form.Item>
 
       <div className="w-100 text-sub-title"> 
-        Are you new here?
-        <Link to="/register">
-          <span>{" "}Create account</span>
-        </Link>
-      </div>
-      <div className="w-100 text-sub-title"> 
-        You already have an account?
-        <Link to="/">
-          <span>{" "}Login now</span>
+        Change email?
+        <Link to="/forgot">
+          <span>{" "}Go Back</span>
         </Link>
       </div>
     </Form>
@@ -109,7 +108,7 @@ const mapStateToProps = ({auth}: RootState) => {
 };
 
 const mapDispatchToProps = {
-  saveCurrentEmail
+  saveResetCode
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyCodeForm);

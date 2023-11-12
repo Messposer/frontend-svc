@@ -5,5 +5,7 @@ export enum AUTH_ACTION_TYPES {
   AUTH_TOKEN = "auth_token",
   REDIRECT_PATH = "redirect_path",
   REFRESH_TOKEN = "refresh_token",
-  SET_USER_DATA = "SET_USER_DATA"
+  SET_USER_DATA = "SET_USER_DATA",
+  SET_CURRENT_EMAIL = "SET_CURRENT_EMAIL",
+  SET_RESET_CODE = "SET_RESET_CODE",
 }

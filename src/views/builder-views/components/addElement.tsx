@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import React from 'react';
 import { FontSizeOutlined, FileImageOutlined, DeleteOutlined, FolderAddOutlined } from '@ant-design/icons';
 
 interface ElementButtonsProps {
@@ -44,11 +44,18 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
   handleAddElement, 
   handleDeleteElement 
 }) => {
+  
+  const handleDragStart = (e: React.DragEvent, styles: any, elementString: string) => {
+    e.dataTransfer.setData("element", elementString);
+    e.dataTransfer.setData("styles", JSON.stringify(styles));
+  };
+
   return (
     <>
       <div
         className="addElementWrapper text-center px-2 py-3 mb-2 mt-2" 
-        onClick={() => handleAddElement([defaultTextStyles], "<h5>Text</h5>")}
+        draggable
+        onDragStart={(e) => handleDragStart(e, defaultTextStyles, "<h5>Text</h5>")}
       >
         <div 
           className="addElementIcon"
@@ -64,7 +71,8 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
       
       <div
         className="addElementWrapper text-center px-2 py-3 mb-2" 
-        onClick={() => handleAddElement([defaultButtonStyles], "<button>Button</button>")}
+        draggable
+        onDragStart={(e) => handleDragStart(e, defaultButtonStyles, "<button>Button</button>")}
       >
         <div 
           className="addElementIcon"
@@ -77,9 +85,11 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
           Button
         </div>
       </div>
+      
       <div
         className="addElementWrapper text-center px-2 py-3 mb-2" 
-        onClick={() => handleAddElement([defaultImageStyles], "<img src='https://placehold.co/600x400' />")}
+        draggable
+        onDragStart={(e) => handleDragStart(e, defaultImageStyles, "<img src='https://placehold.co/600x400' />")}
       >
         <div 
           className="addElementIcon"
@@ -92,6 +102,8 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
           Image
         </div>
       </div>
+
+      {/* No drag-and-drop for these elements, only onClick */}
       <div
         className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={() => deSelectElement()}
@@ -107,6 +119,7 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
           Deselect
         </div>
       </div>
+      
       <div
         className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={() => toggleShowVariable()}
@@ -122,6 +135,7 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
           Variables
         </div>
       </div>
+      
       <div
         className="addElementWrapper text-center px-2 py-3 mb-2" 
         onClick={handleDeleteElement}

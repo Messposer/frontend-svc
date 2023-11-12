@@ -4,6 +4,7 @@ import AuthMiddleWare from "middlewares/authMiddleWare";
 import GuestMiddleWare from "middlewares/guestMiddleWare";
 import Error404 from "./errors/404";
 import {
+  ACCOUNT_PREFIX_PATH,
   CHAT_PREFIX_PATH,
   CONTACT_GROUP_PREFIX_PATH,
   CONTACT_PREFIX_PATH,
@@ -26,6 +27,7 @@ import TemplateBuilderLayout from "layouts/builder-layout";
 import MediaLayout from "layouts/media-layout";
 import SubscriptionLayout from "layouts/subscription-layout";
 import TransactionLayout from "layouts/transaction-layout";
+import ProfileLayout from "layouts/profile-layout";
 
 export const Views = (props) => {
   const { token } = props;
@@ -105,6 +107,12 @@ export const Views = (props) => {
             path={`${TRANSACTIONS_PREFIX_PATH}/*`}
             element={
               <TransactionLayout />
+            }
+          />
+          <Route
+            path={`${ACCOUNT_PREFIX_PATH}/*`}
+            element={
+              <ProfileLayout />
             }
           />
         </Route>

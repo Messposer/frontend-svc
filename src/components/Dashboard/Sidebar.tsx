@@ -48,30 +48,6 @@ const Sidebar = () => {
                   </div>
                 </Link>
               </li>
-              <li className={`${location?.pathname === SCHEDULE_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${SCHEDULE_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <CalendarOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Schedule Jobs</span>
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === TEMPLATE_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${TEMPLATE_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <FileTextOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Template</span>
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === MEDIA_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${MEDIA_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <FileImageOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Media</span>
-                  </div>
-                </Link>
-              </li>
               <li className={`${location?.pathname === CONTACT_PREFIX_PATH ? "active" : ""}`}>
                 <Link to={`${CONTACT_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
@@ -85,6 +61,30 @@ const Sidebar = () => {
                   <div className='d-flex align-items-center'>
                     <ClusterOutlined className='left-sider-nav-icon'/> 
                     <span className='ms-2'>Broadcast lists</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={`${location?.pathname === SCHEDULE_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${SCHEDULE_PREFIX_PATH}`}>
+                  <div className='d-flex align-items-center'>
+                    <CalendarOutlined className='left-sider-nav-icon'/> 
+                    <span className='ms-2'>Schedule Jobs</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={`${location?.pathname === MEDIA_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${MEDIA_PREFIX_PATH}`}>
+                  <div className='d-flex align-items-center'>
+                    <FileImageOutlined className='left-sider-nav-icon'/> 
+                    <span className='ms-2'>Media</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={`${location?.pathname === TEMPLATE_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${TEMPLATE_PREFIX_PATH}`}>
+                  <div className='d-flex align-items-center'>
+                    <FileTextOutlined className='left-sider-nav-icon'/> 
+                    <span className='ms-2'>Template</span>
                   </div>
                 </Link>
               </li>

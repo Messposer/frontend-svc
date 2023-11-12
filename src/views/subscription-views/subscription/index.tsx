@@ -81,8 +81,7 @@ const TemplateIndex = ({ title }: TemplateProps) => {
                 <div className="card h-100">
                   <div className="card-body">
                       <h5 className="card-title text-capitalize">{ subscription?.name} Plan</h5>
-                      <h6 className="mb-2 card-subtitle text-muted">{ subscription?.description }</h6>
-                      <p className="card-text">Some description of the premium plan goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <p className="card-text">{ subscription?.description }</p>
                       <h2>${subscription?.price}/month</h2>
                       {
                         subscription?.name === SUBSCRIPTION_TYPE.FREE &&

@@ -14,6 +14,7 @@ import UploadCSVModal from './csvModal';
 import FilterInput from 'components/Input/filterInput';
 import { ERROR_MESSAGES } from 'configs/AppConfig';
 import ConfirmModal from 'components/Modal/ConfirmModal';
+import MomentTime from 'components/Moment';
 
 interface ContactProps {
 	title: string,
@@ -63,6 +64,11 @@ const Contact = ({title}: ContactProps) => {
 		{ title: 'Last Name', dataIndex: 'last_name', key: 'last_name' },
 		{ title: 'Email', dataIndex: 'email', key: 'email' },
 		{ title: 'Phone', dataIndex: 'number', key: 'number' },
+		{ 
+			title: 'Dated Created', 
+			key: 'createdAt',
+			render: (contact: ContactType) => <MomentTime date={contact.created_at} />
+		},
 		{
 			title: 'Action',
 			key: 'operation',

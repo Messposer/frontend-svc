@@ -221,3 +221,8 @@ a {
 .PhoneInputCountryIcon.PhoneInputCountryIcon--border {
   box-shadow: none;
 }
+
+.custom-tab-active {
+  color: var(--bs-gray-900);               /* Text color for active tab */
+  border-bottom: 2px solid var(--bs-blue);  /* Border style for active tab */
+}

@@ -1,13 +1,13 @@
-import { Button, Modal } from "antd";
-import RawHTMLComponent from "components/RawHtml";
-import { ERROR_MESSAGES, TEMPLATE_BUILDER_PREFIX_PATH, VIEW_TEMPLATE_TYPE } from "configs/AppConfig";
+import { Modal } from "antd";
+import Loading from "components/Loading";
+import MomentTime from "components/Moment";
+import { ERROR_MESSAGES } from "configs/AppConfig";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SubscriptionService from "services/SubscriptionService";
-import TemplateService from "services/TemplateService";
-import { AddUserToTemplateType } from "services/types/TemplateServiceType";
+import { HandleErrors } from "services/error/handleErrors";
+import { PaymentType } from "services/types/SubscriptionServiceType";
 
 interface ViewTemplateModalProps {
   title: string;
@@ -18,9 +18,8 @@ interface ViewTemplateModalProps {
 
 const ViewTransactionModal = ({ title, isOpen = false, onClose, paymentId }: ViewTemplateModalProps) => {
   const [errorMessage, setErrorMessage] = useState(null);
-  const [templateLoading, withTransactionLoading] = useLoading();
-  const navigate = useNavigate();
-  const [payment, setPayment] = useState<any>();
+  const [transactionLoading, withTransactionLoading] = useLoading();
+  const [payment, setPayment] = useState<PaymentType>();
 
   const getAUserTemplate = async () => {
     if(paymentId){
@@ -48,8 +47,25 @@ const ViewTransactionModal = ({ title, isOpen = false, onClose, paymentId }: Vie
       open={isOpen}
       onCancel={onClose}
       footer={null}
+      title="Transaction details"
     >
-
+      <>
+        {
+          transactionLoading && <Loading />
+        }
+        {
+          !transactionLoading &&
+          <div className="transaction-wrapper">
+            <hr />
+            <h6 className="card-group-details">Transaction ID: <strong>{payment?.transaction_id}</strong></h6>
+            <h6 className="card-group-details">Status: <strong>{payment?.status}</strong></h6>
+            <h6 className="card-group-details">Date Created: <strong><MomentTime date={payment?.created_at ?? ""} /></strong></h6>
+          </div>
+        }
+        {errorMessage &&
+          <HandleErrors errors={errorMessage} isToast={true} />
+        }
+      </>
     </Modal>
   );
 };

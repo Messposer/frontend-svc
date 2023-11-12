@@ -6,9 +6,13 @@ import { useNavigate } from "react-router-dom";
 interface SaveBuilderProps {
   saveTemplateLoading: boolean;
   saveUserTemplate: () => void;
+  currentStep: number;
+  undo: () => void;
+  redo: () => void;
+  history: string[];
 }
 
-const SaveBuilder = ({ saveTemplateLoading, saveUserTemplate }: SaveBuilderProps) => {
+const SaveBuilder = ({ currentStep, history, redo, undo, saveTemplateLoading, saveUserTemplate }: SaveBuilderProps) => {
   const navigate = useNavigate();
 
   const autoSaveTemplate = () => {
@@ -31,6 +35,23 @@ const SaveBuilder = ({ saveTemplateLoading, saveUserTemplate }: SaveBuilderProps
 
   return (
     <div className="save-builder-container">
+      <Button
+        onClick={redo}
+        size="large"
+        disabled={currentStep >= history.length - 1}
+      >
+        Redo
+      </Button>
+
+      <Button
+        onClick={undo}
+        className="mx-3"
+        size="large"
+        disabled={currentStep <= 0}
+      >
+        Undo
+      </Button>
+
       <Button
         loading={saveTemplateLoading}
         onClick={saveUserTemplate}

@@ -28,7 +28,7 @@ export interface PaymentType {
   transaction_id: string;
   type: string,
   status: string;
-  created_at: string | null;
+  created_at: string;
   updated_at: string | null;
   deleted_at:string |  null;
 }

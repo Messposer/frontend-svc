@@ -64,6 +64,17 @@ const TextSettings: React.FC<TextSettingsProps> = ({ editedStyles, handleStyleCh
         </div>
 
         <div className="builder-property-wrapper">
+          <h5 className="builder-group-title">Font size:</h5>
+          <input
+            type="number"
+            value={parseInt(editedStyles['font-size'])}
+            title="input-number"
+            className="builder-input-small"
+            onChange={(e) => handleStyleChange('font-size', e.target.value + 'px')}
+          />
+        </div>
+
+        <div className="builder-property-wrapper">
           <h5 className="builder-group-title">Text Align:</h5>
           <select
             value={editedStyles['text-align']}

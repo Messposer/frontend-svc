@@ -7,18 +7,19 @@ export interface TemplateServiceType {
 }
 
 export interface UserTemplateType {
-  id: number;
+  id?: number;
   template_body: string | null;
-  created_at: string | null;
-  updated_at: string | null;
-  deleted_at: string | null;
-  template: TemplateType;
-  variables: string;
+  created_at?: string | null;
+  updated_at?: string | null;
+  deleted_at?: string | null;
+  template?: TemplateType;
+  variables?: string;
 }
 
 export interface TemplateType {
   id: number;
   title: string;
+  preview_img_link: string;
   template_body: string;
   created_at: string | null;
   updated_at: string;

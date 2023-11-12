@@ -14,6 +14,7 @@ import {
 	SettingOutlined 
 } from '@ant-design/icons';
 import FilterInput from 'components/Input/filterInput';
+import MomentTime from 'components/Moment';
 
 interface BroadProps {
 	title: string,
@@ -52,7 +53,6 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 			title: 'Contacts',
 			key: 'contacts',
 			fixed: 'right',
-			width: 100,
 			render: (broadCast: BroadCastType) => 
 				<Button 
 					type="primary" 
@@ -63,11 +63,15 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 					Manage Contacts
 				</Button>,
 		},
+		{ 
+			title: 'Dated Created', 
+			key: 'createdAt',
+			render: (broadCast: BroadCastType) => <MomentTime date={broadCast.created_at} />
+		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: 100,
 			render: (broadCast: BroadCastType) => 
 				<Dropdown 
 					menu={{

@@ -28,7 +28,7 @@ const UpdateBroadCast = ({ title }: UpdateBroadCastProps) => {
   const onCreate = async (values: BroadCastType) => {
     try {
 			await withLoading(ContactService.updateBroadCast(values, id));
-      await messageApi.success('Broadcast list updated successfully');
+      // await messageApi.success('Broadcast list updated successfully');
       navigate(`${CONTACT_GROUP_PREFIX_PATH}`);
 		} catch (error:any ) {
 			setErrorMessage(

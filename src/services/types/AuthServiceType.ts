@@ -5,6 +5,7 @@ export interface AuthServiceType {
   forgot?: any;
   verify?: any;
   reset?: any;
+  changePassword?: any;
 }
 
 export interface LoginType {
@@ -28,4 +29,10 @@ export interface VerifyCodeType {
 
 export interface ResetPasswordType {
   password: string;
+  code: number;
+}
+
+export interface ChangePasswordType {
+  oldPassword: string;
+  newPassword: string;
 }
