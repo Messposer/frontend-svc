@@ -11,6 +11,7 @@ import {
   DASHBOARD_PREFIX_PATH,
   MEDIA_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH,
+  SETTINGS_PREFIX_PATH,
   SUBSCRIPTION_PREFIX_PATH,
   TEMPLATE_BUILDER_PREFIX_PATH,
   TEMPLATE_PREFIX_PATH,
@@ -28,12 +29,20 @@ import MediaLayout from "layouts/media-layout";
 import SubscriptionLayout from "layouts/subscription-layout";
 import TransactionLayout from "layouts/transaction-layout";
 import ProfileLayout from "layouts/profile-layout";
+import SettingsLayout from "layouts/settings-layout";
+import { Toaster } from 'sonner';
+import VerifySenderEmail from "./auth-views/verifySenderEmail";
 
 export const Views = (props) => {
   const { token } = props;
   return (
     <>
+      <Toaster />
       <Routes>
+        <Route
+          path="/verify/from-email"
+          element={<VerifySenderEmail title="Verify email address"/>}
+        />
         <Route
           element={
             <GuestMiddleWare isAuthenticated={token} />
@@ -115,6 +124,12 @@ export const Views = (props) => {
               <ProfileLayout />
             }
           />
+          <Route
+            path={`${SETTINGS_PREFIX_PATH}/*`}
+            element={
+              <SettingsLayout />
+            }
+          />        
         </Route>
         <Route path="*" element={<Error404 title="Page not found" />} />
       </Routes>

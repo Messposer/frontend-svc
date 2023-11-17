@@ -1,19 +1,20 @@
-import { Button, Form, Input, Select, message, DatePicker, Radio } from "antd";
+import { Button, Form, Input, Select, DatePicker, Radio } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BroadCastType } from "redux/types";
 import { rules } from "validations/contact";
 import { useEffect, useState } from "react";
 import AlertInfo from "components/Dashboard/AlertInfo";
 import { HandleErrors } from "services/error/handleErrors";
-import { ERROR_MESSAGES, SCHEDULE_PREFIX_PATH } from "configs/AppConfig";
+import { ERROR_MESSAGES } from "configs/AppConfig";
 import UserService from "services/UserService";
 import { CreateScheduleType } from "services/types/ScheduleServiceType";
 import ScheduleService from "services/ScheduleService";
 import { Now } from "configs/dateFormat";
 import moment from "moment";
 import { ScheduleOutlined } from '@ant-design/icons';
+import { toast } from "sonner";
 
 interface CreateScheduleProps {
   title: string,
@@ -24,7 +25,6 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
   const [form] = Form.useForm();
 	const [loading, withLoading] = useLoading();
 	const [loadingContact, withContactLoading] = useLoading();
-	const [messageApi, contextHolder] = message.useMessage();
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedDate, setSelectedDate] = useState<string>("");
 	const [broadCast, setBroadCast] = useState<BroadCastType[]>([]);
@@ -35,7 +35,6 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
   const onCreate = async (values: any) => {
     const createSchedulePayload: CreateScheduleType = {
       name: values?.name,
-      subject: values?.subject,
       contact_group_id: values?.contact_group_id,
       scheduledDate: schedulePost ? selectedDate : moment().format(Now),
     };
@@ -43,7 +42,7 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
     try {
 			const schedule = await withContactLoading(ScheduleService.createSchedule(createSchedulePayload));
       form.resetFields();
-			messageApi.success('Broadcast list added successfully');
+			toast.success('Broadcast list added successfully');
       onOpenModal(String(schedule?.id), "add")
 		} catch (error:any ) {
 			setErrorMessage(
@@ -88,7 +87,6 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
 
   return (
     <div className='p-3 chat-body-container'>
-      {contextHolder}
       <div className="row">
         <div className="p-3 bg-white col-md-7">
           <div className="d-flex justify-content-between align-items-center">
@@ -114,21 +112,6 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
               <Input
                 autoComplete="off"
                 placeholder="Enter your schedule name"
-                maxLength={100}
-                className="custom-input"
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="subject"
-              label="Add a Subject"
-              rules={rules.enterSubject}
-              hasFeedback
-              validateFirst={true}
-            >
-              <Input
-                autoComplete="off"
-                placeholder="Enter a subject"
                 maxLength={100}
                 className="custom-input"
               />

@@ -11,6 +11,7 @@ import UserService from "services/UserService";
 import { CreateUserContactType } from "services/types/ContactServiceType";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import FilterInput from 'components/Input/filterInput';
+import { toast } from "sonner";
 
 interface AddContactToBroadcastModalProps {
   title: string;
@@ -121,7 +122,9 @@ const AddContactToBroadcastModal = ({
       {loading && <Loading />}
       {!loading && (
         <>
-          <div className='d-flex justify-content-end align-items-center mb-3'>
+          <hr />
+          <div className='d-flex justify-content-between align-items-center mb-3'>
+            <h4 className="text-sub-title">Click ok to save changes</h4>
             <FilterInput 
               filterValue={filterValue} 
               setFilterValue={setFilterValue} 
@@ -133,8 +136,10 @@ const AddContactToBroadcastModal = ({
             rowSelection={{
               onSelect: (row, selected) => {
                 if (selected) {
+                  toast.success(`${row?.first_name} ${row?.last_name} has been added to ${broadCast?.name} successfully`)
                   setSelectedRowIds(prevIds => [...prevIds, row.id]);
                 } else {
+                  toast.info(`${row?.first_name} ${row?.last_name} has been removed to ${broadCast?.name} successfully`)
                   setSelectedRowIds(prevIds => prevIds.filter(id => id !== row.id));
                 }
               },
@@ -143,8 +148,10 @@ const AddContactToBroadcastModal = ({
                   const selectedIds = selectedRows.map(row => row.id);
                   const uniqueIds = Array.from(new Set(selectedIds));
                   setSelectedRowIds(uniqueIds);
+                  toast.success(`All has been added to ${broadCast?.name} successfully`)
                 } else {
                   setSelectedRowIds([]);
+                  toast.info(`All has been removed to ${broadCast?.name} successfully`)
                 }
               },
               selectedRowKeys: [...selectedRowIds]

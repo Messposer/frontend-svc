@@ -5,8 +5,8 @@ const Logo: React.FC = (props: any) => {
 
   return (
     <div className="logo">
-      <div className="d-flex justify-content-start align-items-center">
-        <img src='/img/logo.png' height={50} alt={`${APP_NAME} logo`}/>
+      <div className="d-flex justify-content-center align-items-center mt-3">
+        <img src='/img/logo.png' height={45} alt={`${APP_NAME} logo`}/>
       </div>
     </div>
   );

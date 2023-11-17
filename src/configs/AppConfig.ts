@@ -5,7 +5,6 @@ export const APP_NAME = "Messponser";
 export const API_BASE_URL = env?.API_ENDPOINT_URL;
 export const DASHBOARD_PREFIX_PATH = "/dashboard";
 export const CHAT_PREFIX_PATH = "/chats";
-export const SETTING_PREFIX_PATH = "/setting";
 export const REPORT_PREFIX_PATH = "/reports";
 export const CONTACT_PREFIX_PATH = "/contacts";
 export const CONTACT_GROUP_PREFIX_PATH = "/broadcast-list";
@@ -16,11 +15,19 @@ export const MEDIA_PREFIX_PATH = "/media";
 export const SUBSCRIPTION_PREFIX_PATH = "/subscription";
 export const TRANSACTIONS_PREFIX_PATH = "/transactions";
 export const ACCOUNT_PREFIX_PATH = "/account";
+export const SETTINGS_PREFIX_PATH = "/settings";
 
 export const ROLES = {
   USER: 'USER',
   ADMIN: 'ADMIN',
 };
+
+export const MESSAGE_TRANSPORTER = {
+  EMAIL: 'EMAIL',
+  SMS: 'SMS',
+  WHATSAPP: 'WHATSAPP',
+  TELEGRAM: 'TELEGRAM',
+}
 
 export const VIEW_TEMPLATE_TYPE = {
   USER: 'USER',

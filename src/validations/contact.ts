@@ -15,6 +15,12 @@ export const rules = {
             message: "Please input your first name",
         }
     ],
+    sender_name: [
+        {
+            required: true,
+            message: "Please input your sender name",
+        }
+    ],
     last_name: [
         {
             required: true,
@@ -37,6 +43,12 @@ export const rules = {
         {
             required: true,
             message: "Please select a broadcast group",
+        },
+    ],
+    senderFromEmail: [
+        {
+            required: true,
+            message: "Please select a from email",
         },
     ],
     autoGenerate: [

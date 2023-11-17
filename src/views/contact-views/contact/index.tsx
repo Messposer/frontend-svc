@@ -15,7 +15,7 @@ import FilterInput from 'components/Input/filterInput';
 import { ERROR_MESSAGES } from 'configs/AppConfig';
 import ConfirmModal from 'components/Modal/ConfirmModal';
 import MomentTime from 'components/Moment';
-
+import { toast } from 'sonner';
 interface ContactProps {
 	title: string,
 }
@@ -48,7 +48,7 @@ const Contact = ({title}: ContactProps) => {
 				const newData = contacts.filter((contact: ContactType) => contact.id !== deleteId);
 				setContacts(newData);
 				toggleShowModal();
-				messageApi.info('Contact deleted successfully');
+				toast.success('Contact deleted successfully');
 			} catch (error: any) {
 				setErrorMessage(
 					error?.response?.data?.message

@@ -13,7 +13,6 @@ export interface CreateScheduleType {
   name: string;
   contact_group_id: number;
   scheduledDate:string;
-  subject: string;
 }
 
 export interface CreateMessageScheduleType {
@@ -22,6 +21,8 @@ export interface CreateMessageScheduleType {
   chat_id?: number;
   scheduler_id: number;
   transporter: string;
+  subject: string | null;
+  from_email_id: number;
 }
 
 export interface ContactScheduleType {

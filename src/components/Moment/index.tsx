@@ -9,7 +9,6 @@ interface MomentTimeProps {
 const MomentTime: React.FC<MomentTimeProps> = ({ date, type }: MomentTimeProps) => {
   const _time = (_date: string | undefined) => {
     if (!_date) {
-      // Handle the case when date is undefined
       return "Invalid Date";
     }
 

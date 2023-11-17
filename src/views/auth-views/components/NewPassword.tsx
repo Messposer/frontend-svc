@@ -9,6 +9,7 @@ import { RootState } from "redux/types/Root";
 import { HandleErrors } from "services/error/handleErrors";
 import { LoginOutlined } from '@ant-design/icons';
 import { RESET_CODE_TYPE } from "redux/types";
+import { toast } from "sonner";
 
 type FieldType = {
   confirmPassword?: string;
@@ -45,6 +46,7 @@ const NewPasswordForm = ({ resetCode }: NewPasswordFormProps) => {
             password: values.password
           }
           await AuthService.reset(resetPasswordPayload);
+          toast.success('Password reset successful, login');
           navigate('/');
         }
       } catch (error: any) {

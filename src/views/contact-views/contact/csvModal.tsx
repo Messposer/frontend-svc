@@ -6,6 +6,7 @@ import ContactService from "services/ContactService";
 import Loading from "components/Loading";
 import { ERROR_MESSAGES } from "configs/AppConfig";
 import { HandleErrors } from "services/error/handleErrors";
+import { toast } from 'sonner';
 
 interface UploadCSVModalProps {
   showCsvModal: boolean;
@@ -21,7 +22,7 @@ const UploadCSVModal = ({ showCsvModal = false, toggleUploadCsvModal, getContact
   const uploadCSV = async (data: FormData) => {
     try {
       await withLoading(ContactService.bulkUpload(data));
-      message.success("File uploaded successfully!");
+      toast.success("File uploaded successfully!");
       toggleUploadCsvModal();
       getContacts();
     } catch (error: any) {

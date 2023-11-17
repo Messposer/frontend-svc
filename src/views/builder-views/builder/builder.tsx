@@ -120,12 +120,8 @@ const TemplateBuilder: React.FC<TemplateProps> = ({ title }) => {
     newContentWrapper.appendChild(newElement);
 
     if (targetElement && wrapper.contains(targetElement)) {
-      // If a target element is provided and it's inside the editor wrapper,
-      // insert the new content wrapper below the target element
       insertAfter(newContentWrapper, targetElement);
     } else {
-      // If no target element or it's outside the editor wrapper,
-      // append the new content wrapper inside the editor wrapper
       wrapper.appendChild(newContentWrapper);
     }
 
@@ -203,6 +199,7 @@ const TemplateBuilder: React.FC<TemplateProps> = ({ title }) => {
     e.preventDefault();
     setDropIndicatorPosition(e.clientY);
     setDraggedElement(e.target as HTMLElement);
+    console.log(e)
   };
 
   const handleDragLeave = () => {

@@ -15,6 +15,7 @@ import {
 } from '@ant-design/icons';
 import FilterInput from 'components/Input/filterInput';
 import MomentTime from 'components/Moment';
+import { toast } from 'sonner';
 
 interface BroadProps {
 	title: string,
@@ -25,7 +26,6 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 	const [loading, withLoading] = useLoading();
 	const [loadingDelete, withDeleteLoading] = useLoading();
 	const [broadCast, setBroadCast] = useState<BroadCastType[]>([]);
-	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
 	const [filterValue, setFilterValue] = useState<string>('');
 
@@ -34,7 +34,7 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 			await withDeleteLoading(UserService.deleteUserContact({id}));
 			const newData = broadCast.filter((broadcast: any) => broadcast.id !== id);
 			setBroadCast(newData);
-			messageApi.info('Broadcast group deleted successfully');
+			toast.success('Broadcast group deleted successfully');
 		} catch (error) {
 			console.log(error);
 		}
@@ -131,7 +131,6 @@ const BroadCast = ({title, onOpenModal}: BroadProps) => {
 
 	return (
 		<div className='p-3 chat-body-container'>
-			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<Button 
 					onClick={() => navigate('create')} 

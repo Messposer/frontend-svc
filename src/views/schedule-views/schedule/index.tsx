@@ -2,7 +2,7 @@ import { useDocumentTitle } from 'hooks/useDocumentTitle';
 import { useLoading } from 'hooks/useLoading';
 import { useEffect, useState } from 'react';
 import UserService from 'services/UserService';
-import { Button, Dropdown, Table, message } from 'antd';
+import { Button, Dropdown, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ScheduledType } from 'redux/types';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,7 @@ import { ERROR_MESSAGES, TEMPLATE_PREFIX_PATH, VIEW_TEMPLATE_TYPE } from 'config
 import { HandleErrors } from "services/error/handleErrors";
 import FilterInput from 'components/Input/filterInput';
 import MomentTime from 'components/Moment';
+import { toast } from 'sonner';
 
 interface ScheduleProps {
 	title: string,
@@ -29,7 +30,6 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 	const [loading, withLoading] = useLoading();
 	const [loadingDelete, withDeleteLoading] = useLoading();
 	const [schedules, setSchedules] = useState<ScheduledType[]>([]);
-	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
 	const [deleteLoading, setDeleteLoading] = useState<number | null>(null);
@@ -47,7 +47,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 			await withDeleteLoading(ScheduleService.deleteSchedule(id));
 			const newData = schedules.filter((schedule: ScheduledType) => schedule.id !== id);
 			setSchedules(newData);
-			messageApi.info('Schedule has been deleted successfully');
+			toast.success('Schedule has been deleted successfully');
 		} catch (error: any) {
 			setErrorMessage(
         error?.response?.data?.message
@@ -187,7 +187,6 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 
 	return (
 		<div className='p-3 schedule-body-container'>
-			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<Button 
 					onClick={() => navigate('create')} 

@@ -12,6 +12,7 @@ import { LoginType } from "services/types/AuthServiceType";
 import { RootState } from "redux/types/Root";
 import { HandleErrors } from "services/error/handleErrors";
 import { LoginOutlined } from '@ant-design/icons';
+import { toast } from "sonner";
 
 type FieldType = {
   email?: string;
@@ -37,6 +38,7 @@ const LoginForm: React.FC = (props: any) => {
         const { accessToken, refreshToken } = response?.token;
         localStorage.setItem(AUTH_ACTION_TYPES.AUTH_TOKEN,accessToken);
         localStorage.setItem(AUTH_ACTION_TYPES.REFRESH_TOKEN,refreshToken);
+        toast.success('Login successful, welcome back');
         authenticated(response);
         navigate(`${DASHBOARD_PREFIX_PATH}`);
       } catch (error: any) {

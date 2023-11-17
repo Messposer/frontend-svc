@@ -13,6 +13,7 @@ import AlertWarning from "components/Dashboard/AlertWarning";
 import { HandleErrors } from "services/error/handleErrors";
 import { ERROR_MESSAGES } from "configs/AppConfig";
 import { TeamOutlined } from '@ant-design/icons';
+import { toast } from 'sonner';
 
 interface CreateContactProps {
   title: string
@@ -22,7 +23,6 @@ const CreateContact = ({ title }: CreateContactProps) => {
   useDocumentTitle(title);
   const [form] = Form.useForm();
 	const [loading, withLoading] = useLoading();
-	const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -31,7 +31,7 @@ const CreateContact = ({ title }: CreateContactProps) => {
     try {
 			await withLoading(ContactService.createContact(values));
       form.resetFields();
-			await messageApi.success('Contact added successfully');
+			toast.success('Contact added successfully');
       navigate("/contacts");
 		} catch (error:any ) {
 			setErrorMessage(
@@ -54,7 +54,6 @@ const CreateContact = ({ title }: CreateContactProps) => {
 
   return (
     <div className='p-3 chat-body-container'>
-      {contextHolder}
       <div className="row">
         <div className="p-4 bg-white col-md-7">
           <div className="d-flex justify-content-between align-items-center">

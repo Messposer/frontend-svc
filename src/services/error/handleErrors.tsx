@@ -1,5 +1,7 @@
 import { Alert, message } from 'antd';
 import CustomToast from 'components/Toast';
+import { TeamOutlined } from '@ant-design/icons';
+import { toast } from 'sonner';
 
 interface ErrorProps {
     errors: any;
@@ -19,7 +21,7 @@ export const HandleErrors = ({errors = [], isToast = false, title} : ErrorProps)
         </div>
     );
 
-    const toast = (
+    const toastAlert = (
         <CustomToast 
             type="error"
             title={title ?? "Error"} 
@@ -27,7 +29,7 @@ export const HandleErrors = ({errors = [], isToast = false, title} : ErrorProps)
         />
     );
 
-    return isToast ? toast : alert
+    return isToast ? toastAlert : alert
 }
 
 export const SetErrors = ({errors} : ErrorProps) => {

@@ -1,24 +1,24 @@
 import {
-  AppstoreOutlined,
-  MessageOutlined,
-  SettingOutlined,
+  AppstoreOutlined, SettingOutlined,
   TeamOutlined,
   CalendarOutlined,
   ClusterOutlined,
   FileTextOutlined,
   FileImageOutlined,
+  CreditCardOutlined
 } from '@ant-design/icons';
 import { Layout } from 'antd';
 import Logo from './Logo';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  DASHBOARD_PREFIX_PATH, 
-  SETTING_PREFIX_PATH,
+  DASHBOARD_PREFIX_PATH,
+  SETTINGS_PREFIX_PATH,
   CONTACT_PREFIX_PATH,
   CONTACT_GROUP_PREFIX_PATH,
   SCHEDULE_PREFIX_PATH,
   TEMPLATE_PREFIX_PATH,
-  MEDIA_PREFIX_PATH
+  MEDIA_PREFIX_PATH,
+  SUBSCRIPTION_PREFIX_PATH,
 } from "configs/AppConfig";
 
 const { Sider } = Layout;
@@ -32,12 +32,11 @@ const Sidebar = () => {
       collapsible 
       collapsed={false}
       className='left-slider-wrapper'
-      width={300}
+      width={250}
     >
       <Logo />
       <div className="mt-4 left-sider-nav-container">
         <div className="left-sider-nav-wrapper">
-          <h4 className="left-sider-nav-heading mt-5">MAIN MENU</h4>
           <div className="mt-3">
             <ul className="left-sider-nav-item">
               <li className={`${location?.pathname === DASHBOARD_PREFIX_PATH ? "active" : ""}`}>
@@ -84,22 +83,23 @@ const Sidebar = () => {
                 <Link to={`${TEMPLATE_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
                     <FileTextOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Template</span>
+                    <span className='ms-2'>Email Template</span>
                   </div>
                 </Link>
               </li>
-            </ul>
-          </div>
-        </div>
-        <div className="mt-3 left-sider-nav-wrapper">
-          <h4 className="left-sider-nav-heading">PREFERENCES</h4>
-          <div className="mt-3">
-            <ul className="left-sider-nav-item">
-              <li className={`${location?.pathname === SETTING_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${SETTING_PREFIX_PATH}`}>
+              <li className={`${location?.pathname === SUBSCRIPTION_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${SUBSCRIPTION_PREFIX_PATH}`}>
+                  <div className='d-flex align-items-center'>
+                    <CreditCardOutlined className='left-sider-nav-icon'/> 
+                    <span className='ms-2'>Subscription plan</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={`${location?.pathname === SETTINGS_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${SETTINGS_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
                     <SettingOutlined className='left-sider-nav-icon'/> 
-                    <span className='ms-2'>Settings</span>
+                    <span className='ms-2'>Sending Settings</span>
                   </div>
                 </Link>
               </li>

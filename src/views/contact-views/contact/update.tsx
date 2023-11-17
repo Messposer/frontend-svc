@@ -8,6 +8,8 @@ import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
 import { HandleErrors } from "services/error/handleErrors";
 import { ERROR_MESSAGES } from "configs/AppConfig";
+import { toast } from 'sonner';
+
 interface UpdateContactProps {
   title: string
 }
@@ -26,7 +28,7 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
   const onCreate = async (values: ContactType) => {
     try {
 			await withLoading(ContactService.updateContact(values, id));
-			await messageApi.success('Contact updated successfully');
+			toast.success('Contact updated successfully');
       navigate("/contacts");
 		} catch (error: any) {
 			setErrorMessage(
@@ -59,7 +61,6 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
       {!getLoading && 
       <>
         <h4>Update a contact</h4>
-        {contextHolder}
         <div className="row">
           <div className="p-3 bg-white col-md-7">
             <Form
