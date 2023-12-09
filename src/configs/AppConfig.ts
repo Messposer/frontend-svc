@@ -29,10 +29,22 @@ export const MESSAGE_TRANSPORTER = {
   TELEGRAM: 'TELEGRAM',
 }
 
+export const VerificationTypeEnum = {
+  UPGRADE : 'upgrade',
+  NORMAL : 'normal',
+}
+
+
 export const VIEW_TEMPLATE_TYPE = {
   USER: 'USER',
   SYSTEM: 'SYSTEM',
 };
+
+export const SENDER_EMAIL_STATUS_TYPE = {
+  ACTIVE : 'ACTIVE',
+  PENDING : 'PENDING',
+  CANCELLED : 'CANCELLED',
+}
 
 export const SUBSCRIPTION_TYPE = {
   FREE: 'FREE',

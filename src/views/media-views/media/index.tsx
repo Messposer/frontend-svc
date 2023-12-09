@@ -37,7 +37,6 @@ const Media = ({title, onOpenModal}: MediaProps) => {
   useDocumentTitle(title);
   return (
     <div className='p-3 media-container'>
-      <h4>Media</h4>
 			<Button 
         onClick={() => onOpenModal('MEDIA', 'add')} 
         type="primary" 

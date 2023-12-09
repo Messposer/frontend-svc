@@ -4,17 +4,18 @@ import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import { RootState } from "redux/types/Root";
 import SubscriptionService from "services/SubscriptionService";
-import { SubscriptionType } from "services/types/SubscriptionServiceType";
+import { UserSubscriptionType } from "services/types/SubscriptionServiceType";
 import { connect } from "react-redux";
 import { User } from "redux/types";
 import { useNavigate } from "react-router-dom";
+import MomentTime from 'components/Moment';
 
-interface UserSubscriptionType {
+interface UserSubscriptionProps {
   alt: boolean;
   authUser: User | null;
 }
-const UserSubscription = ({ alt = false, authUser }: UserSubscriptionType) => {
-  const [userSubscription, setUserSubscription] = useState<SubscriptionType>();
+const UserSubscription = ({ alt = false, authUser }: UserSubscriptionProps) => {
+  const [userSubscription, setUserSubscription] = useState<UserSubscriptionType>();
 	const [subscriptionLoading, withSubscriptionLoading] = useLoading();
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
@@ -43,16 +44,16 @@ const UserSubscription = ({ alt = false, authUser }: UserSubscriptionType) => {
       <div className="alert alert-warning" role="alert">
         <div className="d-flex justify-content-start align-items-center m-0">
           <h6>Plan: </h6>
-          <h6>{userSubscription?.name}</h6>
+          <h6>{userSubscription?.subscription?.name}</h6>
         </div>
         <div className="d-flex justify-content-start align-items-center m-0">
           <h6>Expire Date: </h6>
-          <h6>{authUser?.subscription_expire ?? " Does not expire"}</h6>
+          <h6>{<MomentTime date={userSubscription?.expired_at ?? ""} /> ?? " Does not expire"}</h6>
         </div>
       </div>
     }
     {
-      !alt && userSubscription?.name === SUBSCRIPTION_TYPE.FREE &&
+      !alt && userSubscription?.subscription?.name === SUBSCRIPTION_TYPE.FREE &&
       <div className="d-flex justify-content-between align-items-center m-0 alert alert-warning" role="alert">
         <h6>You are on a free plan</h6>
         <Button 

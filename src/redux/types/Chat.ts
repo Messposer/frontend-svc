@@ -1,6 +1,7 @@
 import { CreateChatType } from 'services/types/ChatServiceType';
 import { CHAT_ACTION_TYPES } from '../constants/Chat';
 import { UserTemplateType } from 'services/types/TemplateServiceType';
+import { User } from './Auth';
 
 interface SAVE_USER_CHATS {
   type: CHAT_ACTION_TYPES.SAVE_ALL_USER_CHAT
@@ -30,10 +31,40 @@ export interface ContactType {
   last_name: string;
   address: string | null;
   email: string;
+  avatar: string;
   note: string | null;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
+}
+
+export interface CurrentChatType {
+  contact: ContactType;
+  messages: ChatType[];
+}
+
+export interface CreateChatMessageType {
+  stickerUrl?: string;
+  videoUrl?: string;
+  text?: string;
+  audioUrl?: string;
+  receiverId: number;
+}
+
+export interface ChatType {
+  id: number;
+  text: string;
+  audioUrl: string | null;
+  videoUrl: string | null;
+  receiverIsContact: boolean;
+  stickerUrl: string | null;
+  created_at: string;
+  deleted_at: string | null;
+  sender: User | ContactType;
+  receiver: User | ContactType;
+  senderId: number;
+  receiverId: number;
+  // Add other properties as needed
 }
 
 export interface BroadCastType { 

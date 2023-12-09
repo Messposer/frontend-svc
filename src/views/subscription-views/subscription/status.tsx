@@ -1,6 +1,6 @@
 import { Button, Card } from "antd";
 import Loading from "components/Loading";
-import { ERROR_MESSAGES, PAYMENT_STATUS, SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
+import { ERROR_MESSAGES, PAYMENT_STATUS, SUBSCRIPTION_PREFIX_PATH, VerificationTypeEnum } from "configs/AppConfig";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ const SubscriptionStatus = ({ title }: TemplateProps) => {
 
   const getSubscriptionStatus = async () => {
     try {
-			const payment = await withAllSubscriptionLoading(SubscriptionService.getPaymentStatus(reference));
+			const payment = await withAllSubscriptionLoading(SubscriptionService.getPaymentStatus(reference, VerificationTypeEnum.UPGRADE));
       setPayment(payment);
 		} catch (error: any) {
 			setErrorMessage(

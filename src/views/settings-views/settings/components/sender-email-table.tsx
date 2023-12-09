@@ -1,17 +1,16 @@
 import { useDocumentTitle } from 'hooks/useDocumentTitle';
 import { useLoading } from 'hooks/useLoading';
 import { useEffect, useState } from 'react';
-import UserService from 'services/UserService';
 import { Button, Table, Dropdown, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
-  DeleteOutlined,
-  TeamOutlined,
+	DeleteOutlined,
+	TeamOutlined,
 	SettingOutlined,
-	EditOutlined,
+	MailOutlined,
 } from '@ant-design/icons';
 import FilterInput from 'components/Input/filterInput';
-import { ERROR_MESSAGES } from 'configs/AppConfig';
+import { ERROR_MESSAGES, SENDER_EMAIL_STATUS_TYPE } from 'configs/AppConfig';
 import ConfirmModal from 'components/Modal/ConfirmModal';
 import MomentTime from 'components/Moment';
 import SettingsService from 'services/SettingsService';
@@ -34,6 +33,7 @@ const SenderEmailTable = ({title, onOpenModal, senderEmailId}: SenderEmailTableP
   const [showModal, setShowModal] = useState<boolean>(false);
 	const [deleteLoading, setDeleteLoading] = useState<number | null | undefined>(null);
 	const [loadingDelete, withDeleteLoading] = useLoading();
+	const [resendLoading, withResendLoading] = useLoading();
 
 	const deleteEmail = async () => {
 		try {
@@ -92,7 +92,7 @@ const SenderEmailTable = ({title, onOpenModal, senderEmailId}: SenderEmailTableP
 						danger={true}
 						className="custom-button custom-button-sm custom-secondary-button"
 						icon={<SettingOutlined />}
-						loading={deleteLoading === senderEmail?.id}
+						loading={deleteLoading === senderEmail?.id }
 					> 
 						Options
 					</Button>
@@ -101,8 +101,8 @@ const SenderEmailTable = ({title, onOpenModal, senderEmailId}: SenderEmailTableP
 	];
 
 	const handleMenuClick = (e: any, senderEmail: SenderEmailDataType) => {
-    if (e.key === 'edit') {
-			alert(`${senderEmail?.id}`);
+    if (e.key === 'resendCode') {
+			resendConfirmationCode(senderEmail?.id);
     } else if (e.key === 'view') {
       onOpenModal(String(senderEmail?.id), "show");
     } else if (e.key === 'delete') {
@@ -111,23 +111,31 @@ const SenderEmailTable = ({title, onOpenModal, senderEmailId}: SenderEmailTableP
     }
   };
 
-	const getDropdownItems = (senderEmail: SenderEmailDataType) => {		
+	const getDropdownItems = (senderEmail: SenderEmailDataType) => {
+		const isViewDisabled = senderEmail.status === SENDER_EMAIL_STATUS_TYPE.ACTIVE;
 		return items.map(item => {
+			if (item.key === 'resendCode') {
+				return {
+					...item,
+					disabled: isViewDisabled,
+				};
+			}
 			return item;
 		});
 	};
 
 	const items = [
 		{
-			label: 'Edit',
-			key: 'edit',
-			icon: <EditOutlined />,
+			label: 'Confirm email',
+			key: 'resendCode',
+			icon: <MailOutlined />,
 		},
-		{
-			label: 'Delete',
-			key: 'delete',
-			icon: <DeleteOutlined />,
-		},
+		// {
+		// 	label: 'Delete',
+		// 	key: 'delete',
+		// 	icon: <DeleteOutlined />,
+		// 	danger: true,
+		// },
 	];
 	
 	const getSenderEmails = async () => {
@@ -136,6 +144,18 @@ const SenderEmailTable = ({title, onOpenModal, senderEmailId}: SenderEmailTableP
 			setSenderEmails(emailList);
 		} catch (error) {
 			toast.error('Error fetching emails list, reload this page to try again');
+		}
+	}
+
+	const resendConfirmationCode = async (id: number) => {
+		try {
+			setDeleteLoading(id);
+			await withResendLoading(SettingsService.resendConfirmationCode(id));
+			toast.success('Confirmation link has been resent to your email');
+		} catch (error) {
+			toast.error('Error fetching emails list, reload this page to try again');
+		}finally {
+			setDeleteLoading(null);
 		}
 	}
 	
@@ -151,7 +171,6 @@ const SenderEmailTable = ({title, onOpenModal, senderEmailId}: SenderEmailTableP
 
 	return (
 		<div className='sender-email-body-container'>
-			{contextHolder}
 			<div className='d-flex justify-content-between align-items-center mb-3'>
         <Button 
           type="primary"

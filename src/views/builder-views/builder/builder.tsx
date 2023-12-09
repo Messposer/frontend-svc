@@ -265,7 +265,7 @@ const TemplateBuilder: React.FC<TemplateProps> = ({ title }) => {
         currentStep={currentStep}
       />
       <div className="m-0 row">
-        <div className="col-md-1 m-0 addElementSectionWrapper">
+        <div className="col-md-2 p-0 addElementSectionWrapper">
           <PerfectScrollbar style={{ height: '91.5vh' }}>
             <ElementButtons
               toggleShowVariable={toggleShowVariable}
@@ -305,7 +305,7 @@ const TemplateBuilder: React.FC<TemplateProps> = ({ title }) => {
             </>
           )}
         </div>
-        <div className="col-md-3 addElementSectionWrapper m-0">
+        <div className="col-md-2 addElementSectionWrapper m-0">
           <PerfectScrollbar style={{ height: '91vh' }}>
             {
               showVariables &&

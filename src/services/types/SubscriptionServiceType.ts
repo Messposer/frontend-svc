@@ -23,6 +23,13 @@ export interface SubscriptionType {
   deleted_at:string |  null;
 }
 
+export interface UserSubscriptionType {
+  id: number;
+  expired_at: string;
+  subscription: SubscriptionType;
+  payment: PaymentType;
+}
+
 export interface PaymentType {
   id: number;
   transaction_id: string;

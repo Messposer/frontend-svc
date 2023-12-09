@@ -21,7 +21,7 @@ interface SET_CURRENT_EMAIL {
   type: AUTH_ACTION_TYPES.SET_CURRENT_EMAIL
   payload: CURRENT_EMAIL_TYPE
 }
-interface AUTH_STATE {
+export interface AUTH_STATE {
   authUser: User | null,
   showMessage: boolean,
   redirect: string | null,
@@ -40,6 +40,7 @@ export interface User {
   id: number;
   email: string;
   password: string;
+  avatar: string;
   username: string;
   created_at: string;
   updated_at: string;

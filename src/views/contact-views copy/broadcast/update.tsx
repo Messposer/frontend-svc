@@ -1,7 +1,7 @@
 import { Button, Form, Input, message } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BroadCastType } from "redux/types";
 import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
@@ -10,6 +10,8 @@ import AlertInfo from "components/Dashboard/AlertInfo";
 import AlertWarning from "components/Dashboard/AlertWarning";
 import { HandleErrors } from "services/error/handleErrors";
 import { CONTACT_GROUP_PREFIX_PATH, ERROR_MESSAGES } from "configs/AppConfig";
+import { toast } from "sonner";
+import { ClusterOutlined } from '@ant-design/icons';
 
 interface UpdateBroadCastProps {
   title: string
@@ -19,7 +21,6 @@ const UpdateBroadCast = ({ title }: UpdateBroadCastProps) => {
   useDocumentTitle(title);
   const [form] = Form.useForm();
 	const [loading, withLoading] = useLoading();
-	const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -28,7 +29,7 @@ const UpdateBroadCast = ({ title }: UpdateBroadCastProps) => {
   const onCreate = async (values: BroadCastType) => {
     try {
 			await withLoading(ContactService.updateBroadCast(values, id));
-      // await messageApi.success('Broadcast list updated successfully');
+      toast.success('Broadcast list updated successfully');
       navigate(`${CONTACT_GROUP_PREFIX_PATH}`);
 		} catch (error:any ) {
 			setErrorMessage(
@@ -57,13 +58,18 @@ const UpdateBroadCast = ({ title }: UpdateBroadCastProps) => {
   }, []);
 
   return (
-    <div className='p-5 chat-body-container'>
+    <div className='p-3 broadcast-body-container'>
       {!loading && 
         <>
-          <h4>Create a new broadcast list</h4>
-          {contextHolder}
           <div className="row">
             <div className="p-3 bg-white col-md-7">
+              <div className="d-flex justify-content-between align-items-center">
+                <h4 className="text-title">Update a broadcast list</h4>
+                <Link to="..">
+                  Back
+                </Link>
+              </div>
+              <hr />
               <Form
                 form={form}
                 layout="vertical"
@@ -97,6 +103,7 @@ const UpdateBroadCast = ({ title }: UpdateBroadCastProps) => {
                     autoComplete="off"
                     placeholder="Enter contact address"
                     maxLength={500}
+                    className="custom-textarea"
                   />
                 </Form.Item>
 
@@ -104,7 +111,13 @@ const UpdateBroadCast = ({ title }: UpdateBroadCastProps) => {
                   <HandleErrors errors={errorMessage} />
                 }
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
+                  <Button 
+                    type="primary" 
+                    htmlType="submit" 
+                    loading={loading}
+                    className="custom-button custom-button-lg custom-primary-button"
+                    icon={<ClusterOutlined />}
+                  >
                     Update Broadcast list
                   </Button>
                 </Form.Item>

@@ -1,6 +1,127 @@
 :root{
   --font-size-normal: 16px;
 }
+.chat-box-body-container {
+  border: 1px solid var(--bs-gray-500);
+  box-shadow: 1px 5px 10px 1px var(--bs-gray-500);
+  height: 80vh;
+  border-radius: 15px;
+}
+
+.empty-chat-wrapper {
+  height: 80vh;
+  border-left: 1px solid var(--bs-gray-500);
+}
+
+.main-chat-wrapper {
+  background-color: var(--bs-gray-400);
+  font-weight: 500;
+  border-top-right-radius: 14px;
+}
+.chat-body-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.contact-chat-wrapper.active .contact-chat-user-name {
+  font-weight: 700;
+}
+
+.contact-chat-wrapper.active .contact-chat-user-email {
+  font-weight: 700;
+}
+
+.main-chat-wrapper .contact-chat-user-name {
+  font-weight: 700;
+}
+
+.main-chat-wrapper .contact-chat-user-email {
+  font-weight: 700;
+}
+
+.contact-chat-user-name {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.contact-chat-user-email {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.chat-leftSide-container {
+  padding: 12px;
+  height: 80vh;
+}
+
+.chat-left-content{
+  overflow: hidden;
+}
+
+.message-text-container {
+  background-color: var(--bs-gray-400);
+  border-radius: 12px;
+  font-weight: 400;
+  padding: 10px 15px;
+  float: left;
+  max-width: 80%;
+
+}
+
+.message-text-wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.chat-body-text-wrapper {
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.message-text-container.sender {
+  background-color: var(--bs-blue);
+  color: #fff;
+  float: right;
+}
+
+.text-bold-sub-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.contact-chat-wrapper {
+  padding: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+
+}
+
+.message-timestamp span {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+.message-timestamp .message-channels {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+.message-timestamp {
+  text-align: right;
+}
+
+.contact-chat-wrapper.active {
+  background-color: var(--bs-gray-400);
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.chat-leftSide-container ul {
+  list-style: none;
+  padding: 0px;
+}
+
 .custom-input {
   padding: 10px;
   border: 1px solid var(--bs-gray-900);
@@ -77,7 +198,7 @@
 }
 
 .left-sider-nav-item > li {
-  padding: 15px 20px;
+  padding: 15px 27px;
   color: var(--white) !important;
   font-weight: 700;
   font-size: 16px;
@@ -225,4 +346,8 @@ a {
 .custom-tab-active {
   color: var(--bs-gray-900);               /* Text color for active tab */
   border-bottom: 2px solid var(--bs-blue);  /* Border style for active tab */
+}
+
+.addElementContainer{
+  background-color: var(--bs-gray-700);
 }

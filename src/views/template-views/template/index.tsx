@@ -51,8 +51,7 @@ const TemplateIndex = ({ title, onOpenModal }: TemplateProps) => {
   useDocumentTitle(title);
   return (
     <div className='p-3 template-container'>
-      <h4>Templates</h4>
-      <div className="p-3 mt-3 bg-white user-templates-container">
+      <div className="p-3 bg-white user-templates-container">
         <h6>My Templates</h6> <hr />
         {
           userTemplates.length > 0 &&

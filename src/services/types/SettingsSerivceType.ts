@@ -1,9 +1,8 @@
-import { AxiosResponse } from "axios";
-
 export interface SettingsServiceType {
   addNewSenderEmail?: any;
   getUserSenderEmails?: any;
   deleteUserSenderEmail?: any;
+  resendConfirmationCode: any;
   verifyUserSenderEmail?: any;
   getUserActiveSenderEmail?: any;
 }

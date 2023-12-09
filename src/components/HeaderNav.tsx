@@ -1,4 +1,3 @@
-import React from "react";
 import { connect } from "react-redux";
 import { signOut } from "redux/actions";
 import { useNavigate } from "react-router-dom";

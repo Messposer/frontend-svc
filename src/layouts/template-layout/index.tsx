@@ -11,11 +11,7 @@ const TemplateLayout = () => {
 			<Layout>
 				<Sidebar />
 				<Layout className="site-layout">
-					<Content
-						style={{
-							height: '100vh',
-						}}
-					>
+					<Content>
 						<HeaderNav />
 						<Routes>
 							<Route path="/*" element={<TemplateViews/>} />

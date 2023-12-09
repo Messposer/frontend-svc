@@ -16,7 +16,7 @@ ImageUploadService.uploadMedia = async (data: any):Promise<AxiosResponse> => {
 
 ImageUploadService.getUserMedia = async ():Promise<AxiosResponse> => {
   const response = await fetch({
-    url: _url,
+    url: `${_url}/user/media`,
     method: "get",
   });
   return response;

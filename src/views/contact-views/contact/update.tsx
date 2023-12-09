@@ -2,14 +2,14 @@ import { Button, Form, Input, message } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ContactType } from "redux/types";
 import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
 import { HandleErrors } from "services/error/handleErrors";
 import { ERROR_MESSAGES } from "configs/AppConfig";
 import { toast } from 'sonner';
-
+import { TeamOutlined } from '@ant-design/icons';
 interface UpdateContactProps {
   title: string
 }
@@ -19,7 +19,6 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
   const [form] = Form.useForm();
 	const [loading, withLoading] = useLoading();
 	const [getLoading, getWithLoading] = useLoading();
-	const [messageApi, contextHolder] = message.useMessage();
   const [contact, setContact] = useState<ContactType>();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -57,12 +56,18 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
   }, []);
 
   return (
-    <div className='p-5 chat-body-container'>
+    <div className='p-3 contact-body-container'>
       {!getLoading && 
       <>
-        <h4>Update a contact</h4>
         <div className="row">
           <div className="p-3 bg-white col-md-7">
+            <div className="d-flex justify-content-between align-items-center">
+              <h4 className="text-title">Update contact</h4>
+              <Link to="..">
+                Back
+              </Link>
+            </div>
+            <hr />
             <Form
               form={form}
               layout="vertical"
@@ -72,7 +77,7 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
               initialValues={contact}
             >
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-6 ps-0">
                   <Form.Item
                     name="first_name"
                     label="First Name"
@@ -84,10 +89,11 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                       autoComplete="off"
                       placeholder="Enter contact first name"
                       maxLength={50}
+                      className="custom-input"
                     />
                   </Form.Item>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 pe-0">
                   <Form.Item
                     name="last_name"
                     label="Last Name"
@@ -99,6 +105,7 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                       autoComplete="off"
                       placeholder="Enter contact last name"
                       maxLength={50}
+                      className="custom-input"
                     />
                   </Form.Item>
                 </div>
@@ -114,6 +121,7 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                   autoComplete="off"
                   placeholder="Enter your email address"
                   maxLength={50}
+                  className="custom-input"
                 />
               </Form.Item>
 
@@ -128,6 +136,7 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                   autoComplete="off"
                   placeholder="Enter contact phone number"
                   maxLength={50}
+                  className="custom-input"
                 />
               </Form.Item>
 
@@ -142,6 +151,7 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                   autoComplete="off"
                   placeholder="Enter contact address"
                   maxLength={50}
+                  className="custom-textarea"
                 />
               </Form.Item>
 
@@ -156,14 +166,21 @@ const UpdateContact = ({ title }: UpdateContactProps) => {
                   autoComplete="off"
                   placeholder="Add note to contact"
                   maxLength={50}
+                  className="custom-textarea"
                 />
               </Form.Item>
               {errorMessage &&
                 <HandleErrors errors={errorMessage} />
               }
               <Form.Item>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Create Contact
+                <Button 
+                  type="primary" 
+                  htmlType="submit" 
+                  loading={loading}
+                  className="custom-button custom-button-lg custom-primary-button"
+                  icon={<TeamOutlined />}
+                >
+                  Update Contact
                 </Button>
               </Form.Item>
             </Form>

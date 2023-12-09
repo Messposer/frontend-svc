@@ -1,5 +1,11 @@
 import React from 'react';
-import { FontSizeOutlined, FileImageOutlined, DeleteOutlined, FolderAddOutlined } from '@ant-design/icons';
+import { 
+  FontSizeOutlined, 
+  FileImageOutlined, 
+  DeleteOutlined, 
+  FolderAddOutlined,
+  ColumnWidthOutlined, 
+} from '@ant-design/icons';
 
 interface ElementButtonsProps {
   handleAddElement: (styles: React.CSSProperties[], existingElementString: string) => void;
@@ -36,7 +42,11 @@ const buttonStyle: React.CSSProperties = {
   height: '50px'
 };
 
+const columnElement = "<div className='d-flex justify-evenly items-center'></div>"
+
 const size = "large";
+
+const textElement = "<h5>Text</h5>";
 
 const ElementButtons: React.FC<ElementButtonsProps> = ({ 
   toggleShowVariable, 
@@ -51,107 +61,168 @@ const ElementButtons: React.FC<ElementButtonsProps> = ({
   };
 
   return (
-    <>
-      <div
-        className="addElementWrapper text-center px-2 py-3 mb-2 mt-2" 
-        draggable
-        onDragStart={(e) => handleDragStart(e, defaultTextStyles, "<h5>Text</h5>")}
-      >
-        <div 
-          className="addElementIcon"
-        >
-          <FontSizeOutlined style={{ fontSize: '16px' }} />
+    <div className='pt-3 pb-2 addElementContainer'>
+      <div className='row'>
+        
+        <div className='col-md-6 pe-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            draggable
+            onDragStart={(e) => handleDragStart(e, defaultTextStyles, columnElement)}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <ColumnWidthOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Column
+            </div>
+          </div>
         </div>
-        <div 
-          className="addElementText pt-2"
-        >
-          Text
+
+        <div className='col-md-6 ps-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            draggable
+            onDragStart={(e) => handleDragStart(e, defaultButtonStyles, "<button>Button</button>")}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <FolderAddOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Button
+            </div>
+          </div>
         </div>
+
       </div>
-      
-      <div
-        className="addElementWrapper text-center px-2 py-3 mb-2" 
-        draggable
-        onDragStart={(e) => handleDragStart(e, defaultButtonStyles, "<button>Button</button>")}
-      >
-        <div 
-          className="addElementIcon"
-        >
-          <FolderAddOutlined style={{ fontSize: '16px' }} />
+
+      <div className='row'>
+        
+        <div className='col-md-6 pe-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            draggable
+            onDragStart={(e) => handleDragStart(e, defaultTextStyles, textElement)}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <FontSizeOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Text
+            </div>
+          </div>
         </div>
-        <div 
-          className="addElementText pt-2"
-        >
-          Button
-        </div>
-      </div>
-      
-      <div
-        className="addElementWrapper text-center px-2 py-3 mb-2" 
-        draggable
-        onDragStart={(e) => handleDragStart(e, defaultImageStyles, "<img src='https://placehold.co/600x400' />")}
-      >
-        <div 
-          className="addElementIcon"
-        >
-          <FileImageOutlined style={{ fontSize: '16px' }} />
-        </div>
-        <div 
-          className="addElementText pt-2"
-        >
-          Image
+
+        <div className='col-md-6 ps-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            draggable
+            onDragStart={(e) => handleDragStart(e, defaultButtonStyles, "<button>Button</button>")}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <FolderAddOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Button
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* No drag-and-drop for these elements, only onClick */}
-      <div
-        className="addElementWrapper text-center px-2 py-3 mb-2" 
-        onClick={() => deSelectElement()}
-      >
-        <div 
-          className="addElementIcon"
-        >
-          <FileImageOutlined style={{ fontSize: '16px' }} />
+      <div className='row'>
+        <div className='col-md-6 pe-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            draggable
+            onDragStart={(e) => handleDragStart(e, defaultImageStyles, "<img src='https://placehold.co/600x400' />")}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <FileImageOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Image
+            </div>
+          </div>
         </div>
-        <div 
-          className="addElementText pt-2"
-        >
-          Deselect
-        </div>
-      </div>
-      
-      <div
-        className="addElementWrapper text-center px-2 py-3 mb-2" 
-        onClick={() => toggleShowVariable()}
-      >
-        <div 
-          className="addElementIcon"  
-        >
-          <FileImageOutlined style={{ fontSize: '16px' }} />
-        </div>
-        <div 
-          className="addElementText pt-2"
-        >
-          Variables
-        </div>
-      </div>
-      
-      <div
-        className="addElementWrapper text-center px-2 py-3 mb-2" 
-        onClick={handleDeleteElement}
-      >
-        <div 
-          className="addElementIcon"
-        >
-          <DeleteOutlined style={{ fontSize: '16px' }} />
-        </div>
-        <div 
-          className="addElementText pt-2"
-        >
-          Delete
+
+        <div className='col-md-6 ps-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            onClick={() => deSelectElement()}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <FileImageOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Deselect
+            </div>
+          </div>
         </div>
       </div>
-    </>
+        
+      <div className='row'>
+        <div className='col-md-6 pe-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            onClick={() => toggleShowVariable()}
+          >
+            <div 
+              className="addElementIcon"  
+            >
+              <FileImageOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Variables
+            </div>
+          </div>
+        </div>
+
+        <div className='col-md-6 ps-1'>
+          <div
+            className="addElementWrapper text-center px-2 py-3 mb-2" 
+            onClick={handleDeleteElement}
+          >
+            <div 
+              className="addElementIcon"
+            >
+              <DeleteOutlined style={{ fontSize: '16px' }} />
+            </div>
+            <div 
+              className="addElementText pt-2"
+            >
+              Delete
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   );
 };
 

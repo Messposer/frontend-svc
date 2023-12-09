@@ -15,9 +15,9 @@ SubscriptionService.addUserToSubscription = async (data: AddUserSubscriptionType
   return response;
 };
 
-SubscriptionService.getPaymentStatus = async (reference: string):Promise<AxiosResponse> => {
+SubscriptionService.getPaymentStatus = async (reference: string, type:string):Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url_payment}/verify/${reference}`,
+    url: `${_url_payment}/verify/${reference}?type=${type}`,
     method: "get",
   });
   return response;

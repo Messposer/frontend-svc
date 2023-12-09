@@ -6,12 +6,12 @@ import { useLoading } from "hooks/useLoading";
 import { useEffect, useState } from "react";
 import SubscriptionService from "services/SubscriptionService";
 import { HandleErrors } from "services/error/handleErrors";
-import { AddUserSubscriptionType, SubscriptionType } from "services/types/SubscriptionServiceType";
+import { AddUserSubscriptionType, SubscriptionType, UserSubscriptionType } from "services/types/SubscriptionServiceType";
 interface TemplateProps {
   title: string;
 };
-const TemplateIndex = ({ title }: TemplateProps) => {
-  const [userSubscription, setUserSubscription] = useState<SubscriptionType>();
+const SubscriptionIndex = ({ title }: TemplateProps) => {
+  const [userSubscription, setUserSubscription] = useState<UserSubscriptionType>();
   const [allSubscription, setAllSubscription] = useState<SubscriptionType[]>([]);
   const [allSubscriptionLoading, withAllSubscriptionLoading] = useLoading();
   const [allUserSubscriptionLoading, withUserAllSubscriptionLoading] = useLoading();
@@ -69,7 +69,6 @@ const TemplateIndex = ({ title }: TemplateProps) => {
   useDocumentTitle(title);
   return (
     <div className='p-3 template-container'>
-      <h4>Subscription</h4>
       <UserSubscription alt={true}/>
       <div className="p-3 mt-3 bg-white user-templates-container">
         <h6>Subscriptions</h6> <hr />
@@ -83,6 +82,10 @@ const TemplateIndex = ({ title }: TemplateProps) => {
                       <h5 className="card-title text-capitalize">{ subscription?.name} Plan</h5>
                       <p className="card-text">{ subscription?.description }</p>
                       <h2>${subscription?.price}/month</h2>
+                      {
+                        userSubscription?.subscription?.id === subscription?.id &&
+                        <h4 className="text-sub-title">You are currently subscribed to this plan</h4>
+                      }
                       {
                         subscription?.name === SUBSCRIPTION_TYPE.FREE &&
                         <Button 
@@ -100,6 +103,7 @@ const TemplateIndex = ({ title }: TemplateProps) => {
                           type="primary"
                           block
                           size="large"
+                          disabled={userSubscription?.subscription?.name === SUBSCRIPTION_TYPE.PREMIUM}
                           loading={addSubscriptionLoading}
                           onClick={() => handleAddUserSubscription(subscription?.id)}
                         >
@@ -124,4 +128,4 @@ const TemplateIndex = ({ title }: TemplateProps) => {
   );
 }
 
-export default TemplateIndex;
+export default SubscriptionIndex;

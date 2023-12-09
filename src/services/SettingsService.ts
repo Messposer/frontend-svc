@@ -2,7 +2,9 @@ import fetch from "auth/axios";
 import { AxiosResponse } from "axios";
 import { AddNewSenderEmailType, SettingsServiceType, VerifySenderEmailDataType } from "./types/SettingsSerivceType";
 
-let SettingsService: SettingsServiceType = {};
+let SettingsService: SettingsServiceType = {
+  resendConfirmationCode: (id: number) => Promise<AxiosResponse>,
+};
 const _url = "sender-email";
 
 SettingsService.addNewSenderEmail = async (data: AddNewSenderEmailType):Promise<AxiosResponse> => {
@@ -34,6 +36,14 @@ SettingsService.deleteUserSenderEmail = async (id: number):Promise<AxiosResponse
   const response = await fetch({
     url: `${_url}/${id}`,
     method: "delete",
+  });
+  return response;
+};
+
+SettingsService.resendConfirmationCode = async (id: number):Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${_url}/resend-confirmation/${id}`,
+    method: "put",
   });
   return response;
 };

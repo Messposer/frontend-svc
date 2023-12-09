@@ -139,7 +139,7 @@ const AddContactToBroadcastModal = ({
                   toast.success(`${row?.first_name} ${row?.last_name} has been added to ${broadCast?.name} successfully`)
                   setSelectedRowIds(prevIds => [...prevIds, row.id]);
                 } else {
-                  toast.info(`${row?.first_name} ${row?.last_name} has been removed to ${broadCast?.name} successfully`)
+                  toast.info(`${row?.first_name} ${row?.last_name} has been removed from ${broadCast?.name} successfully`)
                   setSelectedRowIds(prevIds => prevIds.filter(id => id !== row.id));
                 }
               },
@@ -148,10 +148,10 @@ const AddContactToBroadcastModal = ({
                   const selectedIds = selectedRows.map(row => row.id);
                   const uniqueIds = Array.from(new Set(selectedIds));
                   setSelectedRowIds(uniqueIds);
-                  toast.success(`All has been added to ${broadCast?.name} successfully`)
+                  toast.success(`All contacts has been added to ${broadCast?.name} successfully`)
                 } else {
                   setSelectedRowIds([]);
-                  toast.info(`All has been removed to ${broadCast?.name} successfully`)
+                  toast.info(`All contacts has been removed from ${broadCast?.name} successfully`)
                 }
               },
               selectedRowKeys: [...selectedRowIds]

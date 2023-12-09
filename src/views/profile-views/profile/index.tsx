@@ -2,7 +2,7 @@ import { useDocumentTitle } from 'hooks/useDocumentTitle';
 import { User } from 'redux/types';
 import { RootState } from 'redux/types/Root';
 import { connect } from 'react-redux';
-import UserAvatar from 'components/AvatarStatus';
+import { UserAvatar } from 'components/AvatarStatus';
 import MomentTime from 'components/Moment';
 import { Tabs } from 'antd';
 import ChangePassword from './changePassword';
@@ -18,10 +18,6 @@ const Profile = ({title, authUser}: ProfileProps) => {
 	useDocumentTitle(title);
 	return (
 		<div className='p-3 profile-body-container'>
-			<div className='d-flex justify-content-between align-items-center mb-3'>
-				<h5>Account</h5>
-			</div>
-
       <div className="bg-white py-2 px-4">
         <Tabs defaultActiveKey="1">
           <TabPane tab="Profile Info" key="1">

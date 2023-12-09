@@ -4,9 +4,10 @@ import moment from "moment";
 interface MomentTimeProps {
   date: string;
   type?: string;
+  showTime?: boolean;
 }
 
-const MomentTime: React.FC<MomentTimeProps> = ({ date, type }: MomentTimeProps) => {
+const MomentTime: React.FC<MomentTimeProps> = ({ date, type, showTime = false }: MomentTimeProps) => {
   const _time = (_date: string | undefined) => {
     if (!_date) {
       return "Invalid Date";
@@ -15,7 +16,7 @@ const MomentTime: React.FC<MomentTimeProps> = ({ date, type }: MomentTimeProps) 
     if (type === "relative") {
       return moment(_date).fromNow();
     } else {
-      return moment(_date).format("MMMM D, YYYY, h:mm A");
+      return moment(_date).format(showTime ? "MMMM D, YYYY, h:mm A" : "MMMM D, YYYY");
     }
   };
 

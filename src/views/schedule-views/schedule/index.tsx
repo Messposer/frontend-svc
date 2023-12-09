@@ -102,7 +102,7 @@ const Schedules = ({title, onOpenModal}: ScheduleProps) => {
 						items: getDropdownItems(schedule),
 						onClick: (event) => handleMenuClick(event, schedule),
 					}}
-				placement="bottomLeft" trigger={['click']}>
+					placement="bottomLeft" trigger={['click']}>
 					<Button 
 						type="primary" 
 						danger={true}

@@ -2,13 +2,15 @@ import { useDocumentTitle } from 'hooks/useDocumentTitle';
 import { useLoading } from 'hooks/useLoading';
 import { useEffect, useState } from 'react';
 import UserService from 'services/UserService';
-import { Button, Table, message, Menu, Dropdown, MenuProps } from 'antd';
+import { Button, Table, message, Dropdown, MenuProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ContactType } from 'redux/types';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   DeleteOutlined,
 	TeamOutlined,
+	WhatsAppOutlined,
+	InstagramOutlined,
 } from '@ant-design/icons';
 import UploadCSVModal from './csvModal';
 import FilterInput from 'components/Input/filterInput';
@@ -67,14 +69,39 @@ const Contact = ({title}: ContactProps) => {
 		{ 
 			title: 'Dated Created', 
 			key: 'createdAt',
-			render: (contact: ContactType) => <MomentTime date={contact.created_at} />
+			render: (contact: ContactType) => <MomentTime date={contact.created_at} showTime={false}/>
 		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
 			width: 100,
-			render: (contact: ContactType) => <DeleteOutlined onClick={() => [setDeleteId(contact.id), toggleShowModal()]}/>,
+			render: (contact: ContactType) => (
+				<div className="d-flex justify-content-between align-items-center">
+					<Button 
+						icon={<WhatsAppOutlined />} 
+						onClick={() => console.log(contact)}
+						className="custom-button custom-button-sm me-2"
+					>
+						WhatsApp
+					</Button>
+					<Button 
+						icon={<InstagramOutlined />} 
+						onClick={() => console.log(contact)}
+						className="custom-button custom-button-sm me-2"
+					>
+						Instagram
+					</Button>
+					<Button 
+						danger 
+						icon={<DeleteOutlined />} 
+						onClick={() => [setDeleteId(contact.id), toggleShowModal()]}
+						className="custom-button custom-button-sm"
+					>
+						Delete
+					</Button>
+				</div>
+			),
 		},
 	];
 

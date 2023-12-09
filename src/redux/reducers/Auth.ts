@@ -1,4 +1,4 @@
-import { AuthAction, AuthState } from '../types/Auth';
+import { AuthAction, AuthState } from '../types';
 import {
   AUTH_ACTION_TYPES
 } from "../constants/Auth";

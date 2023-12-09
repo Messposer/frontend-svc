@@ -58,10 +58,11 @@ const CreateContact = ({ title }: CreateContactProps) => {
         <div className="p-4 bg-white col-md-7">
           <div className="d-flex justify-content-between align-items-center">
             <h4 className="text-title">Create a new schedule list</h4>
-            <Link to="../">
+            <Link to="..">
               Back
             </Link>
           </div>
+          <hr />
           <h5 className="text-sub-title pt-1 mb-3">Provide your email and password to continue</h5>
           <Form
             form={form}

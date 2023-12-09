@@ -1,103 +1,89 @@
-import { useDocumentTitle } from 'hooks/useDocumentTitle';
-import { useLoading } from 'hooks/useLoading';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import Chat from './chat';
 import { connect } from "react-redux";
-import { RootState } from 'redux/types/Root';
-import UserService from 'services/UserService';
-import { saveUserChats } from 'redux/actions';
-import { Button, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import { ChatType, MessageType } from 'redux/types';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from 'hooks/useDocumentTitle';
+import { User } from 'redux/types/Auth';
+import { RootState } from "redux/types/Root";
+import { ChatType, ContactType, CurrentChatType, CreateChatMessageType } from 'redux/types';
+import EmptyChat from './emptyChat';
+import { useLoading } from 'hooks/useLoading';
+import useWebSocket from 'hooks/useWebSocket';
+import ChatLeftSide from './LeftSide';
 
 interface ChatProps {
-	title: string,
-	userChats: any,
-	saveUserChats: any
+  title: string;
+  authUser: User | null;
+  token: string | null;
 }
 
-const columns: ColumnsType<ChatType> = [
-  Table.EXPAND_COLUMN,
-  { 
-		title: 'Chat', 
-		dataIndex: 'message', 
-		key: 'chat',
-		render: (message: MessageType) => `${message?.text.slice(0, 200)}...`, 
-	},
-  {
-    title: 'Contact',
-    dataIndex: 'message',
-    key: 'contact',
-		width: 300,
-    render: (message: MessageType) => `${message?.contact?.first_name} ${message?.contact?.last_name}`, // Return the first name of the contact
-  },
-];
+const ChatIndex = ({ title, authUser, token }: ChatProps) => {
+  const [currentChat, setCurrentChat] = useState<CurrentChatType>();
+  const socket = useWebSocket({ token, userId: authUser?.id });
 
-const Chat = ({title, userChats, saveUserChats}: ChatProps) => {
-	const [loading, withLoading] = useLoading();
+  useDocumentTitle(title);
 
-	const navigate = useNavigate();
-	
-	const getChats = async () => {
-		try {
-			const chats = await withLoading(UserService.getUserChats());
-			saveUserChats(chats);
-		} catch (error) {
-			console.log(error);
-		}
-	}
+  useEffect(() => {
+    if (authUser && socket) {
+      socket.on('getMessages', (message: ChatType) => {
+        console.log('Received message:', message);
+      });
 
-	const handleAdd = () => {
-		navigate('compose');
-	}
-	
-	useEffect(() => {
-		getChats();
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
 
-	useDocumentTitle(title);
-	return (
-		<div className='chat-body-container p-5'>
-			<Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-        Compose
-      </Button>
-			<Table
-				columns={columns}
-				loading={loading}
-				rowKey={(chat) => chat.id}
-				expandable={{
-					expandedRowRender: (chat: ChatType) => <p style={{ margin: 0 }}>
-						<div className="row">
-							<div className="col">
-								<div className="row">
-									<div className="col">
-										<p dangerouslySetInnerHTML={{ __html: chat.message.text }} />
-									</div>
-								</div>
+  }, [authUser, socket]);
 
-								<div className="row">
-									<div className="col">
-										<Link to={`/chats/${chat.id}`}>Go to details</Link>
-									</div>
-								</div>
+  const handleChatSelection = (contact: ContactType) => {
+    if(socket){
+      socket.emit('getMessages', authUser?.id, contact?.id, (messages: ChatType[]) => {
+        setCurrentChat({
+          contact,
+          messages,
+        });
+      });
+    }
+  };
 
-							</div>
-						</div>
-					</p>,
-				}}
-				dataSource={userChats}
-			/>
-		</div>
+  const handleSendMessage = (messageRequestPayload: CreateChatMessageType) => {
+    if(socket){
+      socket.emit('send-message', messageRequestPayload );
+    }
+  };
 
-	)
+  return (
+    <div className='p-3 chat-body-container'>
+      {authUser && (
+        <div className='chat-box-body-container bg-white'>
+          <div className='row m-0'>
+            <div className='col-md-3 p-0'>
+              <ChatLeftSide currentChat={currentChat} handleChatSelection={handleChatSelection} />
+            </div>
+            <div className='col-md-9 p-0'>
+              {currentChat ? 
+                (
+                  <Chat
+                    currentChat={currentChat}
+                    onSendMessage={handleSendMessage}
+                    contact={currentChat?.contact}
+                  />
+                ): 
+                (
+                  <EmptyChat />
+                )
+              }
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-const mapStateToProps = ({chat}: RootState) => {
-	const { userChats } = chat;
-	return {chat, userChats}
-}
+const mapStateToProps = ({auth}: RootState) => {
+  const { authUser, token } = auth;
+  return { authUser,token };
+};
 
-const mapDispatchToProps = {
-	saveUserChats,
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Chat)
+export default connect(mapStateToProps)(ChatIndex);

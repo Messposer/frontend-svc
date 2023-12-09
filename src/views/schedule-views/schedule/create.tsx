@@ -95,6 +95,7 @@ const CreateSchedule = ({ title, onOpenModal }: CreateScheduleProps) => {
               Back
             </Link>
           </div>
+          <hr />
           <h5 className="text-sub-title pt-1 mb-3">Provide your email and password to continue</h5>
           <Form
             form={form}

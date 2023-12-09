@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useLoading } from "hooks/useLoading";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BroadCastType } from "redux/types";
 import ContactService from "services/ContactService";
 import { rules } from "validations/contact";
@@ -12,6 +12,7 @@ import { HandleErrors } from "services/error/handleErrors";
 import { CONTACT_GROUP_PREFIX_PATH, ERROR_MESSAGES } from "configs/AppConfig";
 import { ClusterOutlined } from '@ant-design/icons';
 import { toast } from "sonner";
+
 interface CreateBroadCastProps {
   title: string
 }
@@ -40,9 +41,15 @@ const CreateBroadCast = ({ title }: CreateBroadCastProps) => {
 
   return (
     <div className='p-3 chat-body-container'>
-      <h4>Create a new broadcast list</h4>
       <div className="row">
         <div className="p-3 bg-white col-md-7">
+          <div className="d-flex justify-content-between align-items-center">
+            <h4 className="text-title">Create a new broadcast list</h4>
+            <Link to="..">
+              Back
+            </Link>
+          </div>
+          <hr />
           <Form
             form={form}
             layout="vertical"
