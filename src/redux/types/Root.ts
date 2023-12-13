@@ -1,6 +1,5 @@
-import { AuthState, ChatState } from "./";
+import { AuthState } from "./";
 
 export interface RootState {
   auth: AuthState,
-  chat: ChatState,
 }

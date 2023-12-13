@@ -8,9 +8,6 @@ const initState = {
   showMessage: false,
   redirect: "/dashboard",
   token: localStorage.getItem(AUTH_ACTION_TYPES.AUTH_TOKEN),
-  currentEmail: sessionStorage.getItem(AUTH_ACTION_TYPES.SET_CURRENT_EMAIL) || null,
-  resetCode: null,
-  refresh_token: null,
 };
 
 const auth = (state: AuthState = initState, action: AuthAction) => {
@@ -20,8 +17,7 @@ const auth = (state: AuthState = initState, action: AuthAction) => {
         ...state,
         loading: false,
         redirect: "/dashboard",
-        token: action?.payload?.token?.accessToken,
-        refresh_token: action?.payload?.token?.refreshToken,
+        token: action?.payload?.token,
         authUser: action?.payload?.user
       };
     case AUTH_ACTION_TYPES.SIGN_OUT: {
@@ -34,20 +30,6 @@ const auth = (state: AuthState = initState, action: AuthAction) => {
         token: null,
         authUser: null,
         redirect: "/",
-      };
-    }
-
-    case AUTH_ACTION_TYPES.SET_CURRENT_EMAIL: {
-      return {
-        ...state,
-        currentEmail: action.payload,
-      };
-    }
-
-    case AUTH_ACTION_TYPES.SET_RESET_CODE: {
-      return {
-        ...state,
-        resetCode: action.payload,
       };
     }
 

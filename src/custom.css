@@ -74,11 +74,34 @@
   margin-bottom: 10px;
 }
 
+.chat-input-box-wrapper {
+  border: 1px solid #adb5bd;
+  border-radius: 15px;
+  padding: 0px 15px;
+  padding-bottom: 10px;
+  padding-top: 5px;
+  box-shadow: 1px 5px 10px 1px var(--bs-gray-400);
+}
+
+.chat-attachment-dropdown {
+  margin-top: -25px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 20px 10px #d7d6d6;
+}
+
+.chat-attachment-dropdown li:hover {
+  background-color: #cfcfcf;
+}
+
 .chat-body-text-wrapper {
   overflow: hidden;
   overflow-y: scroll;
 }
 
+.font-semibold.chat-attachment-sub-title {
+  font-size: 13px;
+  margin: 0;
+}
 .message-text-container.sender {
   background-color: var(--bs-blue);
   color: #fff;

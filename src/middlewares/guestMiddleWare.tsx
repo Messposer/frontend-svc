@@ -3,7 +3,7 @@ import { DASHBOARD_PREFIX_PATH } from "configs/AppConfig";
 
 interface GuestMiddlewareProps {
   isAuthenticated: boolean;
-  location: string
+  location?: string
 }
 const GuestMiddleWare = (props: GuestMiddlewareProps) => {
   const {

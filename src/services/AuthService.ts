@@ -55,7 +55,7 @@ AuthService.reset = (data: ResetPasswordType) => {
 
 AuthService.user = () => {
   return fetch({
-    url:`auth/user`,
+    url:`user`,
     method: "get"
   });
 };

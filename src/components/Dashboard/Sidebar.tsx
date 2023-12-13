@@ -1,28 +1,15 @@
 import { useState } from 'react';
-import { Layout, Collapse, Button } from 'antd';
+import { Layout, Button } from 'antd';
 import {
-  AppstoreOutlined, SettingOutlined,
-  TeamOutlined,
-  CalendarOutlined,
-  ClusterOutlined,
-  FileTextOutlined,
-  FileImageOutlined,
-  CreditCardOutlined,
-  MenuUnfoldOutlined,
+  AppstoreOutlined, MenuUnfoldOutlined,
   MenuFoldOutlined
 } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
 import {
+  CATEGORY_PREFIX_PATH,
   DASHBOARD_PREFIX_PATH,
-  SETTINGS_PREFIX_PATH,
-  CONTACT_PREFIX_PATH,
-  CONTACT_GROUP_PREFIX_PATH,
-  SCHEDULE_PREFIX_PATH,
-  TEMPLATE_PREFIX_PATH,
-  MEDIA_PREFIX_PATH,
-  SUBSCRIPTION_PREFIX_PATH,
-  CHAT_PREFIX_PATH,
+  PRODUCT_PREFIX_PATH
 } from "configs/AppConfig";
 
 const { Sider } = Layout;
@@ -56,67 +43,19 @@ const Sidebar = () => {
                   </div>
                 </Link>
               </li>
-              <li className={`${location?.pathname === CONTACT_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${CONTACT_PREFIX_PATH}`}>
+              <li className={`${location?.pathname === CATEGORY_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${CATEGORY_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
-                    <TeamOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Contacts</span>}
+                    <AppstoreOutlined className='left-sider-nav-icon' />
+                    {!collapsed && <span className='ms-2'>Category</span>}
                   </div>
                 </Link>
               </li>
-              <li className={`${location?.pathname === CHAT_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${CHAT_PREFIX_PATH}`}>
+              <li className={`${location?.pathname === PRODUCT_PREFIX_PATH ? "active" : ""}`}>
+                <Link to={`${PRODUCT_PREFIX_PATH}`}>
                   <div className='d-flex align-items-center'>
-                    <TeamOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Messages</span>}
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === CONTACT_GROUP_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${CONTACT_GROUP_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <ClusterOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Broadcast Lists</span>}
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === SCHEDULE_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${SCHEDULE_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <CalendarOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Schedule Jobs</span>}
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === MEDIA_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${MEDIA_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <FileImageOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Media</span>}
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === TEMPLATE_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${TEMPLATE_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <FileTextOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Email Template</span>}
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === SUBSCRIPTION_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${SUBSCRIPTION_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <CreditCardOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Subscription Plan</span>}
-                  </div>
-                </Link>
-              </li>
-              <li className={`${location?.pathname === SETTINGS_PREFIX_PATH ? "active" : ""}`}>
-                <Link to={`${SETTINGS_PREFIX_PATH}`}>
-                  <div className='d-flex align-items-center'>
-                    <SettingOutlined className='left-sider-nav-icon' />
-                    {!collapsed && <span className='ms-2'>Sending Settings</span>}
+                    <AppstoreOutlined className='left-sider-nav-icon' />
+                    {!collapsed && <span className='ms-2'>Photos</span>}
                   </div>
                 </Link>
               </li>

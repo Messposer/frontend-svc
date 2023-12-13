@@ -9,16 +9,34 @@ export const rules = {
         //     message: "Please enter email address in format “youremail@example.com”",
         // },
     ],
-    first_name: [
+    category_name: [
         {
             required: true,
-            message: "Please input your first name",
+            message: "Please enter a category name",
         }
     ],
-    sender_name: [
+    category_description: [
         {
             required: true,
-            message: "Please input your sender name",
+            message: "Please input your category description",
+        }
+    ],
+    product_name: [
+        {
+            required: true,
+            message: "Please enter a category name",
+        }
+    ],
+    product_description: [
+        {
+            required: true,
+            message: "Please input your category description",
+        }
+    ],
+    product_category: [
+        {
+            required: true,
+            message: "Please select a category your photo belongs to",
         }
     ],
     last_name: [

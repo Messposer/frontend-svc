@@ -28,7 +28,7 @@ const Profile = ({title, authUser}: ProfileProps) => {
                 </div>
                 <div className="ms-4 mt-1 user-info">
                   <div className="text-title">
-                    {authUser?.username ?? "Your Name"}
+                    {authUser?.name ?? "Your Name"}
                   </div>
                   <p className="text-sub-title">
                     {authUser?.email ?? "email address"} - Joined <MomentTime date={authUser?.created_at ?? ""} />

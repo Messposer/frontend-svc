@@ -4,9 +4,8 @@ import { UserAvatar } from 'components/AvatarStatus';
 import { User } from 'redux/types/Auth';
 import { signOut } from "redux/actions";
 import { RootState } from "redux/types/Root";
-import { ACCOUNT_PREFIX_PATH, SUBSCRIPTION_PREFIX_PATH } from "configs/AppConfig";
+import { ACCOUNT_PREFIX_PATH } from "configs/AppConfig";
 import { useNavigate } from "react-router-dom";
-import { TRANSACTIONS_PREFIX_PATH } from "configs/AppConfig";
 import { useState } from "react";
 import ConfirmModal from "components/Modal/ConfirmModal";
 import { 
@@ -24,16 +23,8 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const handleSubscriptionClick = () => {
-    navigate(SUBSCRIPTION_PREFIX_PATH);
-  }
-
   const handleProfileClick = () => {
     navigate(ACCOUNT_PREFIX_PATH);
-  }
-
-  const handleTransactionsClick = () => {
-    navigate(TRANSACTIONS_PREFIX_PATH);
   }
 
   const toggleShowModal = () => {
@@ -49,7 +40,7 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
         </div>
         <div className="flex-grow-1 ms-2 user-info mt-1">
           <div className="mt-0 user-dropdown-name mb-0">
-            {authUser?.username ?? "Your Name"}
+            {authUser?.name ?? "Your Name"}
           </div>
           <p className="mt-0 user-dropdown-address mb-0">
             {authUser?.email ?? "email address"}
@@ -67,24 +58,6 @@ const HeaderNav = ({ authUser, signOut }: HeaderProps) => {
         </div>,
       key: '1',
       onClick: handleProfileClick
-    },
-    {
-      label: 
-        <div className="d-flex justify-content-start align-items-center">
-          <CreditCardOutlined /> 
-          <span className="ms-2">Subscription</span>
-        </div>,
-      key: '2',
-      onClick: handleSubscriptionClick
-    },
-    {
-      label: 
-        <div className="d-flex justify-content-start align-items-center">
-          <DollarCircleOutlined /> 
-          <span className="ms-2">Transactions</span>
-        </div>,
-      key: '3',
-      onClick: handleTransactionsClick
     },
     {
       label: 

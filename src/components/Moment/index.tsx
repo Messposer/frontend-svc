@@ -3,7 +3,7 @@ import moment from "moment";
 
 interface MomentTimeProps {
   date: string;
-  type?: string;
+  type?: 'relative' | 'normal';
   showTime?: boolean;
 }
 

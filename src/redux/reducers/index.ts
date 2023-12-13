@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux';
 import Auth from './Auth';
-import Chat from './Chat';
 import { AUTH_ACTION_TYPES } from 'redux/constants/Auth';
 
 const reducers = combineReducers({
     auth: Auth,
-    chat: Chat,
 });
 
 const rootReducer = (state: any, action: any) => {   

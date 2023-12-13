@@ -26,9 +26,6 @@ export interface AUTH_STATE {
   showMessage: boolean,
   redirect: string | null,
   token: string | null,
-  refresh_token: string | null,
-  currentEmail: string | null,
-  resetCode: RESET_CODE_TYPE | null,
 }
 
 interface Token {
@@ -41,13 +38,11 @@ export interface User {
   email: string;
   password: string;
   avatar: string;
-  username: string;
+  name: string;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
   lastLoginAt: string;
-  subscription_expire: string | null;
-  credit: number;
 }
 export interface RESET_CODE_TYPE {
   id: number;

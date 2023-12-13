@@ -1,81 +1,97 @@
 import fetch from "auth/axios";
-import { GetUserSingleChatType, UserServiceType } from "./types/UserServiceType";
+import {SaveCategoryPayloadType, UpdateProductPayloadType, UserServiceType } from "./types/UserServiceType";
 import { AxiosResponse } from "axios";
 
 let UserService: UserServiceType = {};
-const _url = "user";
+const categoryUrl = "category";
+const productUrl = "products";
 
-UserService.getUserChats = async ():Promise<AxiosResponse> => {
+UserService.getAllCategories = async ():Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/chats`,
+    url: `${categoryUrl}`,
     method: "get"
   });
   return response;
 };
 
-UserService.getUserChatSummary = async ():Promise<AxiosResponse> => {
+UserService.getACategory = async ():Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/chat-summary`,
+    url: `${categoryUrl}`,
     method: "get"
   });
   return response;
 };
 
-UserService.getUserContacts = async ():Promise<AxiosResponse> => {
+UserService.StoreACategory = async (data: SaveCategoryPayloadType):Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/contacts`,
-    method: "get"
+    url: `${categoryUrl}`,
+    method: "post",
+    data,
   });
   return response;
 };
 
 
-UserService.deleteUserContact = async (id: number):Promise<AxiosResponse> => {
+UserService.UpdateACategory = async (id: string, data: SaveCategoryPayloadType): Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/contacts/${id}`,
+    url: `${categoryUrl}/${id}`,
+    method: "put",
+    data,
+  });
+  return response;
+};
+
+
+UserService.DeleteACategory = async (id: string) :Promise<AxiosResponse> => {
+  const response = await fetch({
+    url: `${categoryUrl}/${id}`,
     method: "delete"
   });
   return response;
 };
 
-
-UserService.getUserSingleChat = async ({ id }: GetUserSingleChatType) :Promise<AxiosResponse> => {
+UserService.getAllProducts = async ():Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/chats/${id}`,
+    url: `${productUrl}`,
     method: "get"
   });
   return response;
 };
 
-UserService.getUserContactGroups = async () :Promise<AxiosResponse> => {
+UserService.getAProduct = async ():Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/contact-groups`,
+    url: `${productUrl}`,
     method: "get"
   });
   return response;
 };
 
-UserService.getUserContactsInGroup = async (id: number) :Promise<AxiosResponse> => {
+UserService.StoreAProduct = async (data: FormData):Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/contacts-in-group/${id}`,
-    method: "get"
+    url: `${productUrl}`,
+    method: "post",
+    data,
   });
   return response;
 };
 
-UserService.getUserSchedules = async () :Promise<AxiosResponse> => {
+
+UserService.UpdateAProduct = async (id: string, data: UpdateProductPayloadType): Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/schedules`,
-    method: "get"
+    url: `${productUrl}/${id}`,
+    method: "put",
+    data,
   });
   return response;
 };
 
-UserService.deleteUserContactGroup = async ({ id }: GetUserSingleChatType):Promise<AxiosResponse> => {
+
+UserService.DeleteAProduct = async (id: string) :Promise<AxiosResponse> => {
   const response = await fetch({
-    url: `${_url}/contact-groups/${id}`,
+    url: `${productUrl}/${id}`,
     method: "delete"
   });
   return response;
 };
+
 export default UserService;

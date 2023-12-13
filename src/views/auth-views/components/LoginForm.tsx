@@ -35,16 +35,14 @@ const LoginForm: React.FC = (props: any) => {
       showLoading(true);
       try {
         const response = await AuthService.login(values);
-        const { accessToken, refreshToken } = response?.token;
-        localStorage.setItem(AUTH_ACTION_TYPES.AUTH_TOKEN,accessToken);
-        localStorage.setItem(AUTH_ACTION_TYPES.REFRESH_TOKEN,refreshToken);
+        localStorage.setItem(AUTH_ACTION_TYPES.AUTH_TOKEN,response?.data?.token);
         toast.success('Login successful, welcome back');
-        authenticated(response);
+        authenticated(response?.data);
         navigate(`${DASHBOARD_PREFIX_PATH}`);
       } catch (error: any) {
         setMessage(
-          error?.response?.data?.message
-            ? error?.response?.data?.message
+          error?.response?.data?.data?.MESSAGE
+            ? error?.response?.data?.data?.MESSAGE
             : ERROR_MESSAGES.NETWORK_CONNECTIVITY
         );
       } finally {
@@ -121,19 +119,6 @@ const LoginForm: React.FC = (props: any) => {
           Sign In
         </Button>
       </Form.Item>
-
-      <div className="w-100 text-sub-title"> 
-        Are you new here?
-        <Link to="/register">
-          <span>{" "}Create account</span>
-        </Link>
-      </div>
-      <div className="w-100 text-sub-title"> 
-        Did you forgot your password, hmmm?
-        <Link to="/forgot">
-          <span>{" "}Recover password</span>
-        </Link>
-      </div>
     </Form>
   );
 };
